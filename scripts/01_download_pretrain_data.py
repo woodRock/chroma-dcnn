@@ -24,7 +24,9 @@ def main(raw_dir: str, force: bool) -> None:
 
     print("=== Step 1a: MoNA ===")
     mona_json = download_mona(raw_dir, force=force)
-    mona_records = list(parse_mona_records(mona_json))
+    mona_records = list(parse_mona_records(mona_json)) if mona_json else []
+    if not mona_records:
+        print("  No MoNA records — continuing with MassBank only.")
 
     print("\n=== Step 1b: MassBank EU ===")
     mb_dir = download_massbank_eu(raw_dir, force=force)

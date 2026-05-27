@@ -25,9 +25,23 @@ from tqdm import tqdm
 MONA_BASE = "https://mona.fiehnlab.ucdavis.edu"
 MONA_DOWNLOADS_API = f"{MONA_BASE}/rest/downloads"
 MONA_SEARCH_API = f"{MONA_BASE}/rest/spectra/search"
+# Public bulk export — no auth required, served directly (not via /rest/)
+MONA_PUBLIC_EXPORT_URL = (
+    "https://mona.fiehnlab.ucdavis.edu/downloads/retrieve/"
+    "MoNA-export-GC-MS_Spectra.json.zip"
+)
 MASSBANK_RELEASE_API = (
     "https://api.github.com/repos/MassBank/MassBank-data/releases/latest"
 )
+
+# Mimic a browser so MoNA doesn't block the request
+_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    ),
+    "Accept": "application/json, */*",
+}
 
 _EI_INSTRUMENT_PATTERNS = re.compile(
     r"GC-EI|GC/EI|EI-B|EI-EBEB|EI-QQEE|GC-MS|gas chromatograph", re.IGNORECASE
@@ -39,15 +53,14 @@ _MZ_INT_PATTERN = re.compile(r"(\d+(?:\.\d+)?):(\d+(?:\.\d+)?)")
 # MoNA
 # ---------------------------------------------------------------------------
 
-def download_mona(output_dir: str | Path, force: bool = False) -> Path:
+def download_mona(output_dir: str | Path, force: bool = False) -> Path | None:
     """
-    Download MoNA GC-MS spectra.
+    Download MoNA GC-MS spectra.  Returns None if MoNA is unreachable.
 
     Strategy (tried in order):
-      1. Discover the bulk JSON export from MoNA's downloads list API and fetch it.
-      2. Fall back to paginated search API (slower, ~100 records/request).
-
-    Returns the path to the combined JSON file.
+      1. Public bulk export (no auth required).
+      2. Discover URL from downloads list API.
+      3. Paginated search API.
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -57,21 +70,46 @@ def download_mona(output_dir: str | Path, force: bool = False) -> Path:
         print(f"MoNA JSON already present at {json_path}")
         return json_path
 
-    # --- Strategy 1: bulk download via downloads list ---
+    # Strategy 1: direct public export URL (no auth)
     try:
-        json_path = _download_mona_bulk(output_dir, json_path)
+        print(f"Trying MoNA public export URL …")
+        _download_with_progress(MONA_PUBLIC_EXPORT_URL, output_dir / "mona_gcms.json.zip")
+        with zipfile.ZipFile(output_dir / "mona_gcms.json.zip") as zf:
+            names = [n for n in zf.namelist() if n.endswith(".json")]
+            with zf.open(names[0]) as src, open(json_path, "wb") as dst:
+                dst.write(src.read())
+        (output_dir / "mona_gcms.json.zip").unlink()
         return json_path
     except Exception as e:
-        print(f"Bulk download failed ({e}). Falling back to search API …")
+        print(f"  Public export failed: {e}")
 
-    # --- Strategy 2: paginated search API ---
-    return _download_mona_search(output_dir, json_path)
+    # Strategy 2: downloads list API
+    try:
+        return _download_mona_bulk(output_dir, json_path)
+    except Exception as e:
+        print(f"  Downloads list API failed: {e}")
+
+    # Strategy 3: paginated search API
+    try:
+        return _download_mona_search(output_dir, json_path)
+    except Exception as e:
+        print(f"  Search API failed: {e}")
+
+    print(
+        "\n⚠  MoNA is unreachable from this host. Skipping MoNA.\n"
+        "   To download manually: visit https://mona.fiehnlab.ucdavis.edu/downloads\n"
+        "   and place the extracted JSON at:\n"
+        f"   {json_path}\n"
+        "   Then re-run this script — it will detect the file and skip the download.\n"
+        "   Proceeding with MassBank only (should still yield ~10k–20k EI-MS spectra)."
+    )
+    return None
 
 
 def _download_mona_bulk(output_dir: Path, json_path: Path) -> Path:
     """Discover and fetch the pre-built GC-MS JSON export from MoNA's downloads API."""
     print("Querying MoNA downloads list …")
-    resp = requests.get(MONA_DOWNLOADS_API, timeout=30)
+    resp = requests.get(MONA_DOWNLOADS_API, headers=_HEADERS, timeout=30)
     resp.raise_for_status()
     downloads = resp.json()
 
@@ -136,6 +174,7 @@ def _download_mona_search(output_dir: Path, json_path: Path) -> Path:
         resp = requests.get(
             MONA_SEARCH_API,
             params={"query": query, "size": page_size, "page": page},
+            headers=_HEADERS,
             timeout=120,
         )
         resp.raise_for_status()
@@ -379,7 +418,7 @@ def deduplicate_records(records: list[dict]) -> list[dict]:
 # ---------------------------------------------------------------------------
 
 def _download_with_progress(url: str, dest: Path) -> None:
-    resp = requests.get(url, stream=True, timeout=120)
+    resp = requests.get(url, stream=True, timeout=120, headers=_HEADERS)
     resp.raise_for_status()
     total = int(resp.headers.get("content-length", 0))
     with open(dest, "wb") as fh, tqdm(
