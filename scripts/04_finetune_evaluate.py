@@ -21,7 +21,7 @@ from msformer.evaluation.stats import compare_conditions, print_results_table
 from msformer.training.finetune import Finetuner
 
 
-def load_data(task: str, cfg: dict):
+def load_data(task: str, cfg: dict) -> tuple:
     if task == "olive_oil":
         from msformer.downstream.olive_oil import load_olive_oil_data
         data_dir = cfg["data"]["data_dir"]
@@ -29,24 +29,25 @@ def load_data(task: str, cfg: dict):
         target_dim = cfg["task"].get("ims_target_dim", 1000)
 
         if reduction == "both":
-            Xs, ys, ids_list = {}, {}, {}
+            Xs, ys, ids_list, groups_map = {}, {}, {}, {}
             for red in ("sum", "apex"):
                 X, y, ids = load_olive_oil_data(data_dir, reduction=red, target_dim=target_dim)
-                Xs[red], ys[red], ids_list[red] = X, y, ids
-            return Xs, ys, ids_list
+                Xs[red], ys[red], ids_list[red], groups_map[red] = X, y, ids, None
+            return Xs, ys, ids_list, groups_map
         else:
             X, y, ids = load_olive_oil_data(data_dir, reduction=reduction, target_dim=target_dim)
-            return {reduction: X}, {reduction: y}, {reduction: ids}
+            return {reduction: X}, {reduction: y}, {reduction: ids}, {reduction: None}
 
     elif task == "hemp_seed":
         from msformer.downstream.hemp_seed import load_hemp_seed_data
         data_dir = cfg["data"]["data_dir"]
         X, y, ids, meta = load_hemp_seed_data(data_dir)
         if meta["preliminary"]:
-            print("\n⚠  PRELIMINARY: n < 30 samples.  Using LOSO-CV.  "
+            print("\n⚠  PRELIMINARY: n < 30 samples.  Using group LOSO-CV.  "
                   "Results are indicative only.\n")
             cfg["task"]["cv_strategy"] = "loso"
-        return {"gcms": X}, {"gcms": y}, {"gcms": ids}
+        bio_groups = meta.get("bio_groups")
+        return {"gcms": X}, {"gcms": y}, {"gcms": ids}, {"gcms": bio_groups}
 
     else:
         raise ValueError(f"Unknown task: {task}")
@@ -59,7 +60,7 @@ def main(task: str, config_path: str) -> None:
     output_dir = Path(cfg["output"]["results_dir"])
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    Xs, ys, ids = load_data(task, cfg)
+    Xs, ys, ids, groups_map = load_data(task, cfg)
     seeds = cfg["task"].get("cv_seeds", list(range(10)))
 
     all_results = {}  # condition → {reduction → {metric → scores}}
@@ -70,7 +71,8 @@ def main(task: str, config_path: str) -> None:
         print(f"Task: {task}  |  Reduction/variant: {reduction_key}")
         print(f"{'='*60}")
 
-        finetuner = Finetuner(cfg, X, y)
+        groups = groups_map.get(reduction_key)
+        finetuner = Finetuner(cfg, X, y, groups=groups)
         results = finetuner.run_all_conditions(seeds=seeds)
 
         for cond, metrics in results.items():

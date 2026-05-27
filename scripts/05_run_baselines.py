@@ -67,9 +67,10 @@ def main(task: str, config_path: str) -> None:
         from msformer.downstream.hemp_seed import load_hemp_seed_data
         data_dir = cfg["data"]["data_dir"]
         X, y, _, meta = load_hemp_seed_data(data_dir)
+        bio_groups = np.array(meta.get("bio_groups")) if meta.get("bio_groups") else None
         if meta["preliminary"]:
             cv_strategy = "loso"
-            print("⚠  n < 30: using LOSO-CV for baselines")
+            print("⚠  n < 30: using group LOSO-CV for baselines")
 
         baseline_results = {}
         for model_name in ["plsda", "rf", "svm"]:
@@ -77,6 +78,7 @@ def main(task: str, config_path: str) -> None:
             baseline_results[model_name] = baseline_cv(
                 X, y, model_name, seeds=seeds,
                 cv_strategy=cv_strategy, cv_folds=cv_folds,
+                groups=bio_groups,
             )
             ba = baseline_results[model_name]["balanced_accuracy"]
             print(f"  BA: {np.mean(ba):.3f} ± {np.std(ba):.3f}")

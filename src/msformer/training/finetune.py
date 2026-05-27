@@ -19,7 +19,7 @@ from typing import Literal
 import numpy as np
 import torch
 import torch.nn as nn
-from sklearn.model_selection import LeaveOneOut, StratifiedKFold
+from sklearn.model_selection import LeaveOneGroupOut, LeaveOneOut, StratifiedKFold
 from sklearn.preprocessing import LabelEncoder
 from torch import Tensor
 from torch.optim import AdamW
@@ -147,10 +147,11 @@ class Finetuner:
     y : np.ndarray [N] integer labels
     """
 
-    def __init__(self, config: dict, X: np.ndarray, y: np.ndarray) -> None:
+    def __init__(self, config: dict, X: np.ndarray, y: np.ndarray, groups: list[str] | None = None) -> None:
         self.cfg = config
         self.X = X
         self.y = y
+        self.groups = np.array(groups) if groups is not None else None
         if torch.cuda.is_available():
             self.device = torch.device("cuda")
         elif torch.backends.mps.is_available():
@@ -176,7 +177,11 @@ class Finetuner:
         self.cont_ckpt = config.get("pretrained_checkpoints", {}).get("contrastive")
 
         cv_strategy = config["task"].get("cv_strategy", "kfold")
-        if cv_strategy == "loso":
+        if cv_strategy == "loso" and self.groups is not None:
+            # Group-aware LOSO: all replicates of the same biological sample
+            # stay together — prevents data leakage across extraction replicates
+            self.cv = LeaveOneGroupOut()
+        elif cv_strategy == "loso":
             self.cv = LeaveOneOut()
         else:
             n_splits = config["task"].get("cv_folds", 5)
@@ -205,11 +210,12 @@ class Finetuner:
             torch.manual_seed(seed)
             np.random.seed(seed)
 
-            if self.cv_strategy == "loso":
+            if self.cv_strategy == "loso" and self.groups is not None:
+                # LeaveOneGroupOut — folds = unique biological samples
+                splits = list(self.cv.split(self.X, self.y, groups=self.groups))
+            elif self.cv_strategy == "loso":
                 splits = list(self.cv.split(self.X))
             else:
-                splits = list(self.cv.split(self.X, self.y, groups=None))
-                # Re-shuffle within seed for StratifiedKFold
                 skf = StratifiedKFold(
                     n_splits=self.cfg["task"].get("cv_folds", 5),
                     shuffle=True,

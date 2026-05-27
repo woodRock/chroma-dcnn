@@ -21,15 +21,19 @@ Baseline: PLS-DA from Sangkanu et al. 2025 (R²=0.8827, Q²=0.3733).
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-from msformer.data.preprocess import bin_spectrum, sqrt_l2_normalize
+from msformer.data.preprocess import sqrt_l2_normalize
 
 
-_CLASS_MAP = {"thai": 0, "th": 0, "foreign": 1, "non-thai": 1, "other": 1}
+# Strict regex for Sangkanu et al. sample naming: TH01-O, FS02-MH, etc.
+# Anchored to start of string to avoid matching compound names like "methyl"
+_SAMPLE_RE = re.compile(r"^(TH|FS)(\d+)", re.IGNORECASE)
+_CLASS_MAP = {"TH": 0, "FS": 1}  # prefix → class
 
 
 def load_hemp_seed_data(
@@ -63,9 +67,21 @@ def load_hemp_seed_data(
             f"Download from DOI 10.1007/s44371-026-00486-y"
         )
 
-    # Try CSV / Excel first (most likely format for a metabolomics peak table)
+    # Prefer the GC_MS_data subdirectory if present
+    gc_ms_dir = data_dir / "GC_MS_data"
+    search_dir = gc_ms_dir if gc_ms_dir.exists() else data_dir
+
+    # Prefer the known-good non-transposed original file
+    for candidate in [
+        search_dir / "hemp-gcms-original.xlsx",
+        search_dir / "hemp-gcms-threshold10.xlsx",
+    ]:
+        if candidate.exists():
+            return _load_from_peak_table(candidate, target_dim)
+
+    # Fallback: first CSV/Excel found
     for suffix in ["*.csv", "*.xlsx", "*.xls"]:
-        files = sorted(data_dir.rglob(suffix))
+        files = [f for f in sorted(search_dir.rglob(suffix)) if "transpose" not in f.name]
         if files:
             return _load_from_peak_table(files[0], target_dim)
 
@@ -90,10 +106,15 @@ def _load_from_peak_table(
     filepath: Path, target_dim: int
 ) -> tuple[np.ndarray, np.ndarray, list[str], dict]:
     """
-    Load a peak area table.
+    Load the Sangkanu et al. peak area table.
 
-    Assumes the table has samples as rows (or columns) with a header or index
-    indicating sample origin (Thai/Foreign).  Tries both orientations.
+    Expected format: compounds as rows, samples as columns
+    (e.g. hemp-gcms-original.xlsx with shape 61×12).
+    Transposes to samples×features, infers class from column prefix (TH/FS).
+
+    Biological groups (TH01, TH02, FS01, FS02) are tracked separately for
+    leak-free LOSO-CV — all replicates of the same biological sample must
+    stay on the same side of every train/test split.
     """
     if filepath.suffix in (".xlsx", ".xls"):
         df = pd.read_excel(filepath, index_col=0)
@@ -102,24 +123,24 @@ def _load_from_peak_table(
 
     print(f"Loaded peak table: {df.shape} from {filepath.name}")
 
-    # Determine orientation: samples as rows or columns?
-    # Heuristic: try to find class labels in the row index first, then column index.
-    y_row, labels_row = _extract_labels(list(df.index.astype(str)))
-    y_col, labels_col = _extract_labels(list(df.columns.astype(str)))
+    # Determine orientation using strict TH/FS pattern matching
+    col_names = list(df.columns.astype(str))
+    row_names = list(df.index.astype(str))
+    n_sample_cols = _count_sample_names(col_names)
+    n_sample_rows = _count_sample_names(row_names)
 
-    if len(y_row) > len(y_col):
-        X_raw = df.values.astype(np.float32)      # [N_samples, N_features]
-        y = np.array(y_row, dtype=np.int64)
-        sample_ids = labels_row
-        # Keep only the labelled rows
-        labelled_mask = [i for i, _ in enumerate(y_row)]
-        X_raw = X_raw[labelled_mask]
+    if n_sample_cols >= n_sample_rows:
+        # Samples are columns (standard Sangkanu format: compounds×samples)
+        sample_ids = [c for c in col_names if _is_sample_name(c)]
+        df_samples = df[sample_ids].T             # [N_samples, N_features]
     else:
-        X_raw = df.values.T.astype(np.float32)    # transpose → [N_samples, N_features]
-        y = np.array(y_col, dtype=np.int64)
-        sample_ids = labels_col
-        labelled_mask = [i for i, _ in enumerate(y_col)]
-        X_raw = X_raw[labelled_mask]
+        # Samples are rows
+        sample_ids = [r for r in row_names if _is_sample_name(r)]
+        df_samples = df.loc[sample_ids, :]        # [N_samples, N_features]
+
+    y = np.array([_infer_label(s) for s in sample_ids], dtype=np.int64)
+
+    X_raw = df_samples.values.astype(np.float32)
 
     # Normalise and resize to target_dim
     X = np.stack([
@@ -127,15 +148,19 @@ def _load_from_peak_table(
         for row in X_raw
     ])
 
+    # Biological group IDs for leak-free LOSO splits
+    bio_groups = [_biological_sample_id(s) for s in sample_ids]
+
     n = len(y)
-    cv_rec = "loso" if n < 30 else "kfold"
-    print(
-        f"Hemp seed: {n} samples  CV recommendation: {cv_rec}"
-        + ("  *** n<30, results are preliminary ***" if cv_rec == "loso" else "")
-    )
+    print(f"Hemp seed: {n} samples, {X_raw.shape[1]} features → {target_dim} dims")
+    print(f"Biological groups: {sorted(set(bio_groups))}")
+    print("*** n<30: LOSO-CV at biological-sample level recommended ***")
     _report_class_counts(y)
 
-    return X, y, sample_ids, _build_metadata(y)
+    meta = _build_metadata(y)
+    meta["bio_groups"] = bio_groups
+    meta["n_features_original"] = X_raw.shape[1]
+    return X, y, sample_ids, meta
 
 
 def _extract_labels(names: list[str]) -> tuple[list[int], list[str]]:
@@ -148,12 +173,28 @@ def _extract_labels(names: list[str]) -> tuple[list[int], list[str]]:
     return ys, valid
 
 
+def _count_sample_names(names: list[str]) -> int:
+    return sum(1 for n in names if _is_sample_name(n))
+
+
 def _infer_label(name: str) -> int | None:
-    name_lower = name.lower()
-    for key, val in _CLASS_MAP.items():
-        if key in name_lower:
-            return val
+    """Return class label only for names matching the TH/FS sample pattern."""
+    m = _SAMPLE_RE.match(str(name).strip())
+    if m:
+        return _CLASS_MAP.get(m.group(1).upper())
     return None
+
+
+def _is_sample_name(name: str) -> bool:
+    return _SAMPLE_RE.match(str(name).strip()) is not None
+
+
+def _biological_sample_id(col_name: str) -> str:
+    """'TH01-O' → 'TH01',  'FS02-MH' → 'FS02'"""
+    m = _SAMPLE_RE.match(str(col_name).strip())
+    if m:
+        return m.group(0)  # e.g. 'TH01'
+    return str(col_name).split("-")[0]
 
 
 def _resize_features_row(row: np.ndarray, target_dim: int) -> np.ndarray:

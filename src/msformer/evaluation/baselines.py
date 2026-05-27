@@ -16,7 +16,7 @@ import numpy as np
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import balanced_accuracy_score, f1_score
-from sklearn.model_selection import GridSearchCV, LeaveOneOut, StratifiedKFold
+from sklearn.model_selection import GridSearchCV, LeaveOneGroupOut, LeaveOneOut, StratifiedKFold
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.svm import SVC
@@ -126,6 +126,7 @@ def baseline_cv(
     seeds: list[int] | None = None,
     cv_strategy: str = "kfold",
     cv_folds: int = 5,
+    groups: np.ndarray | None = None,
 ) -> dict[str, list[float]]:
     """
     Evaluate a baseline model using the same CV protocol as transformer conditions.
@@ -143,7 +144,9 @@ def baseline_cv(
     for seed in seeds:
         np.random.seed(seed)
 
-        if cv_strategy == "loso":
+        if cv_strategy == "loso" and groups is not None:
+            splits = list(LeaveOneGroupOut().split(X, y, groups=groups))
+        elif cv_strategy == "loso":
             splits = list(LeaveOneOut().split(X))
         else:
             skf = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=seed)

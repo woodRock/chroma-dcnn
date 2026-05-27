@@ -64,16 +64,27 @@ def load_olive_oil_data(
     if not data_dir.exists():
         raise FileNotFoundError(
             f"Olive oil data directory not found: {data_dir}\n"
-            f"Download from https://data.mendeley.com/datasets/fr9t5fkkvz/3"
+            f"Download from https://data.mendeley.com/datasets/fr9t5fkkvz/3\n"
+            f"Then run: python scripts/preprocess_olive_oil.py"
         )
 
-    # Try to load using gc_ims_tools if available; else fall back to CSV/npy scan
-    try:
-        return _load_via_gcims_tools(data_dir, reduction, target_dim)
-    except ImportError:
-        pass
+    # Prefer pre-processed numpy arrays (output of preprocess_olive_oil.py)
+    x_key = "X_sum" if reduction == "sum" else "X_apex"
+    x_npy = data_dir / f"{x_key}.npy"
+    y_npy = data_dir / "y.npy"
+    ids_txt = data_dir / "sample_ids.txt"
 
-    # Fallback: scan for numpy .npy files or CSV matrices
+    if x_npy.exists() and y_npy.exists():
+        X = np.load(x_npy).astype(np.float32)
+        y = np.load(y_npy).astype(np.int64)
+        sample_ids = ids_txt.read_text().splitlines() if ids_txt.exists() else [str(i) for i in range(len(y))]
+        if X.shape[1] != target_dim:
+            X = np.stack([_bin_to_target_dim(row, target_dim) for row in X])
+        print(f"Loaded olive oil from numpy arrays (reduction={reduction}): {X.shape}")
+        _report_class_counts(y)
+        return X, y, sample_ids
+
+    # Fallback: scan for raw .npy / CSV matrix files
     return _load_from_raw_files(data_dir, reduction, target_dim)
 
 

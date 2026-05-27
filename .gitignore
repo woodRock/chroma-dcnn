@@ -1,11 +1,24 @@
 # Data — never commit raw downloads or processed datasets
 data/
 
-# Exception: committed source data (hard to re-download on cluster)
+# Exceptions: specific small files that are hard to re-download on the cluster
 !data/
 !data/pretraining/
 !data/pretraining/raw/
-!data/pretraining/raw/**
+!data/pretraining/raw/mona_gcms_part1.json
+!data/pretraining/raw/mona_gcms_part2.json
+!data/pretraining/raw/mona_gcms_part3.json
+!data/pretraining/raw/combined_ei_spectra.json
+data/pretraining/raw/massbank_records/
+data/pretraining/spectra.h5
+data/hemp_seed/
+!data/olive_oil/
+!data/olive_oil/X_sum.npy
+!data/olive_oil/X_apex.npy
+!data/olive_oil/y.npy
+!data/olive_oil/sample_ids.txt
+data/olive_oil/*.zip
+data/olive_oil/*.mea
 
 # Model checkpoints
 checkpoints/

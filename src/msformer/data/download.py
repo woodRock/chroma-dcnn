@@ -70,6 +70,19 @@ def download_mona(output_dir: str | Path, force: bool = False) -> Path | None:
         print(f"MoNA JSON already present at {json_path}")
         return json_path
 
+    # Reassemble from split parts committed to git (mona_gcms_part1..3.json)
+    part_files = sorted(output_dir.glob("mona_gcms_part*.json"))
+    if part_files and not force:
+        print(f"Reassembling mona_gcms.json from {len(part_files)} parts …")
+        all_records: list[dict] = []
+        for part in part_files:
+            with open(part, encoding="utf-8") as fh:
+                all_records.extend(json.load(fh))
+        with open(json_path, "w", encoding="utf-8") as fh:
+            json.dump(all_records, fh)
+        print(f"Reassembled {len(all_records)} records → {json_path}")
+        return json_path
+
     # Check for a pre-existing zip in the same directory (e.g. committed to git)
     existing_zips = sorted(output_dir.glob("*.zip"))
     if existing_zips and not force:
@@ -212,12 +225,28 @@ def parse_mona_records(json_path: str | Path) -> Iterator[dict]:
     peaks is a list of (mz: float, intensity: float) tuples.
     Records with no InChIKey, no valid EI instrument tag, or m/z > 1000 Da
     are dropped silently.
+
+    If json_path does not exist, automatically merges mona_gcms_part*.json
+    files from the same directory (committed to git in place of the large file).
     """
     json_path = Path(json_path)
-    with open(json_path, encoding="utf-8") as fh:
-        records = json.load(fh)
 
-    print(f"Loaded {len(records)} raw MoNA records")
+    if not json_path.exists():
+        part_files = sorted(json_path.parent.glob("mona_gcms_part*.json"))
+        if not part_files:
+            raise FileNotFoundError(
+                f"{json_path} not found and no mona_gcms_part*.json files present. "
+                f"Run scripts/01_download_pretrain_data.py first."
+            )
+        records = []
+        for part in part_files:
+            with open(part, encoding="utf-8") as fh:
+                records.extend(json.load(fh))
+        print(f"Loaded {len(records)} raw MoNA records (from {len(part_files)} parts)")
+    else:
+        with open(json_path, encoding="utf-8") as fh:
+            records = json.load(fh)
+        print(f"Loaded {len(records)} raw MoNA records")
     kept = 0
     for rec in records:
         parsed = _parse_mona_record(rec)
