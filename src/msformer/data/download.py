@@ -22,10 +22,9 @@ from typing import Iterator
 import requests
 from tqdm import tqdm
 
-MONA_DOWNLOAD_URL = (
-    "https://mona.fiehnlab.ucdavis.edu/rest/downloads/retrieve/"
-    "MoNA-export-GC-MS_Spectra.json.zip"
-)
+MONA_BASE = "https://mona.fiehnlab.ucdavis.edu"
+MONA_DOWNLOADS_API = f"{MONA_BASE}/rest/downloads"
+MONA_SEARCH_API = f"{MONA_BASE}/rest/spectra/search"
 MASSBANK_RELEASE_API = (
     "https://api.github.com/repos/MassBank/MassBank-data/releases/latest"
 )
@@ -42,10 +41,13 @@ _MZ_INT_PATTERN = re.compile(r"(\d+(?:\.\d+)?):(\d+(?:\.\d+)?)")
 
 def download_mona(output_dir: str | Path, force: bool = False) -> Path:
     """
-    Download the MoNA GC-MS bulk JSON export.
+    Download MoNA GC-MS spectra.
 
-    Returns the path to the extracted JSON file.
-    Skips download if the JSON already exists (unless force=True).
+    Strategy (tried in order):
+      1. Discover the bulk JSON export from MoNA's downloads list API and fetch it.
+      2. Fall back to paginated search API (slower, ~100 records/request).
+
+    Returns the path to the combined JSON file.
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -55,19 +57,99 @@ def download_mona(output_dir: str | Path, force: bool = False) -> Path:
         print(f"MoNA JSON already present at {json_path}")
         return json_path
 
-    zip_path = output_dir / "mona_gcms.json.zip"
-    print(f"Downloading MoNA GC-MS export → {zip_path}")
-    _download_with_progress(MONA_DOWNLOAD_URL, zip_path)
+    # --- Strategy 1: bulk download via downloads list ---
+    try:
+        json_path = _download_mona_bulk(output_dir, json_path)
+        return json_path
+    except Exception as e:
+        print(f"Bulk download failed ({e}). Falling back to search API …")
 
-    print("Extracting …")
-    with zipfile.ZipFile(zip_path, "r") as zf:
-        names = [n for n in zf.namelist() if n.endswith(".json")]
-        if not names:
-            raise RuntimeError(f"No JSON found inside {zip_path}")
-        with zf.open(names[0]) as src, open(json_path, "wb") as dst:
-            dst.write(src.read())
+    # --- Strategy 2: paginated search API ---
+    return _download_mona_search(output_dir, json_path)
 
-    zip_path.unlink()
+
+def _download_mona_bulk(output_dir: Path, json_path: Path) -> Path:
+    """Discover and fetch the pre-built GC-MS JSON export from MoNA's downloads API."""
+    print("Querying MoNA downloads list …")
+    resp = requests.get(MONA_DOWNLOADS_API, timeout=30)
+    resp.raise_for_status()
+    downloads = resp.json()
+
+    # Find a GC-MS JSON export entry
+    gcms_entry = None
+    for entry in downloads:
+        label = entry.get("label", "") or entry.get("name", "") or ""
+        filename = entry.get("filename", "") or entry.get("name", "") or ""
+        if ("GC" in label or "GC" in filename) and (
+            "json" in filename.lower() or "json" in label.lower()
+        ):
+            gcms_entry = entry
+            break
+
+    if gcms_entry is None:
+        # Print available entries to help diagnose
+        labels = [e.get("label", e.get("filename", str(e))) for e in downloads[:10]]
+        raise RuntimeError(
+            f"No GC-MS JSON export found in MoNA downloads list.\n"
+            f"Available entries (first 10): {labels}\n"
+            f"Check {MONA_DOWNLOADS_API} manually and set the URL."
+        )
+
+    # Build retrieve URL — try common patterns
+    filename = gcms_entry.get("filename", gcms_entry.get("name", ""))
+    retrieve_url = f"{MONA_BASE}/rest/downloads/retrieve/{filename}"
+    print(f"Found export: {filename}")
+
+    zip_path = output_dir / filename
+    _download_with_progress(retrieve_url, zip_path)
+
+    if filename.endswith(".zip"):
+        print("Extracting …")
+        with zipfile.ZipFile(zip_path, "r") as zf:
+            names = [n for n in zf.namelist() if n.endswith(".json")]
+            if not names:
+                raise RuntimeError(f"No JSON found inside {zip_path}")
+            with zf.open(names[0]) as src, open(json_path, "wb") as dst:
+                dst.write(src.read())
+        zip_path.unlink()
+    else:
+        zip_path.rename(json_path)
+
+    return json_path
+
+
+def _download_mona_search(output_dir: Path, json_path: Path) -> Path:
+    """
+    Download EI-MS GC spectra via the MoNA paginated search API.
+
+    Queries for records where instrument type metadata matches GC variants.
+    Paginates until the API returns an empty page.
+    """
+    # RSQL query: instrument type metadata value contains "GC"
+    query = 'metaData=q=\'name=="instrument type" and value=~"GC"\''
+    page_size = 100
+    all_records: list[dict] = []
+    page = 0
+
+    print(f"Downloading MoNA GC-MS spectra via search API (page_size={page_size}) …")
+    while True:
+        resp = requests.get(
+            MONA_SEARCH_API,
+            params={"query": query, "size": page_size, "page": page},
+            timeout=120,
+        )
+        resp.raise_for_status()
+        batch = resp.json()
+        if not batch:
+            break
+        all_records.extend(batch)
+        print(f"  Page {page}: {len(batch)} records  (total so far: {len(all_records)})", end="\r")
+        page += 1
+
+    print(f"\nSearch API: downloaded {len(all_records)} raw MoNA records")
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(all_records, f)
+
     return json_path
 
 
