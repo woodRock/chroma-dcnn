@@ -1,0 +1,35 @@
+model:
+  input_type: dense        # dense (patch-based) | sparse (peak-token)
+  patch_size: 50           # dense: m/z bins per patch → 1000/50 = 20 tokens
+  max_peaks: 200           # sparse: max non-zero peaks to keep (pad/truncate)
+  mz_max: 1000             # spectral range
+  hidden_dim: 256
+  num_layers: 6
+  num_heads: 8
+  ffn_dim: 1024            # 4 × hidden_dim
+  dropout: 0.1
+
+pretraining:
+  objective: msm
+  mask_ratio: 0.15         # fraction of non-zero bins to mask
+  mask_value: 0.0          # value to substitute at masked positions
+
+training:
+  epochs: 100
+  batch_size: 256
+  lr: 1.0e-4
+  weight_decay: 0.01
+  beta1: 0.9
+  beta2: 0.999
+  warmup_epochs: 5
+  checkpoint_every: 10
+  grad_clip: 1.0
+
+data:
+  h5_path: data/pretraining/spectra.h5
+  val_fraction: 0.1
+  num_workers: 4
+
+logging:
+  run_name: msm_dense
+  checkpoint_dir: checkpoints/msm

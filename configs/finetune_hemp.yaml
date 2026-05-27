@@ -1,0 +1,38 @@
+task:
+  name: hemp_seed
+  num_classes: 2           # Thai | Foreign
+  cv_strategy: loso        # leave-one-sample-out (n ≈ 12)
+  cv_seeds: [0,1,2,3,4,5,6,7,8,9]
+  note: "Preliminary — n < 30; treat results as indicative only"
+
+model:
+  input_type: dense
+  patch_size: 50
+  mz_max: 1000
+  hidden_dim: 256
+  num_layers: 6
+  num_heads: 8
+  ffn_dim: 1024
+  dropout: 0.1
+
+finetuning:
+  epochs: 50
+  batch_size: 8            # small n forces small batch
+  lr: 5.0e-5
+  weight_decay: 0.01
+  warmup_epochs: 2
+  grad_clip: 1.0
+
+linear_probe:
+  epochs: 100
+  lr: 1.0e-3
+
+pretrained_checkpoints:
+  msm: checkpoints/msm/best.pt
+  contrastive: checkpoints/contrastive/best.pt
+
+data:
+  data_dir: data/hemp_seed  # Sangkanu et al. 2026, DOI 10.1007/s44371-026-00486-y
+
+output:
+  results_dir: results/hemp_seed
