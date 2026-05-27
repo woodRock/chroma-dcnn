@@ -1,13 +1,9 @@
 """
-Step 3: Pretrain the transformer encoder.
+Step 3: Pretrain the transformer encoder with Masked Spectra Modelling (MSM).
 
-Run MSM:
   python scripts/03_pretrain.py --config configs/pretrain_msm.yaml
 
-Run contrastive:
-  python scripts/03_pretrain.py --config configs/pretrain_contrastive.yaml
-
-To compare both input_types (dense vs sparse), pass --input-type sparse:
+To use sparse input (peak tokens instead of dense patches):
   python scripts/03_pretrain.py --config configs/pretrain_msm.yaml --input-type sparse
 """
 

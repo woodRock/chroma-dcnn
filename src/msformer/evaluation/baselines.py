@@ -46,6 +46,9 @@ class PLSDAClassifier:
         self.classes_ = self.le.classes_
         n_classes = len(self.classes_)
         Y_dummy = np.eye(n_classes)[y_enc]
+        # sklearn caps n_components at n_samples - 1; clamp here so small folds don't error
+        n_comp = min(self.n_components, X.shape[0] - 1, X.shape[1])
+        self.pls = PLSRegression(n_components=n_comp, max_iter=500)
         self.pls.fit(X, Y_dummy)
         T = self.pls.transform(X)
         self.class_centroids_ = np.array(

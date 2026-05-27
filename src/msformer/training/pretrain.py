@@ -1,5 +1,5 @@
 """
-Pretraining loop — supports both MSM and contrastive objectives.
+Pretraining loop — Masked Spectra Modelling (MSM) objective.
 
 Usage:
     trainer = PretrainTrainer(config)
@@ -30,13 +30,8 @@ def _best_device() -> torch.device:
     return torch.device("cpu")
 
 
-from msformer.data.datasets import (
-    AugmentationConfig,
-    ContrastiveDataset,
-    MSMDataset,
-    PretrainingDataset,
-)
-from msformer.models import ContrastiveModel, MSMModel, SpectrumConfig
+from msformer.data.datasets import MSMDataset, PretrainingDataset
+from msformer.models import MSMModel, SpectrumConfig
 
 
 class PretrainTrainer:
@@ -56,7 +51,7 @@ class PretrainTrainer:
             ffn_dim=config["model"].get("ffn_dim", config["model"]["hidden_dim"] * 4),
             dropout=config["model"]["dropout"],
         )
-        self.objective = config["pretraining"]["objective"]  # msm | contrastive
+        self.objective = "msm"
         self._build_model()
         self._build_data()
         self._build_optimiser()
@@ -66,15 +61,9 @@ class PretrainTrainer:
         self.best_val_loss = float("inf")
 
     def _build_model(self) -> None:
-        if self.objective == "msm":
-            self.model = MSMModel(self.model_cfg).to(self.device)
-        else:
-            proj_dim = self.cfg["pretraining"].get("projector_dim", 128)
-            temperature = self.cfg["pretraining"].get("temperature", 0.1)
-            self.model = ContrastiveModel(self.model_cfg, proj_dim, temperature).to(self.device)
-
+        self.model = MSMModel(self.model_cfg).to(self.device)
         n_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
-        print(f"Model parameters: {n_params:,}  objective={self.objective}")
+        print(f"Model parameters: {n_params:,}  objective=msm")
 
     def _build_data(self) -> None:
         h5_path = self.cfg["data"]["h5_path"]
@@ -84,19 +73,9 @@ class PretrainTrainer:
         train_base = PretrainingDataset(h5_path, split="train")
         val_base = PretrainingDataset(h5_path, split="val")
 
-        if self.objective == "msm":
-            mask_ratio = self.cfg["pretraining"]["mask_ratio"]
-            train_ds = MSMDataset(train_base, mask_ratio)
-            val_ds = MSMDataset(val_base, mask_ratio)
-        else:
-            aug_cfg = AugmentationConfig(
-                intensity_jitter=self.cfg["augmentation"]["intensity_jitter"],
-                low_mass_noise_sigma=self.cfg["augmentation"]["low_mass_noise_sigma"],
-                low_mass_cutoff=self.cfg["augmentation"]["low_mass_cutoff"],
-                bin_dropout_rate=self.cfg["augmentation"]["bin_dropout_rate"],
-            )
-            train_ds = ContrastiveDataset(train_base, aug_cfg)
-            val_ds = ContrastiveDataset(val_base, aug_cfg)
+        mask_ratio = self.cfg["pretraining"]["mask_ratio"]
+        train_ds = MSMDataset(train_base, mask_ratio)
+        val_ds = MSMDataset(val_base, mask_ratio)
 
         self.train_loader = DataLoader(
             train_ds, batch_size=batch_size, shuffle=True,
@@ -136,10 +115,7 @@ class PretrainTrainer:
             batch = self._to_device(batch)
             self.optimiser.zero_grad()
 
-            if self.objective == "msm":
-                loss, _ = self.model(batch)
-            else:
-                loss, _, _ = self.model(batch)
+            loss, _ = self.model(batch)
 
             loss.backward()
             nn.utils.clip_grad_norm_(self.model.parameters(), self.grad_clip)
@@ -151,24 +127,13 @@ class PretrainTrainer:
     @torch.no_grad()
     def val_epoch(self) -> dict[str, float]:
         self.model.eval()
-        total_loss = total_align = total_uniform = 0.0
+        total_loss = 0.0
         for batch in self.val_loader:
             batch = self._to_device(batch)
-            if self.objective == "msm":
-                loss, _ = self.model(batch)
-                total_loss += loss.item()
-            else:
-                loss, align, uniform = self.model(batch)
-                total_loss += loss.item()
-                total_align += align.item()
-                total_uniform += uniform.item()
+            loss, _ = self.model(batch)
+            total_loss += loss.item()
 
-        n = len(self.val_loader)
-        metrics = {"loss": total_loss / n}
-        if self.objective == "contrastive":
-            metrics["alignment"] = total_align / n
-            metrics["uniformity"] = total_uniform / n
-        return metrics
+        return {"loss": total_loss / len(self.val_loader)}
 
     def save_checkpoint(self, epoch: int, val_loss: float, tag: str = "") -> None:
         state = {

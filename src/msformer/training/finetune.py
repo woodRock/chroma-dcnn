@@ -4,8 +4,7 @@ Fine-tuning and linear probe evaluation for downstream classification tasks.
 Implements all four conditions from the experimental protocol:
   A. from_scratch   — random init, trained on downstream data only
   B. msm_finetune   — pretrained (MSM) weights, all layers fine-tuned
-  C. cont_finetune  — pretrained (contrastive) weights, all layers fine-tuned
-  D. linear_probe   — pretrained weights frozen, only classification head trained
+  C. linear_probe_msm — pretrained weights frozen, only classification head trained
 
 Evaluation uses either stratified k-fold CV or leave-one-out CV (LOSO),
 each repeated over multiple seeds to support Mann-Whitney statistical testing.
@@ -30,22 +29,19 @@ from msformer.data.datasets import DownstreamDataset
 from msformer.models.encoder import SpectrumClassifier, SpectrumConfig
 
 
-ConditionName = Literal["from_scratch", "msm_finetune", "cont_finetune", "linear_probe_msm", "linear_probe_cont"]
+ConditionName = Literal["from_scratch", "msm_finetune", "linear_probe_msm"]
 
 
 def _build_classifier(
     config: SpectrumConfig,
     condition: ConditionName,
     msm_ckpt: str | None,
-    cont_ckpt: str | None,
 ) -> SpectrumClassifier:
-    freeze = condition in ("linear_probe_msm", "linear_probe_cont")
+    freeze = condition == "linear_probe_msm"
     clf = SpectrumClassifier(config, freeze_encoder=freeze)
 
     if condition in ("msm_finetune", "linear_probe_msm") and msm_ckpt:
         clf.load_pretrained_encoder(msm_ckpt)
-    elif condition in ("cont_finetune", "linear_probe_cont") and cont_ckpt:
-        clf.load_pretrained_encoder(cont_ckpt)
 
     return clf
 
@@ -62,7 +58,7 @@ def _train_one_fold(
     train_ds = Subset(dataset, train_idx)
     val_ds = Subset(dataset, val_idx)
 
-    is_probe = condition in ("linear_probe_msm", "linear_probe_cont")
+    is_probe = condition == "linear_probe_msm"
     tcfg = cfg["linear_probe"] if is_probe else cfg["finetuning"]
     epochs = tcfg["epochs"]
     batch_size = min(tcfg.get("batch_size", 16), len(train_idx))
@@ -70,16 +66,28 @@ def _train_one_fold(
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=False)
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
 
+    # Use a higher lr for from-scratch training (5e-5 is a fine-tuning rate, not suitable for random init)
+    lr = tcfg["lr"]
+    if condition == "from_scratch" and not is_probe:
+        lr = tcfg.get("lr_scratch", lr * 20)
+
     params = [p for p in model.parameters() if p.requires_grad]
-    opt = AdamW(params, lr=tcfg["lr"], weight_decay=tcfg.get("weight_decay", 0.01))
-    sched = CosineAnnealingLR(opt, T_max=epochs, eta_min=tcfg["lr"] * 0.01)
+    opt = AdamW(params, lr=lr, weight_decay=tcfg.get("weight_decay", 0.01))
+    sched = CosineAnnealingLR(opt, T_max=epochs, eta_min=lr * 0.01)
 
     patience = tcfg.get("early_stopping_patience", 10) if not is_probe else 9999
     best_val_loss = float("inf")
     best_state = copy.deepcopy(model.state_dict())
     stale = 0
 
-    criterion = nn.CrossEntropyLoss()
+    # Class-weighted loss to prevent majority-class collapse on imbalanced datasets
+    train_labels = np.array([dataset[i][1].item() for i in train_idx])
+    classes, counts = np.unique(train_labels, return_counts=True)
+    weights = np.zeros(cfg["task"]["num_classes"], dtype=np.float32)
+    for c, n in zip(classes, counts):
+        weights[c] = len(train_labels) / (len(classes) * n)
+    weight_tensor = torch.tensor(weights, device=device)
+    criterion = nn.CrossEntropyLoss(weight=weight_tensor)
 
     for epoch in range(1, epochs + 1):
         model.train()
@@ -174,7 +182,6 @@ class Finetuner:
         )
 
         self.msm_ckpt = config.get("pretrained_checkpoints", {}).get("msm")
-        self.cont_ckpt = config.get("pretrained_checkpoints", {}).get("contrastive")
 
         cv_strategy = config["task"].get("cv_strategy", "kfold")
         if cv_strategy == "loso" and self.groups is not None:
@@ -225,7 +232,7 @@ class Finetuner:
 
             for train_idx, val_idx in splits:
                 model = _build_classifier(
-                    self.model_config, condition, self.msm_ckpt, self.cont_ckpt
+                    self.model_config, condition, self.msm_ckpt
                 ).to(self.device)
 
                 metrics = _train_one_fold(
@@ -241,9 +248,7 @@ class Finetuner:
         conditions: list[ConditionName] = [
             "from_scratch",
             "msm_finetune",
-            "cont_finetune",
             "linear_probe_msm",
-            "linear_probe_cont",
         ]
         results = {}
         for cond in conditions:

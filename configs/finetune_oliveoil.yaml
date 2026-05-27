@@ -20,7 +20,8 @@ model:
 finetuning:
   epochs: 50
   batch_size: 16
-  lr: 5.0e-5
+  lr: 5.0e-5        # for pretrained conditions
+  lr_scratch: 1.0e-3  # for from_scratch (pretrained lr is too small for random init)
   weight_decay: 0.01
   warmup_epochs: 2
   grad_clip: 1.0
@@ -32,7 +33,6 @@ linear_probe:
 
 pretrained_checkpoints:
   msm: checkpoints/msm/best.pt
-  contrastive: checkpoints/contrastive/best.pt
 
 data:
   data_dir: data/olive_oil    # Mendeley DOI 10.17632/fr9t5fkkvz.3
