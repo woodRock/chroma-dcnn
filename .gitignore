@@ -1,6 +1,12 @@
 # Data — never commit raw downloads or processed datasets
 data/
 
+# Exception: committed source data (hard to re-download on cluster)
+!data/
+!data/pretraining/
+!data/pretraining/raw/
+!data/pretraining/raw/**
+
 # Model checkpoints
 checkpoints/
 

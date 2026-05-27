@@ -70,6 +70,19 @@ def download_mona(output_dir: str | Path, force: bool = False) -> Path | None:
         print(f"MoNA JSON already present at {json_path}")
         return json_path
 
+    # Check for a pre-existing zip in the same directory (e.g. committed to git)
+    existing_zips = sorted(output_dir.glob("*.zip"))
+    if existing_zips and not force:
+        zip_path = existing_zips[0]
+        print(f"Found existing zip: {zip_path.name} — extracting …")
+        with zipfile.ZipFile(zip_path, "r") as zf:
+            names = [n for n in zf.namelist() if n.endswith(".json")]
+            if names:
+                with zf.open(names[0]) as src, open(json_path, "wb") as dst:
+                    dst.write(src.read())
+                print(f"Extracted → {json_path}")
+                return json_path
+
     # Strategy 1: direct public export URL (no auth)
     try:
         print(f"Trying MoNA public export URL …")
