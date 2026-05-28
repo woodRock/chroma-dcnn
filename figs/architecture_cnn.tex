@@ -35,31 +35,13 @@
 \tikzstyle{copyconnection}=[ultra thick,every node/.style={sloped,allow upside down},draw={rgb:blue,4;red,1;green,1;black,3},opacity=0.7]
 
 \node[inner sep=2pt, draw=InputEdge, very thick,
-      fill=white, rounded corners=3pt] (gcms) at (-5.5,0,0)
-    {\includegraphics[width=5.5cm,height=5.5cm]{/Users/woodj/Desktop/mass-spec/gc-ms.png}};
+      fill=white, rounded corners=3pt] (gcms) at (-7.0,0,0)
+    {\includegraphics[width=7.5cm,height=7.5cm]{/Users/woodj/Desktop/mass-spec/gc-ms.png}};
 
 \node[font=\small\bfseries, above=3mm of gcms.north, align=center]
     {GC-MS Chromatogram};
 \node[font=\scriptsize, below=4mm of gcms.south]
     {$200\,\text{RT bins} \times 1000\,m/z$};
-
-\node[anchor=north] at (11,-8.5,0) {
-    {%
-    \setlength{\fboxsep}{1.5pt}%
-    \setlength{\fboxrule}{1.2pt}%
-    \renewcommand{\arraystretch}{1.2}%
-    \begin{tabular}{ll@{\hspace{20pt}}ll}
-        \fcolorbox{InputEdge}{white}{\phantom{\rule{8pt}{5pt}}} &
-            {\scriptsize Input Chromatogram} &
-        \fcolorbox{ResBlockEdge}{ResBlockFill}{\phantom{\rule{8pt}{5pt}}} &
-            {\scriptsize Dilated Conv + BN + ReLU} \\
-        \fcolorbox{LinearEdge}{LinearFill}{\phantom{\rule{8pt}{5pt}}} &
-            {\scriptsize Linear (Spec. Proj / Concat / FC)} &
-        \fcolorbox{PoolEdge}{PoolFill}{\phantom{\rule{8pt}{5pt}}} &
-            {\scriptsize Dual Pooling (Max / Attn)}
-    \end{tabular}
-    }%
-};
 
 \pic[shift={(2,0,0)}] at (0,0,0) 
     {Box={
@@ -169,7 +151,7 @@
     };
 
 \node[font=\small\bfseries, above=3mm] at (cat-north) {concat};
-\node[font=\scriptsize,     below=3mm] at (cat-south)  {$[256]$};
+\node[font=\scriptsize,     below=4mm] at (cat-south)  {\textbf{[256]}};
 
 \draw [connection]
     (maxpool-east) -| node[above,sloped,pos=0.3]{\midarrow} (cat-north);

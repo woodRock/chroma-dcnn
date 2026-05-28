@@ -68,35 +68,14 @@ arch = [
     # =========================================================================
     raw(r"""
 \node[inner sep=2pt, draw=InputEdge, very thick,
-      fill=white, rounded corners=3pt] (gcms) at (-5.5,0,0)
-    {\includegraphics[width=5.5cm,height=5.5cm]{""" + GCMS_IMG + r"""}};
+      fill=white, rounded corners=3pt] (gcms) at (-7.0,0,0)
+    {\includegraphics[width=7.5cm,height=7.5cm]{""" + GCMS_IMG + r"""}};
 """),
     raw(r"""
 \node[font=\small\bfseries, above=3mm of gcms.north, align=center]
     {GC-MS Chromatogram};
 \node[font=\scriptsize, below=4mm of gcms.south]
     {$200\,\text{RT bins} \times 1000\,m/z$};
-"""),
-
-    # Legend integrated further down to avoid overlap
-    raw(r"""
-\node[anchor=north] at (11,-8.5,0) {
-    {%
-    \setlength{\fboxsep}{1.5pt}%
-    \setlength{\fboxrule}{1.2pt}%
-    \renewcommand{\arraystretch}{1.2}%
-    \begin{tabular}{ll@{\hspace{20pt}}ll}
-        \fcolorbox{InputEdge}{white}{\phantom{\rule{8pt}{5pt}}} &
-            {\scriptsize Input Chromatogram} &
-        \fcolorbox{ResBlockEdge}{ResBlockFill}{\phantom{\rule{8pt}{5pt}}} &
-            {\scriptsize Dilated Conv + BN + ReLU} \\
-        \fcolorbox{LinearEdge}{LinearFill}{\phantom{\rule{8pt}{5pt}}} &
-            {\scriptsize Linear (Spec. Proj / Concat / FC)} &
-        \fcolorbox{PoolEdge}{PoolFill}{\phantom{\rule{8pt}{5pt}}} &
-            {\scriptsize Dual Pooling (Max / Attn)}
-    \end{tabular}
-    }%
-};
 """),
 
     # =========================================================================
@@ -196,7 +175,7 @@ arch = [
     to_Sum("cat", offset="(5.5,0,0)", to="(res3-east)", radius=2.5, opacity=0.85),
     raw(r"""
 \node[font=\small\bfseries, above=3mm] at (cat-north) {concat};
-\node[font=\scriptsize,     below=3mm] at (cat-south)  {$[256]$};
+\node[font=\scriptsize,     below=4mm] at (cat-south)  {\textbf{[256]}};
 """),
 
     # Pool branches merge into concat
