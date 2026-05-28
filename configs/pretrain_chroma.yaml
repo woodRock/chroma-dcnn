@@ -6,12 +6,12 @@ model:
   dropout: 0.1
 
 pretraining:
-  epochs: 2000
+  n_iterations: 20000
   batch_size: 16
   lr: 1.0e-3
   weight_decay: 1.0e-4
   grad_clip: 1.0
-  log_every: 200
+  log_every: 500
 
 data:
   h5_path: data/pretraining/spectra.h5   # MoNA/MassBank EI-MS spectra (no fish oil)
