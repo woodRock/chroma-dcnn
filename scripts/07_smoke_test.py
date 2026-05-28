@@ -102,7 +102,7 @@ def main(config_path: str, seed: int, fold_idx: int, epochs: int) -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Smoke test: ChromatogramCNN (1 seed × 1 fold)")
-    ap.add_argument("--config", default="configs/finetune_fish_oil_chroma.yaml")
+    ap.add_argument("--config", default="configs/finetune.yaml")
     ap.add_argument("--seed",   type=int, default=0)
     ap.add_argument("--fold",   type=int, default=0)
     ap.add_argument("--epochs", type=int, default=100)

@@ -137,19 +137,17 @@ Checkpoint saved to `checkpoints/msm/best.pt`.
 Uses synthetic GC-MS chromatograms generated on-the-fly from `spectra.h5` — no fish oil data used, so there is no information leakage into fine-tuning CV folds.
 
 ```bash
-python scripts/08_pretrain_chroma.py --config configs/pretrain_chroma.yaml
+python scripts/08_pretrain_chroma.py --device cuda:0
 ```
 
 Checkpoint saved to `checkpoints/chroma_pretrain/best.pt`.
 
 ### Step 5 — Full CV evaluation (ChromatogramCNN)
 
-10 seeds × 5-fold stratified CV across all three conditions (~3 hours on a single GPU).
+10 seeds × 5-fold stratified CV (~10 min on GPU).
 
 ```bash
-python scripts/04_finetune_evaluate.py \
-    --task fish_oil_chroma \
-    --config configs/finetune_fish_oil_chroma.yaml
+python scripts/04_finetune_evaluate.py --device cuda:0
 ```
 
 Results saved to `results/fish_oil/chroma_results.json`.
@@ -157,7 +155,7 @@ Results saved to `results/fish_oil/chroma_results.json`.
 ### Step 6 — Classical baselines
 
 ```bash
-python scripts/05_run_baselines.py --config configs/finetune_fish_oil.yaml
+python scripts/05_run_baselines.py
 ```
 
 Evaluates PLS-DA, RF, SVM, MLP on three feature representations:

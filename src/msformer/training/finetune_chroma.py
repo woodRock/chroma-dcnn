@@ -143,12 +143,20 @@ def _train_fold(
 # ---------------------------------------------------------------------------
 
 class ChromaFinetuner:
-    def __init__(self, config: dict, npz_paths: list[Path], y: np.ndarray) -> None:
+    def __init__(
+        self,
+        config: dict,
+        npz_paths: list[Path],
+        y: np.ndarray,
+        device: str | None = None,
+    ) -> None:
         self.cfg   = config
         self.paths = npz_paths
         self.y     = y
 
-        if torch.cuda.is_available():
+        if device:
+            self.device = torch.device(device)
+        elif torch.cuda.is_available():
             self.device = torch.device("cuda")
         elif torch.backends.mps.is_available():
             self.device = torch.device("mps")

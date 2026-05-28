@@ -1,15 +1,16 @@
 """
-Step 5: Run published baselines (PLS-DA, RF, SVM, MLP) on the fish oil task.
+Run published baselines (PLS-DA, RF, SVM, MLP) on the fish oil dataset.
 
 Three feature representations are evaluated to give baselines a fair shot at
 the 2D GC-MS data:
 
-  sum       — per-m/z sum across all RT scans (collapses RT dimension)
-  max_proj  — per-m/z maximum across RT scans (captures peak heights)
+  sum        — per-m/z sum across all RT scans (collapses RT dimension)
+  max_proj   — per-m/z maximum across RT scans (captures peak heights)
   chroma_pca — full 2D chromatogram flattened, reduced to 50 PCs within each
                CV fold (no information leakage into test splits)
 
 Usage:
+  python scripts/05_run_baselines.py
   python scripts/05_run_baselines.py --config configs/finetune_fish_oil.yaml
 
 Results are written to results/fish_oil/baseline_gcms_{representation}_results.json
@@ -82,7 +83,7 @@ def _save_and_compare(baseline_results: dict, output_dir: Path, name: str) -> No
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--config", required=True)
+    ap = argparse.ArgumentParser(description="Run baselines on fish oil GC-MS")
+    ap.add_argument("--config", default="configs/finetune_fish_oil.yaml")
     args = ap.parse_args()
     main(args.config)
