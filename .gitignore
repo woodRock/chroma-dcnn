@@ -45,3 +45,6 @@ notebooks/.ipynb_checkpoints/
 # ── Misc ──────────────────────────────────────────────────────────────────────
 *.log
 *.pdf
+
+# Architecture Diagram Tool
+PlotNeuralNet/
