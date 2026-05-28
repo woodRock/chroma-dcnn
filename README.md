@@ -101,7 +101,7 @@ pip install -e ".[dev]"
 
 ---
 
-## Running on a GPU Cluster
+## Running the Experiments
 
 The preprocessed fish oil data is committed — clone the repo and start from step 3 or 4.
 
@@ -126,7 +126,7 @@ Outputs `data/pretraining/spectra.h5` (~9,500 EI-MS spectra, sqrt + L2 normalise
 Uses synthetic GC-MS chromatograms generated on-the-fly from `spectra.h5` — no fish oil data used, so there is no information leakage into fine-tuning CV folds.
 
 ```bash
-python scripts/08_pretrain_chroma.py --device cuda:0
+python scripts/08_pretrain_chroma.py
 ```
 
 Checkpoint saved to `checkpoints/chroma_pretrain/best.pt`.
@@ -136,7 +136,7 @@ Checkpoint saved to `checkpoints/chroma_pretrain/best.pt`.
 10 seeds × 5-fold stratified CV (~10 min on GPU).
 
 ```bash
-python scripts/04_finetune_evaluate.py --device cuda:0
+python scripts/04_finetune_evaluate.py
 ```
 
 Results saved to `results/fish_oil/chroma_results.json`.
