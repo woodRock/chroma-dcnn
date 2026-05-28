@@ -7,31 +7,21 @@ task:
 
 model:
   mz_max: 1000
-  patch_size: 50           # matches pretrained encoder
-  hidden_dim: 256          # matches pretrained encoder
-  cnn_channels: 128        # wider than before (was 64)
-  kernel_size: 7           # spans ~1.4 peak widths (median peak = 5 scans)
+  cnn_channels: 128
+  kernel_size: 7
   dropout: 0.3
-  n_bins: 200              # uniform RT bins (each covering ~24 raw scans)
+  n_bins: 200
 
-finetuning:               # used by from_scratch (end-to-end on raw chroma)
+finetuning:
   epochs: 200
   batch_size: 16
   lr: 1.0e-3
-  lr_scratch: 1.0e-3
-  weight_decay: 0.1        # strong L2 — essential at N=82
+  weight_decay: 0.1
   grad_clip: 1.0
   early_stopping_patience: 20
 
-frozen_embed:             # used by frozen_embed (CNN+head on pre-encoded embeddings)
-  epochs: 300
-  lr: 1.0e-3
-  weight_decay: 0.05
-  grad_clip: 1.0
-
 pretrained_checkpoints:
-  msm: checkpoints/msm/best.pt
-  chroma_pretrain: checkpoints/chroma_pretrain/best.pt   # populated after 08_pretrain_chroma.py
+  chroma_pretrain: checkpoints/chroma_pretrain/best.pt
 
 data:
   data_dir: data/fish_oil
