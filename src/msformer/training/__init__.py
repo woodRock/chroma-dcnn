@@ -1,4 +1,4 @@
-from msformer.training.pretrain import PretrainTrainer
-from msformer.training.finetune import Finetuner
+from msformer.training.finetune_chroma import ChromaFinetuner
+from msformer.training.pretrain_chroma import pretrain_chroma
 
-__all__ = ["PretrainTrainer", "Finetuner"]
+__all__ = ["ChromaFinetuner", "pretrain_chroma"]

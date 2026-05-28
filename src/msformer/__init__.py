@@ -1,4 +1,3 @@
-from msformer.models.encoder import SpectrumEncoder, SpectrumConfig
-from msformer.models.msm import MSMModel
+from msformer.models.chroma_cnn import ChromatogramCNN, ChromaCNNConfig
 
-__all__ = ["SpectrumEncoder", "SpectrumConfig", "MSMModel"]
+__all__ = ["ChromatogramCNN", "ChromaCNNConfig"]

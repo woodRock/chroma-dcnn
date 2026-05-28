@@ -157,17 +157,11 @@ class ChromaFinetuner:
 
         m = config["model"]
         self.model_config = ChromaCNNConfig(
-            mz_max          = m["mz_max"],
-            patch_size      = m.get("patch_size", 50),
-            hidden_dim      = m.get("hidden_dim", 256),
-            num_layers      = m.get("num_layers", 6),
-            num_heads       = m.get("num_heads", 8),
-            ffn_dim         = m.get("ffn_dim", 1024),
-            encoder_dropout = m.get("encoder_dropout", 0.1),
-            cnn_channels    = m.get("cnn_channels", 128),
-            kernel_size     = m.get("kernel_size", 7),
-            num_classes     = config["task"]["num_classes"],
-            dropout         = m.get("dropout", 0.3),
+            mz_max       = m["mz_max"],
+            cnn_channels = m.get("cnn_channels", 128),
+            kernel_size  = m.get("kernel_size", 7),
+            num_classes  = config["task"]["num_classes"],
+            dropout      = m.get("dropout", 0.3),
         )
         self.chroma_pretrain_ckpt = config.get("pretrained_checkpoints", {}).get("chroma_pretrain")
 

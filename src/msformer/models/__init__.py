@@ -1,9 +1,9 @@
-from msformer.models.encoder import SpectrumConfig, SpectrumEncoder, SpectrumClassifier
-from msformer.models.msm import MSMModel
+from msformer.models.chroma_cnn import ChromatogramCNN, ChromaCNNConfig
+from msformer.models.chroma_pretrain import ChromaNextFramePredictor, ChromaPretrainConfig
 
 __all__ = [
-    "SpectrumConfig",
-    "SpectrumEncoder",
-    "SpectrumClassifier",
-    "MSMModel",
+    "ChromatogramCNN",
+    "ChromaCNNConfig",
+    "ChromaNextFramePredictor",
+    "ChromaPretrainConfig",
 ]

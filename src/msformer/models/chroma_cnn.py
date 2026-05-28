@@ -24,14 +24,6 @@ from torch import Tensor
 @dataclass
 class ChromaCNNConfig:
     mz_max: int = 1000
-    # kept for API compatibility with configs that specify encoder params
-    patch_size: int = 50
-    hidden_dim: int = 256
-    num_layers: int = 6
-    num_heads: int = 8
-    ffn_dim: int = 1024
-    encoder_dropout: float = 0.1
-    # CNN params
     cnn_channels: int = 128
     kernel_size: int = 7
     num_classes: int = 4

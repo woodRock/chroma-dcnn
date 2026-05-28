@@ -10,7 +10,6 @@ model:
   cnn_channels: 128
   kernel_size: 7
   dropout: 0.3
-  n_bins: 200
 
 finetuning:
   epochs: 200
