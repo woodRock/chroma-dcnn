@@ -17,6 +17,7 @@ from sklearn.cross_decomposition import PLSRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import balanced_accuracy_score, f1_score
 from sklearn.model_selection import GridSearchCV, LeaveOneGroupOut, LeaveOneOut, StratifiedKFold
+from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.svm import SVC
@@ -102,6 +103,24 @@ def run_random_forest(X: np.ndarray, y: np.ndarray) -> RandomForestClassifier:
     return clf
 
 
+def run_mlp(X: np.ndarray, y: np.ndarray) -> Pipeline:
+    """2-layer MLP (1000→256→64→C) with early stopping; input standardised."""
+    pipe = Pipeline([
+        ("scaler", StandardScaler()),
+        ("mlp", MLPClassifier(
+            hidden_layer_sizes=(256, 64),
+            activation="relu",
+            solver="adam",
+            alpha=1e-3,
+            max_iter=500,
+            early_stopping=True,
+            random_state=0,
+        )),
+    ])
+    pipe.fit(X, y)
+    return pipe
+
+
 def run_svm(X: np.ndarray, y: np.ndarray, cv_folds: int = 3) -> Pipeline:
     """SVM with RBF kernel; C and gamma tuned via inner grid-search CV."""
     pipe = Pipeline([
@@ -130,15 +149,21 @@ def baseline_cv(
     cv_strategy: str = "kfold",
     cv_folds: int = 5,
     groups: np.ndarray | None = None,
+    n_pca_components: int | None = None,
 ) -> dict[str, list[float]]:
     """
     Evaluate a baseline model using the same CV protocol as transformer conditions.
 
-    model_name : 'plsda' | 'rf' | 'svm'
-    cv_strategy: 'kfold' | 'loso'
+    model_name       : 'plsda' | 'rf' | 'svm' | 'mlp'
+    cv_strategy      : 'kfold' | 'loso'
+    n_pca_components : if set, apply StandardScaler + PCA within each fold before
+                       fitting the classifier.  PCA is fit on the training split
+                       only (no information leakage into the test split).
 
     Returns {'balanced_accuracy': [...], 'macro_f1': [...]}  (n_seeds × n_folds entries)
     """
+    from sklearn.decomposition import PCA
+
     if seeds is None:
         seeds = list(range(10))
 
@@ -159,6 +184,15 @@ def baseline_cv(
             X_tr, X_te = X[tr_idx], X[te_idx]
             y_tr, y_te = y[tr_idx], y[te_idx]
 
+            if n_pca_components is not None:
+                scaler = StandardScaler()
+                X_tr = scaler.fit_transform(X_tr)
+                X_te = scaler.transform(X_te)
+                n_comp = min(n_pca_components, X_tr.shape[0] - 1, X_tr.shape[1])
+                pca = PCA(n_components=n_comp, svd_solver="randomized", random_state=seed)
+                X_tr = pca.fit_transform(X_tr)
+                X_te = pca.transform(X_te)
+
             if model_name == "plsda":
                 clf = run_plsda(X_tr, y_tr)
                 preds = clf.predict(X_te)
@@ -167,6 +201,9 @@ def baseline_cv(
                 preds = clf.predict(X_te)
             elif model_name == "svm":
                 clf = run_svm(X_tr, y_tr)
+                preds = clf.predict(X_te)
+            elif model_name == "mlp":
+                clf = run_mlp(X_tr, y_tr)
                 preds = clf.predict(X_te)
             else:
                 raise ValueError(f"Unknown model_name: {model_name}")

@@ -164,3 +164,133 @@ class DownstreamDataset(Dataset):
 
     def __getitem__(self, idx: int) -> tuple[Tensor, Tensor]:
         return self.X[idx], self.y[idx]
+
+
+class ChromaDataset(Dataset):
+    """
+    Uniform-RT-binned GC-MS chromatograms for ChromatogramCNN.
+
+    Each sample is a [n_bins, mz_max] float32 tensor loaded from a .npz file
+    produced by scripts/preprocess_fish_oil_chroma.py.  All files are cached
+    in RAM at construction time.
+
+    Returns
+    -------
+    chroma : [n_bins, mz_max]  float32
+    label  : int64 scalar
+    """
+
+    def __init__(self, npz_paths: list, labels: np.ndarray) -> None:
+        self.labels = torch.from_numpy(labels.astype(np.int64))
+        self._chromas: list[Tensor] = [
+            torch.from_numpy(np.load(p)["chroma"]) for p in npz_paths
+        ]
+
+    def __len__(self) -> int:
+        return len(self._chromas)
+
+    def __getitem__(self, idx: int) -> tuple[Tensor, Tensor]:
+        return self._chromas[idx], self.labels[idx]
+
+
+class SyntheticChromaDataset(Dataset):
+    """
+    Synthetic GC-MS chromatograms generated on-the-fly from EI-MS spectra.
+
+    Each sample simulates K compounds eluting at random RT positions with
+    Gaussian peak profiles summed into a [n_bins, mz_max] chromatogram.
+    Uses MoNA/MassBank spectra from spectra.h5 so no fish oil data is
+    involved during pretraining (no label leakage into CV test folds).
+
+    Preprocessing per bin: sqrt(max(x,0)) then L2-normalise — matches
+    real GC-MS preprocessing in preprocess_fish_oil.py.
+    """
+
+    def __init__(
+        self,
+        h5_path: str,
+        n_samples: int = 50_000,
+        n_bins: int = 200,
+        n_compounds_range: tuple[int, int] = (5, 30),
+        sigma_range: tuple[float, float] = (1.0, 15.0),
+    ) -> None:
+        super().__init__()
+        with h5py.File(h5_path, "r") as f:
+            self._spectra = f["spectra"][:].astype(np.float32)  # [N, mz_max]
+        self.n_samples = n_samples
+        self.n_bins = n_bins
+        self.n_compounds_range = n_compounds_range
+        self.sigma_range = sigma_range
+        self._t = np.arange(n_bins, dtype=np.float32)
+        print(
+            f"SyntheticChromaDataset: {len(self._spectra)} EI-MS spectra → "
+            f"{n_samples} synthetic chromatograms, {n_bins} RT bins"
+        )
+
+    def __len__(self) -> int:
+        return self.n_samples
+
+    def __getitem__(self, idx: int) -> tuple[Tensor, Tensor]:
+        rng = np.random.default_rng(idx)
+        lo, hi = self.n_compounds_range
+        K = int(rng.integers(lo, hi + 1))
+        spec_idx = rng.integers(0, len(self._spectra), size=K)
+        spectra = self._spectra[spec_idx]          # [K, mz_max]
+
+        mu  = rng.uniform(0, self.n_bins, size=K).astype(np.float32)
+        sig = rng.uniform(*self.sigma_range, size=K).astype(np.float32)
+
+        # Gaussian elution profiles: [K, n_bins]
+        profiles = np.exp(-0.5 * ((self._t[None] - mu[:, None]) / sig[:, None]) ** 2)
+
+        # Sum spectral contributions per RT bin: [n_bins, mz_max]
+        chroma = profiles.T @ spectra
+
+        # Sqrt + L2-normalise per bin (matches real GC-MS preprocessing)
+        chroma = np.sqrt(np.maximum(chroma, 0.0))
+        norms = np.linalg.norm(chroma, axis=1, keepdims=True)
+        chroma = chroma / np.maximum(norms, 1e-8)
+
+        dummy_label = torch.zeros(1, dtype=torch.int64)
+        return torch.from_numpy(chroma), dummy_label
+
+
+class ScanDataset(Dataset):
+    """
+    Per-scan GC-MS dataset for ScanPoolClassifier.
+
+    All .npz files are loaded into RAM at construction time to eliminate
+    per-batch disk I/O during training.
+
+    Returns
+    -------
+    scans       : [K, mz_max]  float32  — normalised m/z spectra
+    tic_weights : [K]          float32  — TIC weights summing to 1
+    label       : int64 scalar
+    """
+
+    def __init__(
+        self,
+        npz_paths: list,
+        labels: np.ndarray,
+        max_scans: int | None = None,
+    ) -> None:
+        self.labels = torch.from_numpy(labels.astype(np.int64))
+        self._scans: list[Tensor] = []
+        self._tic_weights: list[Tensor] = []
+        for p in npz_paths:
+            data = np.load(p)
+            scans = data["scans"]
+            tic = data["tic_weights"]
+            if max_scans is not None and max_scans < len(tic):
+                scans = scans[:max_scans]
+                tic = tic[:max_scans]
+                tic = tic / (tic.sum() + 1e-8)  # re-normalise truncated weights
+            self._scans.append(torch.from_numpy(scans))
+            self._tic_weights.append(torch.from_numpy(tic))
+
+    def __len__(self) -> int:
+        return len(self._scans)
+
+    def __getitem__(self, idx: int) -> tuple[Tensor, Tensor, Tensor]:
+        return self._scans[idx], self._tic_weights[idx], self.labels[idx]

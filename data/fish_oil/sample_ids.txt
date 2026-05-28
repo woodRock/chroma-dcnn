@@ -1,0 +1,103 @@
+1 - SNA1 Frame A
+1 - SNA1 Frame B
+1 - SNA1 Frame C
+1 - SNA1 Gonad A
+1 - SNA1 Gonad B
+1 - SNA1 Head 2
+1 - SNA1 Head A
+1 - SNA1 Liver Female A
+1 - SNA1 Liver Female B
+1 - SNA1 Liver Male A
+1 - SNA1 Liver Male B
+1 - SNA1 Rest of Guts A
+1 - SNA1 Rest of Guts B
+1 - SNA1 Skin A
+1 - SNA1 Skin B
+2 - GUR2  Frame A
+2 - GUR2 Frame B
+2 - GUR2 Gonad A
+2 - GUR2 Gonad B
+2 - GUR2 Head A
+2 - GUR2 Head B
+2 - GUR2 Liver A
+2 - GUR2 Liver B
+2 - GUR2 ROG A
+2 - GUR2 ROG B
+2 - GUR2 Rest of Guts A
+2 - GUR2 Rest of Guts B
+2 - GUR2 Skin A
+2 - GUR2 Skin B
+3 - TAR3 Frame A
+3 - TAR3 Frame B
+3 - TAR3 Frame C
+3 - TAR3 Gonad Female A
+3 - TAR3 Gonad Female B
+3 - TAR3 Gonad Male A
+3 - TAR3 Gonad Male B
+3 - TAR3 Head A
+3 - TAR3 Head B
+3 - TAR3 Liver Female A
+3 - TAR3 Liver Female B
+3 - TAR3 Liver Male A
+3 - TAR3 Liver Male B
+3 - TAR3 Rest of Guts A
+3 - TAR3 Rest of Guts B
+3 - TAR3 Skin A
+3 - TAR3 Skin B
+4 - BCO4 Frame A
+4 - BCO4 Frame B
+4 - BCO4 Frame C
+4 - BCO4 Gonad A
+4 - BCO4 Gonad B
+4 - BCO4 Head A
+4 - BCO4 Head B
+4 - BCO4 Liver Female A
+4 - BCO4 Liver Female B
+4 - BCO4 Liver Male A
+4 - BCO4 Liver Male B
+4 - BCO4 Rest of Guts A
+4 - BCO4 Rest of Guts B
+4 - BCO4 Skin A
+4 - BCO4 Skin B
+5 - BCO5 Frame A
+5 - BCO5 Frame B
+5 - BCO5 Frame C
+5 - BCO5 Gonad Female A
+5 - BCO5 Gonad Female B
+5 - BCO5 Gonad Female C
+5 - BCO5 Gonad Male A
+5 - BCO5 Gonad Male B
+5 - BCO5 Gonad Male C
+5 - BCO5 Head A
+5 - BCO5 Head B
+5 - BCO5 Liver Female A
+5 - BCO5 Liver Female B
+5 - BCO5 Liver Female C
+5 - BCO5 Liver Male A
+5 - BCO5 Liver Male B
+5 - BCO5 Liver Male C
+5 - BCO5 Rest of Guts A
+5 - BCO5 Rest of Guts B
+5 - BCO5 Rest of Guts C
+5 - BCO5 Skin A
+5 - BCO5 Skin B
+6 - BCO6 Frame A
+6 - BCO6 Frame B
+6 - BCO6 Gonad Female A
+6 - BCO6 Gonad Female B
+6 - BCO6 Gonad Female C
+6 - BCO6 Gonad Male A
+6 - BCO6 Gonad Male B
+6 - BCO6 Gonad Male C
+6 - BCO6 Head A
+6 - BCO6 Head B
+6 - BCO6 Head C
+6 - BCO6 Liver Female A
+6 - BCO6 Liver Female B
+6 - BCO6 Liver Male B
+6 - BCO6 Liver Male
+6 - BCO6 Rest of Guts A
+6 - BCO6 Rest of Guts B
+6 - BCO6 Skin A
+6 - BCO6 Skin B
+6 - BCO6 Skin C

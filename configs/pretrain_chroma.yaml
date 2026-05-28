@@ -1,0 +1,23 @@
+model:
+  mz_max: 1000
+  n_bins: 200              # uniform RT bins (must match chroma preprocessing)
+  cnn_channels: 128        # must match finetune_fish_oil_chroma.yaml
+  kernel_size: 7
+  dropout: 0.1
+
+pretraining:
+  epochs: 2000
+  batch_size: 16
+  lr: 1.0e-3
+  weight_decay: 1.0e-4
+  grad_clip: 1.0
+  log_every: 200
+
+data:
+  h5_path: data/pretraining/spectra.h5   # MoNA/MassBank EI-MS spectra (no fish oil)
+  n_samples: 50000                        # synthetic chromatograms per epoch pass
+  n_compounds_range: [5, 30]             # K compounds per synthetic sample
+  sigma_range: [1.0, 15.0]              # Gaussian peak width in RT bins
+
+output:
+  checkpoint_dir: checkpoints/chroma_pretrain

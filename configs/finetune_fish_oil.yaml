@@ -1,0 +1,42 @@
+task:
+  name: fish_oil
+  num_classes: 4           # SNA | GUR | TAR | BCO
+  cv_strategy: kfold
+  cv_folds: 5
+  cv_seeds: [0,1,2,3,4,5,6,7,8,9]
+
+model:
+  input_type: dense
+  patch_size: 50
+  mz_max: 1000
+  hidden_dim: 256
+  num_layers: 6
+  num_heads: 8
+  ffn_dim: 1024
+  dropout: 0.1
+
+finetuning:
+  epochs: 100
+  batch_size: 16
+  lr: 5.0e-5        # for pretrained conditions
+  lr_scratch: 1.0e-3  # for from_scratch
+  weight_decay: 0.01
+  warmup_epochs: 5
+  grad_clip: 1.0
+  early_stopping_patience: 15
+
+linear_probe:
+  epochs: 200
+  lr: 1.0e-3
+
+pretrained_checkpoints:
+  msm: checkpoints/msm/best.pt
+
+scan:
+  n_top_scans: 200     # highest-TIC scans kept per sample (of 4800 total)
+
+data:
+  data_dir: data/fish_oil
+
+output:
+  results_dir: results/fish_oil

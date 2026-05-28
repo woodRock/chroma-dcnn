@@ -1,13 +1,18 @@
 """
-Step 5: Run published baselines (PLS-DA, RF, SVM) on both downstream tasks.
+Step 5: Run published baselines (PLS-DA, RF, SVM, MLP) on the fish oil task.
 
-Olive oil:
-  python scripts/05_run_baselines.py --task olive_oil --config configs/finetune_oliveoil.yaml
+Three feature representations are evaluated to give baselines a fair shot at
+the 2D GC-MS data:
 
-Hemp seed:
-  python scripts/05_run_baselines.py --task hemp_seed --config configs/finetune_hemp.yaml
+  sum       — per-m/z sum across all RT scans (collapses RT dimension)
+  max_proj  — per-m/z maximum across RT scans (captures peak heights)
+  chroma_pca — full 2D chromatogram flattened, reduced to 50 PCs within each
+               CV fold (no information leakage into test splits)
 
-Results are written to results/{task}/baseline_results.json
+Usage:
+  python scripts/05_run_baselines.py --config configs/finetune_fish_oil.yaml
+
+Results are written to results/fish_oil/baseline_gcms_{representation}_results.json
 """
 
 import argparse
@@ -21,7 +26,7 @@ from msformer.evaluation.baselines import baseline_cv
 from msformer.evaluation.stats import compare_conditions
 
 
-def main(task: str, config_path: str) -> None:
+def main(config_path: str) -> None:
     with open(config_path) as f:
         cfg = yaml.safe_load(f)
 
@@ -31,62 +36,33 @@ def main(task: str, config_path: str) -> None:
     seeds = cfg["task"].get("cv_seeds", list(range(10)))
     cv_strategy = cfg["task"].get("cv_strategy", "kfold")
     cv_folds = cfg["task"].get("cv_folds", 5)
+    data_dir = cfg["data"]["data_dir"]
 
-    if task == "olive_oil":
-        from msformer.downstream.olive_oil import (
-            load_olive_oil_data,
-            reproduce_gcims_plsda_baseline,
-        )
-        data_dir = cfg["data"]["data_dir"]
-        reductions = ["sum", "apex"]
+    from msformer.downstream.fish_oil import load_fish_oil_data, load_fish_oil_chroma_features
 
-        for reduction in reductions:
-            print(f"\n=== Olive oil ({reduction}) ===")
-            X, y, _ = load_olive_oil_data(data_dir, reduction=reduction)
+    X_sum, y, _, _ = load_fish_oil_data(data_dir)
+    chroma_features, _ = load_fish_oil_chroma_features(data_dir)
 
-            baseline_results = {}
-            for model_name in ["plsda", "rf", "svm"]:
-                print(f"  Running {model_name} …")
-                baseline_results[model_name] = baseline_cv(
-                    X, y, model_name, seeds=seeds,
-                    cv_strategy=cv_strategy, cv_folds=cv_folds,
-                )
-                ba = baseline_results[model_name]["balanced_accuracy"]
-                print(f"    BA: {np.mean(ba):.3f} ± {np.std(ba):.3f}")
+    representations = {
+        "sum":        (X_sum,                           None),
+        "max_proj":   (chroma_features["max_proj"],     None),
+        "chroma_pca": (chroma_features["chroma_flat"],  50),
+    }
 
-            # Also run the gc_ims_tools-specific PLS-DA reproduction
-            try:
-                gcims_plsda = reproduce_gcims_plsda_baseline(Path(data_dir))
-                baseline_results["plsda_gcims_tools"] = gcims_plsda
-            except ImportError as e:
-                print(f"  gc_ims_tools not installed; skipping: {e}")
-
-            _save_and_compare(baseline_results, output_dir, f"baseline_{reduction}")
-
-    elif task == "hemp_seed":
-        from msformer.downstream.hemp_seed import load_hemp_seed_data
-        data_dir = cfg["data"]["data_dir"]
-        X, y, _, meta = load_hemp_seed_data(data_dir)
-        bio_groups = np.array(meta.get("bio_groups")) if meta.get("bio_groups") else None
-        if meta["preliminary"]:
-            cv_strategy = "loso"
-            print("⚠  n < 30: using group LOSO-CV for baselines")
-
-        baseline_results = {}
-        for model_name in ["plsda", "rf", "svm"]:
-            print(f"Running {model_name} …")
-            baseline_results[model_name] = baseline_cv(
-                X, y, model_name, seeds=seeds,
+    for rep_name, (X_rep, n_pca) in representations.items():
+        print(f"\n=== Fish oil ({rep_name}) ===")
+        rep_results = {}
+        for model_name in ["plsda", "rf", "svm", "mlp"]:
+            print(f"  Running {model_name} …")
+            rep_results[model_name] = baseline_cv(
+                X_rep, y, model_name, seeds=seeds,
                 cv_strategy=cv_strategy, cv_folds=cv_folds,
-                groups=bio_groups,
+                n_pca_components=n_pca,
             )
-            ba = baseline_results[model_name]["balanced_accuracy"]
-            print(f"  BA: {np.mean(ba):.3f} ± {np.std(ba):.3f}")
+            ba = rep_results[model_name]["balanced_accuracy"]
+            print(f"    BA: {np.mean(ba):.3f} ± {np.std(ba):.3f}")
 
-        _save_and_compare(baseline_results, output_dir, "baseline_gcms")
-
-    else:
-        raise ValueError(f"Unknown task: {task}")
+        _save_and_compare(rep_results, output_dir, f"baseline_gcms_{rep_name}")
 
 
 def _save_and_compare(baseline_results: dict, output_dir: Path, name: str) -> None:
@@ -107,7 +83,6 @@ def _save_and_compare(baseline_results: dict, output_dir: Path, name: str) -> No
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--task", required=True, choices=["olive_oil", "hemp_seed"])
     ap.add_argument("--config", required=True)
     args = ap.parse_args()
-    main(args.task, args.config)
+    main(args.config)
