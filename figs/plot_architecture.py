@@ -19,7 +19,7 @@ import os
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR   = os.path.dirname(SCRIPT_DIR)
 PNN_DIR    = os.path.join(REPO_DIR, "PlotNeuralNet")
-GCMS_IMG   = os.path.join(REPO_DIR, "gc-ms.png")
+GCMS_IMG   = os.path.join(SCRIPT_DIR, "gc-ms.png")
 OUT_TEX    = os.path.join(SCRIPT_DIR, "architecture_cnn.tex")
 
 sys.path.insert(0, PNN_DIR)
