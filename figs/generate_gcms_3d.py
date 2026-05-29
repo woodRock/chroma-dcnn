@@ -59,8 +59,8 @@ Z = np.clip(Z / Z.max(), 0, 1)
 
 # ── Wall projections ─────────────────────────────────────────────────────────
 from scipy.ndimage import gaussian_filter1d
-proj_rt = Z.max(axis=1)     # chromatogram (TIC-like) — left wall
-proj_mz = Z.max(axis=0)     # mass spectrum — back wall
+proj_rt = Z.sum(axis=1)     # TIC: sum of intensities across m/z at each RT bin
+proj_mz = Z.sum(axis=0)     # sum spectrum: sum of intensities across RT at each m/z bin
 
 # Light smoothing on RT projection so it looks like a clean chromatogram trace
 proj_rt = gaussian_filter1d(proj_rt, sigma=1.5)
