@@ -85,7 +85,9 @@ chroma-dcnn/
 │   ├── mtbls71_download_preprocess.py # MTBLS71: download CDFs + build chromatograms
 │   ├── mtbls71_finetune_evaluate.py   # MTBLS71: CNN evaluation
 │   ├── mtbls71_run_baselines.py       # MTBLS71: PLS-DA, RF, SVM, MLP baselines
-│   └── mtbls288_preprocess.py         # MTBLS288: build chromatograms from CDFs
+│   ├── mtbls288_preprocess.py         # MTBLS288: download CDFs + build chromatograms
+│   ├── mtbls288_finetune_evaluate.py  # MTBLS288: CNN evaluation
+│   └── mtbls288_run_baselines.py      # MTBLS288: PLS-DA, RF, SVM, MLP baselines
 └── src/chroma_dcnn/
     ├── data/                          # datasets, download, preprocessing
     ├── models/                        # ChromatogramCNN, ChromaNextFramePredictor
@@ -170,34 +172,42 @@ python scripts/06_smoke_test.py --seed 0 --fold 0 --epochs 100
 
 ---
 
-## Supplementary Datasets
+## Applying to Other GC-MS Datasets
+
+The preprocessing scripts serve as worked examples for integrating any GC-MS dataset
+stored in ANDI/netCDF (`.cdf`) or CSV format.  The key steps are the same regardless
+of organism or instrument: reconstruct a dense RT×m/z matrix from the raw file, bin the
+RT axis to 200 uniform windows, sqrt+L2 normalise each bin, and save as a `[200, 1000]`
+compressed `.npz`.  Adapt one of the scripts below as a starting point.
 
 ### MTBLS71 — Human Urine (MetaboLights)
 
-160 GC-MS urine samples (20 female + 20 male donors, NT and urease-treated replicates).  
-Binary classification: Female vs Male. Donor-grouped CV to prevent replicate leakage.
+160 GC-MS urine samples from 40 donors (20F / 20M), two treatments, two injections each.  
+Demonstrates: FTP download, donor-grouped CV to prevent replicate leakage, binary classification.
 
 ```bash
-# Download raw CDFs and build chromatograms (~3 GB download)
-python scripts/mtbls71_download_preprocess.py --workers 8
-
-# CNN evaluation (grouped CV by donor)
+python scripts/mtbls71_download_preprocess.py --workers 8   # ~3 GB download
 python scripts/mtbls71_finetune_evaluate.py
-
-# Classical baselines (grouped CV by donor)
 python scripts/mtbls71_run_baselines.py --grouped-cv
 ```
 
 ### MTBLS288 — Rice Grain Development (MetaboLights)
 
 80 GC-MS samples: 4 cultivars × 5 developmental stages × 4 biological replicates.  
-4-class cultivar classification with developmental stage as a within-class confound.
+Demonstrates: metadata-driven label parsing (ISA-Tab assay tables), grouped CV by
+biological replicate, handling a within-class nuisance variable (developmental stage).
 
 ```bash
-# Download raw CDFs (~5 GB) then preprocess
-wget -i data/mtbls288/urls.txt -P data/mtbls288/raw/ -nc --tries=3
-python scripts/mtbls288_preprocess.py
+python scripts/mtbls288_preprocess.py --workers 8           # ~5 GB download
+python scripts/mtbls288_finetune_evaluate.py
+python scripts/mtbls288_run_baselines.py
 ```
+
+> **Note:** On these datasets classical sum-spectrum baselines outperform the 2D CNN,
+> consistent with conditions where the RT dimension is dominated by a nuisance variable
+> (developmental stage) rather than the classification target.  The CNN advantage shown
+> on the fish oil dataset requires the chromatographic structure to be informative for
+> the target class — see the paper for a discussion of when each approach is preferred.
 
 ---
 
