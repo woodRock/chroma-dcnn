@@ -18,9 +18,9 @@ import torch
 import yaml
 from sklearn.model_selection import StratifiedKFold
 
-from msformer.downstream.fish_oil import load_fish_oil_chroma_paths
-from msformer.models.chroma_cnn import ChromaCNNConfig
-from msformer.training.finetune_chroma import (
+from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_paths
+from chroma_dcnn.models.chroma_cnn import ChromaCNNConfig
+from chroma_dcnn.training.finetune_chroma import (
     ConditionName,
     _build_model,
     _train_fold,

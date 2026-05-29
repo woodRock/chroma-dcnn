@@ -1,4 +1,4 @@
-# MSFormer — NZ Fish Species Identification by GC-MS
+# chroma-dcnn — NZ Fish Species Identification by GC-MS
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![PyTorch 2.2+](https://img.shields.io/badge/PyTorch-2.2%2B-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
@@ -57,35 +57,41 @@ Two conditions are evaluated:
 ## Repository Structure
 
 ```
-msformer/
+chroma-dcnn/
 ├── configs/
 │   ├── pretrain.yaml                  # ChromaCNN next-frame pretraining
-│   ├── finetune.yaml                  # ChromatogramCNN fine-tuning
-│   └── finetune_fish_oil.yaml         # Baselines config
+│   ├── finetune.yaml                  # ChromatogramCNN fine-tuning (fish oil)
+│   ├── finetune_fish_oil.yaml         # Baselines config (fish oil)
+│   └── finetune_urine.yaml            # Config for MTBLS71 urine (supplementary)
 ├── data/
 │   └── fish_oil/
 │       ├── X.npy                      # [103, 1000] sum spectra
 │       ├── y.npy                      # [103] labels
 │       ├── groups.txt                 # biological group per sample
 │       ├── sample_ids.txt             # sample name per row
-│       ├── chroma/                    # [103 × 200 × 1000] RT-binned chromatograms
-│       └── scans/                     # [103 × K × 1000] per-scan spectra
+│       └── chroma/                    # [103 × 200 × 1000] RT-binned chromatograms
+├── figs/
+│   ├── generate_gcms_3d.py            # 3D GC-MS chromatogram figure for paper
+│   └── ...
 ├── scripts/
 │   ├── 01_download_pretrain_data.py   # download MoNA + MassBank
 │   ├── 02_preprocess_pretrain_data.py # build data/pretraining/spectra.h5
+│   ├── 03_pretrain_chroma.py          # pretrain ChromaCNN on synthetic GC-MS
 │   ├── 04_finetune_evaluate.py        # full CV evaluation (CNN conditions)
 │   ├── 05_run_baselines.py            # PLS-DA, RF, SVM, MLP baselines
-│   ├── 07_smoke_test.py               # single seed × fold sanity check
-│   ├── 08_pretrain_chroma.py          # pretrain ChromaCNN on synthetic GC-MS
-│   ├── preprocess_fish_oil.py         # raw CSV → X.npy, y.npy
-│   ├── preprocess_fish_oil_chroma.py  # raw CSV → chroma/*.npz
-│   └── preprocess_fish_oil_scans.py   # raw CSV → scans/*.npz
-└── src/msformer/
+│   ├── 06_smoke_test.py               # single seed × fold sanity check
+│   ├── preprocess_fish_oil.py         # raw CSV → X.npy, y.npy (if raw data available)
+│   ├── preprocess_fish_oil_chroma.py  # raw CSV → chroma/*.npz (if raw data available)
+│   ├── mtbls71_download_preprocess.py # MTBLS71: download CDFs + build chromatograms
+│   ├── mtbls71_finetune_evaluate.py   # MTBLS71: CNN evaluation
+│   ├── mtbls71_run_baselines.py       # MTBLS71: PLS-DA, RF, SVM, MLP baselines
+│   └── mtbls288_preprocess.py         # MTBLS288: build chromatograms from CDFs
+└── src/chroma_dcnn/
     ├── data/                          # datasets, download, preprocessing
     ├── models/                        # ChromatogramCNN, ChromaNextFramePredictor
     ├── training/                      # pretraining and fine-tuning loops
     ├── evaluation/                    # baselines, stats
-    └── downstream/                    # fish_oil data loaders
+    └── downstream/                    # fish_oil, urine, rice data loaders
 ```
 
 ---
@@ -93,8 +99,8 @@ msformer/
 ## Installation
 
 ```bash
-git clone https://github.com/woodRock/msformer.git
-cd msformer
+git clone https://github.com/woodRock/chroma-dcnn.git
+cd chroma-dcnn
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 ```
@@ -103,7 +109,7 @@ pip install -e ".[dev]"
 
 ## Running the Experiments
 
-The preprocessed fish oil data is committed — clone the repo and start from step 3 or 4.
+The preprocessed fish oil data is committed — clone the repo and start from step 3.
 
 ### Step 1 — Download pretraining spectra (if needed)
 
@@ -126,7 +132,7 @@ Outputs `data/pretraining/spectra.h5` (~9,500 EI-MS spectra, sqrt + L2 normalise
 Uses synthetic GC-MS chromatograms generated on-the-fly from `spectra.h5` — no fish oil data used, so there is no information leakage into fine-tuning CV folds.
 
 ```bash
-python scripts/08_pretrain_chroma.py
+python scripts/03_pretrain_chroma.py
 ```
 
 Checkpoint saved to `checkpoints/chroma_pretrain/best.pt`.
@@ -159,7 +165,38 @@ Results saved to `results/fish_oil/baseline_gcms_{representation}_results.json`.
 Quick single-seed × single-fold check before committing to the full run:
 
 ```bash
-python scripts/07_smoke_test.py --seed 0 --fold 0 --epochs 100
+python scripts/06_smoke_test.py --seed 0 --fold 0 --epochs 100
+```
+
+---
+
+## Supplementary Datasets
+
+### MTBLS71 — Human Urine (MetaboLights)
+
+160 GC-MS urine samples (20 female + 20 male donors, NT and urease-treated replicates).  
+Binary classification: Female vs Male. Donor-grouped CV to prevent replicate leakage.
+
+```bash
+# Download raw CDFs and build chromatograms (~3 GB download)
+python scripts/mtbls71_download_preprocess.py --workers 8
+
+# CNN evaluation (grouped CV by donor)
+python scripts/mtbls71_finetune_evaluate.py
+
+# Classical baselines (grouped CV by donor)
+python scripts/mtbls71_run_baselines.py --grouped-cv
+```
+
+### MTBLS288 — Rice Grain Development (MetaboLights)
+
+80 GC-MS samples: 4 cultivars × 5 developmental stages × 4 biological replicates.  
+4-class cultivar classification with developmental stage as a within-class confound.
+
+```bash
+# Download raw CDFs (~5 GB) then preprocess
+wget -i data/mtbls288/urls.txt -P data/mtbls288/raw/ -nc --tries=3
+python scripts/mtbls288_preprocess.py
 ```
 
 ---
@@ -192,11 +229,11 @@ python scripts/07_smoke_test.py --seed 0 --fold 0 --epochs 100
 ## Citation
 
 ```bibtex
-@misc{wood2026msformer,
+@misc{wood2026chromadcnn,
   author = {Wood, Jesse},
-  title  = {MSFormer: GC-MS Fish Species Identification with Self-Supervised Pretraining},
+  title  = {chroma-dcnn: GC-MS Fish Species Identification with Self-Supervised Pretraining},
   year   = {2026},
-  url    = {https://github.com/woodRock/msformer}
+  url    = {https://github.com/woodRock/chroma-dcnn}
 }
 ```
 

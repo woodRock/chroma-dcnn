@@ -9,7 +9,7 @@ Outputs (in data/pretraining/raw/):
 import argparse
 from pathlib import Path
 
-from msformer.data.download import (
+from chroma_dcnn.data.download import (
     deduplicate_records,
     download_massbank_eu,
     download_mona,

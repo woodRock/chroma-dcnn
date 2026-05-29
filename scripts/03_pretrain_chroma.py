@@ -19,7 +19,7 @@ import numpy as np
 import torch
 import yaml
 
-from msformer.training.pretrain_chroma import pretrain_chroma
+from chroma_dcnn.training.pretrain_chroma import pretrain_chroma
 
 
 def _device(device_str: str | None) -> torch.device:

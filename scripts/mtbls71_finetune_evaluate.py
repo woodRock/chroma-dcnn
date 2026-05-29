@@ -1,12 +1,12 @@
 """
-Fine-tune and evaluate ChromatogramCNN on the fish oil dataset.
+Fine-tune and evaluate ChromatogramCNN on the MTBLS71 urine dataset.
 
 Usage:
-  python scripts/04_finetune_evaluate.py
-  python scripts/04_finetune_evaluate.py --device cuda:0
-  python scripts/04_finetune_evaluate.py --config configs/finetune.yaml --device cuda:0
+  python scripts/09_finetune_evaluate_urine.py
+  python scripts/09_finetune_evaluate_urine.py --device cuda:0
+  python scripts/09_finetune_evaluate_urine.py --config configs/finetune_urine.yaml
 
-Results are written to results/fish_oil/chroma_results.json
+Results are written to results/mtbls71/chroma_results.json
 """
 
 import argparse
@@ -16,7 +16,9 @@ from pathlib import Path
 import numpy as np
 import yaml
 
+from chroma_dcnn.downstream.urine import load_urine_chroma_paths
 from chroma_dcnn.evaluation.stats import compare_conditions, print_results_table
+from chroma_dcnn.training.finetune_chroma import ChromaFinetuner
 
 
 def main(config_path: str, device: str | None = None) -> None:
@@ -28,11 +30,13 @@ def main(config_path: str, device: str | None = None) -> None:
 
     seeds = cfg["task"].get("cv_seeds", list(range(10)))
 
-    from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_paths
-    from chroma_dcnn.training.finetune_chroma import ChromaFinetuner
+    data_dir = Path(cfg["data"]["data_dir"])
+    npz_paths, y = load_urine_chroma_paths(data_dir)
 
-    npz_paths, y = load_fish_oil_chroma_paths(cfg["data"]["data_dir"])
-    finetuner = ChromaFinetuner(cfg, npz_paths, y, device=device)
+    groups_path = data_dir / "groups.txt"
+    groups = np.array(groups_path.read_text().splitlines()) if groups_path.exists() else None
+
+    finetuner = ChromaFinetuner(cfg, npz_paths, y, device=device, groups=groups)
     results = finetuner.run_all_conditions(seeds=seeds)
 
     ba_results = {cond: metrics["balanced_accuracy"] for cond, metrics in results.items()}
@@ -51,8 +55,8 @@ def main(config_path: str, device: str | None = None) -> None:
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(description="Evaluate ChromatogramCNN on fish oil GC-MS")
-    ap.add_argument("--config", default="configs/finetune.yaml")
-    ap.add_argument("--device", type=str, default=None, help="Force device: cuda, cuda:0, cpu")
+    ap = argparse.ArgumentParser(description="Evaluate ChromatogramCNN on MTBLS71 urine GC-MS")
+    ap.add_argument("--config", default="configs/finetune_urine.yaml")
+    ap.add_argument("--device", type=str, default=None)
     args = ap.parse_args()
     main(args.config, args.device)

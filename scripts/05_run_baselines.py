@@ -23,8 +23,8 @@ from pathlib import Path
 import numpy as np
 import yaml
 
-from msformer.evaluation.baselines import baseline_cv
-from msformer.evaluation.stats import compare_conditions
+from chroma_dcnn.evaluation.baselines import baseline_cv
+from chroma_dcnn.evaluation.stats import compare_conditions
 
 
 def main(config_path: str) -> None:
@@ -39,7 +39,7 @@ def main(config_path: str) -> None:
     cv_folds = cfg["task"].get("cv_folds", 5)
     data_dir = cfg["data"]["data_dir"]
 
-    from msformer.downstream.fish_oil import load_fish_oil_data, load_fish_oil_chroma_features
+    from chroma_dcnn.downstream.fish_oil import load_fish_oil_data, load_fish_oil_chroma_features
 
     X_sum, y, _, _ = load_fish_oil_data(data_dir)
     chroma_features, _ = load_fish_oil_chroma_features(data_dir)

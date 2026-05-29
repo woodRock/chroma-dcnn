@@ -9,7 +9,7 @@ import argparse
 import json
 from pathlib import Path
 
-from msformer.data.preprocess import build_hdf5, report_dataset_stats
+from chroma_dcnn.data.preprocess import build_hdf5, report_dataset_stats
 
 
 def main(raw_json: str, output_h5: str, mz_max: int, val_fraction: float) -> None:

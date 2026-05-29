@@ -12,6 +12,17 @@ data/pretraining/
 data/hemp_seed/
 data/olive_oil/
 
+# MTBLS71 urine — not a primary dataset; exclude raw CDFs and all processed outputs
+data/mtbls71/
+
+# MTBLS288 rice cultivar — raw CDF files (~5 GB) and generated URL list
+data/mtbls288/raw/
+data/mtbls288/urls.txt
+
+# Temporary test downloads
+data/mtbls71_test/
+data/mtbls288_test/
+
 # ── Checkpoints ───────────────────────────────────────────────────────────────
 # Large .pt files — transfer to cluster separately
 checkpoints/

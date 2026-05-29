@@ -63,6 +63,11 @@ def compare_conditions(
             "significant": p_corr < alpha,
         })
 
+    if not rows:
+        return pd.DataFrame(columns=[
+            "condition_a", "condition_b", "mean_a", "std_a", "mean_b", "std_b",
+            "U", "p_raw", "p_corrected", "effect_r", "significant",
+        ])
     return pd.DataFrame(rows).sort_values("p_corrected")
 
 

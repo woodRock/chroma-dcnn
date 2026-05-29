@@ -18,13 +18,13 @@ from typing import Literal
 import numpy as np
 import torch
 import torch.nn as nn
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedGroupKFold, StratifiedKFold
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader
 
-from msformer.data.datasets import ChromaDataset
-from msformer.models.chroma_cnn import ChromaCNNConfig, ChromatogramCNN
+from chroma_dcnn.data.datasets import ChromaDataset
+from chroma_dcnn.models.chroma_cnn import ChromaCNNConfig, ChromatogramCNN
 
 ConditionName = Literal["from_scratch", "chroma_pretrain"]
 
@@ -90,6 +90,7 @@ def _train_fold(
     val_labels: np.ndarray,
     cfg: dict,
     device: torch.device,
+    lr: float | None = None,
 ) -> dict[str, float]:
     tcfg = cfg["finetuning"]
     epochs     = tcfg["epochs"]
@@ -100,7 +101,8 @@ def _train_fold(
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True,  drop_last=False)
     val_loader   = DataLoader(val_ds,   batch_size=batch_size, shuffle=False)
 
-    lr = tcfg.get("lr", 1e-3)
+    if lr is None:
+        lr = tcfg.get("lr", 1e-3)
     wd = tcfg.get("weight_decay", 0.01)
     params = [p for p in model.parameters() if p.requires_grad]
     opt   = AdamW(params, lr=lr, weight_decay=wd)
@@ -149,6 +151,7 @@ class ChromaFinetuner:
         npz_paths: list[Path],
         y: np.ndarray,
         device: str | None = None,
+        groups: np.ndarray | None = None,
     ) -> None:
         self.cfg   = config
         self.paths = npz_paths
@@ -172,6 +175,8 @@ class ChromaFinetuner:
             dropout      = m.get("dropout", 0.3),
         )
         self.chroma_pretrain_ckpt = config.get("pretrained_checkpoints", {}).get("chroma_pretrain")
+        self.groups = groups
+        self.cv_strategy = config["task"].get("cv_strategy", "kfold")
 
     def evaluate_condition(
         self,
@@ -181,15 +186,24 @@ class ChromaFinetuner:
         if seeds is None:
             seeds = self.cfg["task"].get("cv_seeds", list(range(10)))
 
+        tcfg = self.cfg["finetuning"]
+        if condition == "from_scratch":
+            lr = tcfg.get("lr_scratch", tcfg.get("lr", 1e-3))
+        else:
+            lr = tcfg.get("lr", 1e-3)
+
         all_ba, all_f1 = [], []
+        n_folds = self.cfg["task"].get("cv_folds", 5)
         for seed in seeds:
             torch.manual_seed(seed)
             np.random.seed(seed)
-            skf = StratifiedKFold(
-                n_splits=self.cfg["task"].get("cv_folds", 5),
-                shuffle=True, random_state=seed,
-            )
-            for train_idx, val_idx in skf.split(self.paths, self.y):
+            if self.cv_strategy == "grouped" and self.groups is not None:
+                splitter = StratifiedGroupKFold(n_splits=n_folds, shuffle=True, random_state=seed)
+                split_iter = splitter.split(self.paths, self.y, groups=self.groups)
+            else:
+                splitter = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=seed)
+                split_iter = splitter.split(self.paths, self.y)
+            for train_idx, val_idx in split_iter:
                 model = _build_model(
                     self.model_config, condition, self.chroma_pretrain_ckpt,
                 ).to(self.device)
@@ -198,7 +212,7 @@ class ChromaFinetuner:
                     [self.paths[i] for i in train_idx],
                     [self.paths[i] for i in val_idx],
                     self.y[train_idx], self.y[val_idx],
-                    self.cfg, self.device,
+                    self.cfg, self.device, lr=lr,
                 )
                 all_ba.append(metrics["balanced_accuracy"])
                 all_f1.append(metrics["macro_f1"])

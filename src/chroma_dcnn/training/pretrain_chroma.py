@@ -26,7 +26,7 @@ import torch.nn as nn
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
-from msformer.models.chroma_pretrain import ChromaNextFramePredictor, ChromaPretrainConfig
+from chroma_dcnn.models.chroma_pretrain import ChromaNextFramePredictor, ChromaPretrainConfig
 
 
 def _make_batch(

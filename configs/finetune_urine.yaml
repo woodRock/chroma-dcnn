@@ -1,0 +1,39 @@
+task:
+  name: urine
+  num_classes: 2           # Female | Male
+  cv_strategy: grouped
+  cv_folds: 5
+  cv_seeds: [0,1,2,3,4,5,6,7,8,9]
+
+model:
+  input_type: dense
+  patch_size: 50
+  mz_max: 1000
+  hidden_dim: 256
+  num_layers: 6
+  num_heads: 8
+  ffn_dim: 1024
+  dropout: 0.1
+
+finetuning:
+  epochs: 100
+  batch_size: 16
+  lr: 5.0e-5
+  lr_scratch: 1.0e-3
+  weight_decay: 0.01
+  warmup_epochs: 5
+  grad_clip: 1.0
+  early_stopping_patience: 15
+
+linear_probe:
+  epochs: 200
+  lr: 1.0e-3
+
+pretrained_checkpoints:
+  chroma_pretrain: checkpoints/chroma_pretrain/best.pt
+
+data:
+  data_dir: data/mtbls71
+
+output:
+  results_dir: results/mtbls71

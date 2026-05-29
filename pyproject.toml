@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "msformer"
+name = "chroma-dcnn"
 version = "0.1.0"
-description = "Transformer foundation model for GC-MS spectra — self-supervised pretraining on MoNA/MassBank"
+description = "1D dilated CNN for GC-MS chromatogram classification with self-supervised pretraining on MoNA/MassBank"
 requires-python = ">=3.9"
 dependencies = [
     "torch>=2.2",
