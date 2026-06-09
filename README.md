@@ -203,11 +203,23 @@ python scripts/mtbls288_finetune_evaluate.py
 python scripts/mtbls288_run_baselines.py
 ```
 
-> **Note:** On these datasets classical sum-spectrum baselines outperform the 2D CNN,
+### MTBLS1187 — Wheat Bread Old vs. Modern (MetaboLights)
+
+120 GC-QTOF flour metabolite profiles: 40 winter wheat cultivars × 3 German growing locations.  
+Binary classification: old varieties (released 1962–1999) vs. modern (2005–2014).  
+Demonstrates: ISA-Tab metadata parsing, cultivar-grouped CV to prevent location leakage.
+
+```bash
+python scripts/mtbls1187_preprocess.py --workers 8          # ~4.5 GB download
+python scripts/mtbls1187_finetune_evaluate.py
+python scripts/mtbls1187_run_baselines.py
+```
+
+> **Note:** On urine and rice, classical sum-spectrum baselines outperform the 2D CNN,
 > consistent with conditions where the RT dimension is dominated by a nuisance variable
-> (developmental stage) rather than the classification target.  The CNN advantage shown
-> on the fish oil dataset requires the chromatographic structure to be informative for
-> the target class — see the paper for a discussion of when each approach is preferred.
+> rather than the classification target.  The CNN advantage shown on the fish oil dataset
+> requires the chromatographic structure to be informative for the target class — see the
+> paper for a discussion of when each approach is preferred.
 
 ---
 

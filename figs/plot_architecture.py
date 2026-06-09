@@ -69,7 +69,7 @@ arch = [
     raw(r"""
 \node[inner sep=2pt, draw=InputEdge, very thick,
       fill=white, rounded corners=3pt] (gcms) at (-7.0,0,0)
-    {\includegraphics[width=7.5cm,height=7.5cm]{""" + GCMS_IMG + r"""}};
+    {\includegraphics[width=5cm,height=5cm]{""" + GCMS_IMG + r"""}};
 """),
     raw(r"""
 \node[font=\small\bfseries, above=3mm of gcms.north, align=center]
@@ -83,7 +83,7 @@ arch = [
     # =========================================================================
     to_Conv("proj", s_filer=" ", n_filer=" ",
             offset="(2,0,0)", to="(0,0,0)",
-            height=40, depth=10, width=2,
+            height=25, depth=10, width=2,
             caption="{Spectral Proj.}"),
     raw(r"""\draw [connection] (gcms.east) -- node {\midarrow} (proj-west);"""),
     raw(r"""\node[font=\scriptsize, below=12pt] at (proj-south)
@@ -101,7 +101,7 @@ arch = [
     to_ConvConvRelu("res1",
                     s_filer=" ", n_filer=(" ", " "),
                     offset="(2,0,0)", to="(proj-east)",
-                    height=40, depth=10, width=(5, 2),
+                    height=25, depth=10, width=(5, 2),
                     caption="{ResBlock (dilation=1)}"),
     to_connection("proj", "res1"),
     raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res1-south) {RF\,=\,7};"""),
@@ -112,7 +112,7 @@ arch = [
     to_ConvConvRelu("res2",
                     s_filer=" ", n_filer=(" ", " "),
                     offset="(2.5,0,0)", to="(res1-east)",
-                    height=40, depth=10, width=(6, 2),
+                    height=25, depth=10, width=(6, 2),
                     caption="{ResBlock (dilation=2)}"),
     to_connection("res1", "res2"),
     raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res2-south) {RF\,=\,19};"""),
@@ -123,7 +123,7 @@ arch = [
     to_ConvConvRelu("res3",
                     s_filer=" ", n_filer=(" ", " "),
                     offset="(2.5,0,0)", to="(res2-east)",
-                    height=40, depth=10, width=(7, 2),
+                    height=25, depth=10, width=(7, 2),
                     caption="{ResBlock (dilation=4)}"),
     to_connection("res2", "res3"),
     raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res3-south) {RF\,=\,43};"""),
@@ -138,8 +138,8 @@ arch = [
     # 5a. Global max-pool   → [128]   (upper branch)
     # =========================================================================
     to_Pool("maxpool",
-            offset="(3.0, 7, 0)", to="(res3-east)",
-            height=5, depth=10, width=2,
+            offset="(3.0, 4, 0)", to="(res3-east)",
+            height=4, depth=10, width=2,
             caption="Max Pool"),
     raw(r"""\node[font=\scriptsize, above=2pt] at (maxpool-north) {$[128]$};"""),
 
@@ -148,13 +148,13 @@ arch = [
     # =========================================================================
     # Use SoftmaxColor for attention pool to distinguish it visually
     raw(r"""
-\pic[shift={(3.0,-7,0)}] at (res3-east)
+\pic[shift={(3.0,-4,0)}] at (res3-east)
     {Box={
         name=attnpool,
         caption=Attn Pool,
         fill=\AttnColor,
         opacity=0.6,
-        height=5,
+        height=4,
         width=2,
         depth=10
     }};
@@ -172,7 +172,7 @@ arch = [
     # =========================================================================
     # 6.  Concatenation  [128 ∥ 128 → 256]
     # =========================================================================
-    to_Sum("cat", offset="(5.5,0,0)", to="(res3-east)", radius=2.5, opacity=0.85),
+    to_Sum("cat", offset="(5.5,0,0)", to="(res3-east)", radius=1.8, opacity=0.85),
     raw(r"""
 \node[font=\small\bfseries, above=3mm] at (cat-north) {concat};
 \node[font=\scriptsize,     below=4mm] at (cat-south)  {\textbf{[256]}};

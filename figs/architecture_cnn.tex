@@ -36,7 +36,7 @@
 
 \node[inner sep=2pt, draw=InputEdge, very thick,
       fill=white, rounded corners=3pt] (gcms) at (-7.0,0,0)
-    {\includegraphics[width=7.5cm,height=7.5cm]{/Users/woodj/Desktop/chroma-dcnn/figs/gc-ms.png}};
+    {\includegraphics[width=5cm,height=5cm]{/Users/woodj/Desktop/chroma-dcnn/figs/gc-ms.png}};
 
 \node[font=\small\bfseries, above=3mm of gcms.north, align=center]
     {GC-MS Chromatogram};
@@ -50,7 +50,7 @@
         xlabel={{ , }},
         zlabel= ,
         fill=\ConvColor,
-        height=40,
+        height=25,
         width=2,
         depth=10
         }
@@ -68,7 +68,7 @@
         zlabel= ,
         fill=\ConvColor,
         bandfill=\ConvReluColor,
-        height=40,
+        height=25,
         width={ 5 , 2 },
         depth=10
         }
@@ -84,7 +84,7 @@
         zlabel= ,
         fill=\ConvColor,
         bandfill=\ConvReluColor,
-        height=40,
+        height=25,
         width={ 6 , 2 },
         depth=10
         }
@@ -100,7 +100,7 @@
         zlabel= ,
         fill=\ConvColor,
         bandfill=\ConvReluColor,
-        height=40,
+        height=25,
         width={ 7 , 2 },
         depth=10
         }
@@ -111,25 +111,25 @@
 \def\ConvColor{rgb:yellow,5;red,2.5;white,5}
 \def\ConvReluColor{rgb:yellow,5;red,5;white,5}
 
-\pic[shift={ (3.0, 7, 0) }] at (res3-east) 
+\pic[shift={ (3.0, 4, 0) }] at (res3-east) 
     {Box={
         name=maxpool,
         caption=Max Pool,
         fill=\PoolColor,
         opacity=0.5,
-        height=5,
+        height=4,
         width=2,
         depth=10
         }
     };
 \node[font=\scriptsize, above=2pt] at (maxpool-north) {$[128]$};
-\pic[shift={(3.0,-7,0)}] at (res3-east)
+\pic[shift={(3.0,-4,0)}] at (res3-east)
     {Box={
         name=attnpool,
         caption=Attn Pool,
         fill=\AttnColor,
         opacity=0.6,
-        height=5,
+        height=4,
         width=2,
         depth=10
     }};
@@ -145,7 +145,7 @@
         name=cat,
         fill=\SumColor,
         opacity=0.85,
-        radius=2.5,
+        radius=1.8,
         logo=$+$
         }
     };
