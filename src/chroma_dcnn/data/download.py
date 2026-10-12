@@ -12,7 +12,6 @@ MassBank EU records live on GitHub (tagged releases as zip):
 
 from __future__ import annotations
 
-import io
 import json
 import re
 import zipfile
@@ -98,7 +97,7 @@ def download_mona(output_dir: str | Path, force: bool = False) -> Path | None:
 
     # Strategy 1: direct public export URL (no auth)
     try:
-        print(f"Trying MoNA public export URL …")
+        print("Trying MoNA public export URL …")
         _download_with_progress(MONA_PUBLIC_EXPORT_URL, output_dir / "mona_gcms.json.zip")
         with zipfile.ZipFile(output_dir / "mona_gcms.json.zip") as zf:
             names = [n for n in zf.namelist() if n.endswith(".json")]
@@ -402,12 +401,7 @@ def _parse_massbank_txt(path: Path) -> dict | None:
             key, _, value = line.partition(":")
             fields[key.strip()] = value.strip()
 
-    # Filter: must be EI ionisation
-    ac_ms = fields.get("AC$MASS_SPECTROMETRY", "")
-    ion_mode_line = fields.get("AC$MASS_SPECTROMETRY: ION_MODE", ac_ms)
-    ms_type = fields.get("AC$MASS_SPECTROMETRY: MS_TYPE", "")
-
-    # Check for EI anywhere in fields
+    # Filter: must be EI ionisation — checks for "EI" anywhere in the record
     full_text_upper = text.upper()
     if "IONIZATION: EI" not in full_text_upper and "ION_MODE: POSITIVE" not in full_text_upper:
         if "EI" not in full_text_upper:
@@ -446,7 +440,7 @@ def deduplicate_records(records: list[dict]) -> list[dict]:
         by_inchikey[rec["inchikey"]].append(rec)
 
     deduped = []
-    for inchikey, group in by_inchikey.items():
+    for group in by_inchikey.values():
         # prefer mona source; then most peaks
         group.sort(key=lambda r: (r["source"] != "mona", -len(r["peaks"])))
         deduped.append(group[0])

@@ -144,7 +144,9 @@ Checkpoint saved to `checkpoints/chroma_pretrain/best.pt`.
 
 ### Step 4 — Full CV evaluation (ChromatogramCNN)
 
-10 seeds × 5-fold stratified CV (~10 min on GPU).
+10 seeds × 5-fold stratified CV (~10 min on GPU).  Within each outer fold, a stratified
+`val_fraction` (default 0.2) of the training samples is held out for checkpoint selection
+and early stopping; the outer test fold is scored once, after training.
 
 ```bash
 python scripts/04_finetune_evaluate.py
@@ -172,6 +174,17 @@ Quick single-seed × single-fold check before committing to the full run:
 ```bash
 python scripts/06_smoke_test.py --seed 0 --fold 0 --epochs 100
 ```
+
+### Tests
+
+```bash
+pip install -e ".[test]"
+pytest --cov            # unit + integration tests, coverage report
+ruff check .            # lint
+```
+
+CI (`.github/workflows/ci.yml`) runs lint, the test suite on Python 3.10–3.12, and a
+package build on every push and pull request.
 
 ---
 
@@ -227,6 +240,10 @@ python scripts/mtbls1187_run_baselines.py
 ---
 
 ## Results
+
+> **Note:** the ChromatogramCNN rows below were produced before the validation-split fix
+> (checkpoints were selected on the test fold's loss) and are optimistically biased.
+> Re-run `scripts/04_finetune_evaluate.py` to regenerate them.  Baseline rows are unaffected.
 
 10 seeds × 5-fold stratified CV (n = 50 per method). Statistical comparisons use Mann-Whitney U with Bonferroni correction (α = 0.05); effect size is rank-biserial correlation r vs `chroma_pretrain`.
 

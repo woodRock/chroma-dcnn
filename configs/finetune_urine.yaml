@@ -24,6 +24,7 @@ finetuning:
   warmup_epochs: 5
   grad_clip: 1.0
   early_stopping_patience: 15
+  val_fraction: 0.2         # inner split of each training fold; drives early stopping
 
 linear_probe:
   epochs: 200

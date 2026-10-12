@@ -39,7 +39,7 @@ def main(config_path: str) -> None:
     cv_folds = cfg["task"].get("cv_folds", 5)
     data_dir = cfg["data"]["data_dir"]
 
-    from chroma_dcnn.downstream.fish_oil import load_fish_oil_data, load_fish_oil_chroma_features
+    from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_features, load_fish_oil_data
 
     X_sum, y, _, _ = load_fish_oil_data(data_dir)
     chroma_features, _ = load_fish_oil_chroma_features(data_dir)

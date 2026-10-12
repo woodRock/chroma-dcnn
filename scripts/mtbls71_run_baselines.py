@@ -20,7 +20,6 @@ from pathlib import Path
 import numpy as np
 import yaml
 
-
 from chroma_dcnn.evaluation.baselines import baseline_cv
 from chroma_dcnn.evaluation.stats import compare_conditions
 
@@ -37,7 +36,7 @@ def main(config_path: str, grouped_cv: bool = False) -> None:
     cv_folds = cfg["task"].get("cv_folds", 5)
     data_dir = Path(cfg["data"]["data_dir"])
 
-    from chroma_dcnn.downstream.urine import load_urine_data, load_urine_chroma_features
+    from chroma_dcnn.downstream.urine import load_urine_chroma_features, load_urine_data
 
     X_sum, y, _, _ = load_urine_data(data_dir)
     chroma_features, _ = load_urine_chroma_features(data_dir)

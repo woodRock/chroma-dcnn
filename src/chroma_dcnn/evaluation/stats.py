@@ -17,7 +17,12 @@ from scipy.stats import mannwhitneyu
 
 
 def rank_biserial_r(u_stat: float, n1: int, n2: int) -> float:
-    """Effect size: r = 1 - 2U/(n1·n2).  Range [-1, 1]."""
+    """
+    Effect size: r = 1 - 2U/(n1·n2).  Range [-1, 1].
+
+    ``u_stat`` is scipy's U for the *first* sample, so r > 0 means the second
+    sample tends to be larger (r = +1 when every b exceeds every a).
+    """
     return 1.0 - (2.0 * u_stat) / (n1 * n2)
 
 
@@ -37,6 +42,8 @@ def compare_conditions(
 
     Returns a DataFrame with columns:
       condition_a, condition_b, mean_a, mean_b, U, p_raw, p_corrected, effect_r, significant
+
+    effect_r > 0 means condition_b scores higher than condition_a.
     """
     condition_names = list(results.keys())
     pairs = list(combinations(condition_names, 2))
@@ -109,7 +116,9 @@ def print_results_table(
             std_col = f"{task}_std"
             n_col = f"{task}_n"
             df[task] = df.apply(
-                lambda r: f"{r[col]:.3f} ± {r[std_col]:.3f} (n={int(r[n_col])})", axis=1
+                lambda r, col=col, std_col=std_col, n_col=n_col:
+                    f"{r[col]:.3f} ± {r[std_col]:.3f} (n={int(r[n_col])})",
+                axis=1,
             )
     display_cols = [c for c in df.columns if not c.endswith("_std") and not c.endswith("_n")]
     print(df[display_cols].to_string())

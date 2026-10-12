@@ -37,7 +37,10 @@ def _read_mz_channels(filepath: Path) -> list[int]:
     with open(filepath, encoding="utf-8") as fh:
         fh.readline()
         row1 = fh.readline()
-    return [int(float(p.strip())) for p in row1.split(",")[2:] if p.strip().replace(".", "").isdigit()]
+    return [
+        int(float(p.strip())) for p in row1.split(",")[2:]
+        if p.strip().replace(".", "").isdigit()
+    ]
 
 
 def _sqrt_l2(arr: np.ndarray, eps: float = 1e-8) -> np.ndarray:

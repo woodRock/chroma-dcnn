@@ -20,7 +20,7 @@ from pathlib import Path
 import numpy as np
 import yaml
 
-from chroma_dcnn.downstream.wheat import load_wheat_data, load_wheat_chroma_features
+from chroma_dcnn.downstream.wheat import load_wheat_chroma_features, load_wheat_data
 from chroma_dcnn.evaluation.baselines import baseline_cv
 from chroma_dcnn.evaluation.stats import compare_conditions
 

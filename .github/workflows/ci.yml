@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install "ruff>=0.4"
+      - name: Ruff
+        run: ruff check --output-format=github .
+      - name: Byte-compile every script
+        run: python -m compileall -q src scripts tests
+      - name: Configs parse
+        run: |
+          pip install pyyaml
+          python - <<'EOF'
+          import pathlib, yaml
+          for p in sorted(pathlib.Path("configs").glob("*.yaml")):
+              cfg = yaml.safe_load(p.read_text())
+              if p.name.startswith("finetune"):
+                  ft = cfg["finetuning"]
+                  assert 0 < ft.get("val_fraction", 0.2) < 1, p
+                  assert cfg["task"]["num_classes"] >= 2, p
+              print("ok", p)
+          EOF
+      - name: Notebooks are valid JSON
+        run: |
+          python - <<'EOF'
+          import json, pathlib
+          for p in sorted(pathlib.Path("notebooks").glob("*.ipynb")):
+              json.loads(p.read_text())
+              print("ok", p)
+          EOF
+
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install CPU-only PyTorch
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Install package
+        run: pip install -e ".[test]"
+      - name: Pytest with coverage
+        run: pytest --cov --cov-report=term-missing --cov-report=xml
+      - name: Upload coverage report
+        if: matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: coverage.xml
+
+  build:
+    name: Build package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install build
+      - run: python -m build

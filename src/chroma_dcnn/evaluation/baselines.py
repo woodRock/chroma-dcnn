@@ -16,12 +16,17 @@ import numpy as np
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import balanced_accuracy_score, f1_score
-from sklearn.model_selection import GridSearchCV, LeaveOneGroupOut, LeaveOneOut, StratifiedGroupKFold, StratifiedKFold
+from sklearn.model_selection import (
+    GridSearchCV,
+    LeaveOneGroupOut,
+    LeaveOneOut,
+    StratifiedGroupKFold,
+    StratifiedKFold,
+)
 from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.svm import SVC
-
 
 # ---------------------------------------------------------------------------
 # PLS-DA helper

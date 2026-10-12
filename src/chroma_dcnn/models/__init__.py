@@ -1,4 +1,4 @@
-from chroma_dcnn.models.chroma_cnn import ChromatogramCNN, ChromaCNNConfig
+from chroma_dcnn.models.chroma_cnn import ChromaCNNConfig, ChromatogramCNN
 from chroma_dcnn.models.chroma_pretrain import ChromaNextFramePredictor, ChromaPretrainConfig
 
 __all__ = [

@@ -45,7 +45,7 @@ def _make_batch(
 
     Returns [batch_size, n_bins, mz_max] float32 tensor.
     """
-    n_spec, mz_max = spectra.shape
+    n_spec = spectra.shape[0]
     lo, hi = n_compounds_range
     K = int(rng.integers(lo, hi + 1))
 
@@ -114,7 +114,7 @@ def pretrain_chroma(
     sched = CosineAnnealingLR(opt, T_max=n_iterations, eta_min=lr * 0.01)
     rng   = np.random.default_rng()
 
-    print(f"\nPretraining ChromaNextFramePredictor (iteration-based)")
+    print("\nPretraining ChromaNextFramePredictor (iteration-based)")
     print(f"  EI-MS spectra : {len(spectra)}")
     print(f"  N bins        : {config.n_bins}")
     print(f"  CNN channels  : {config.cnn_channels}")
@@ -124,6 +124,7 @@ def pretrain_chroma(
 
     best_loss   = float("inf")
     running_loss = 0.0
+    running_n    = 0
 
     model.train()
     for it in range(1, n_iterations + 1):
@@ -142,13 +143,14 @@ def pretrain_chroma(
         sched.step()
 
         running_loss += loss.item()
+        running_n    += 1
 
         if it % log_every == 0 or it == n_iterations:
-            avg = running_loss / log_every
+            avg = running_loss / running_n
             if avg < best_loss:
                 best_loss = avg
             print(f"  iter {it:>6d}/{n_iterations}  loss={avg:.6f}  best={best_loss:.6f}")
-            running_loss = 0.0
+            running_loss, running_n = 0.0, 0
 
     ckpt_dir  = Path(cfg["output"]["checkpoint_dir"])
     ckpt_dir.mkdir(parents=True, exist_ok=True)

@@ -31,6 +31,7 @@ import argparse
 import copy
 import csv
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -43,10 +44,9 @@ from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader, TensorDataset
 
-import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from chroma_dcnn.models.chroma_cnn import ChromaCNNConfig, ChromatogramCNN
 from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_paths
+from chroma_dcnn.models.chroma_cnn import ChromaCNNConfig, ChromatogramCNN
 
 DATA_DIR    = Path('data/fish_oil')
 RESULTS_DIR = Path('results/fish_oil')

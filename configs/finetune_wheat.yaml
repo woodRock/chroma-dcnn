@@ -18,6 +18,7 @@ finetuning:
   weight_decay: 0.1
   grad_clip: 1.0
   early_stopping_patience: 20
+  val_fraction: 0.2         # inner split of each training fold; drives early stopping
 
 pretrained_checkpoints:
   chroma_pretrain: checkpoints/chroma_pretrain/best.pt

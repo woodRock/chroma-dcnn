@@ -23,6 +23,7 @@ from chroma_dcnn.models.chroma_cnn import ChromaCNNConfig
 from chroma_dcnn.training.finetune_chroma import (
     ConditionName,
     _build_model,
+    _inner_val_split,
     _train_fold,
 )
 
@@ -67,9 +68,13 @@ def main(config_path: str, seed: int, fold_idx: int, epochs: int) -> None:
     splits = list(skf.split(npz_paths, y))
     if fold_idx >= len(splits):
         raise ValueError(f"fold_idx {fold_idx} out of range (n_splits={len(splits)})")
-    train_idx, val_idx = splits[fold_idx]
+    train_idx, test_idx = splits[fold_idx]
+    fit_rel, val_rel = _inner_val_split(
+        y[train_idx], cfg["finetuning"].get("val_fraction", 0.2), seed=seed * 1000 + fold_idx,
+    )
+    fit_idx, val_idx = train_idx[fit_rel], train_idx[val_rel]
 
-    print(f"Train : {len(train_idx)} samples  |  Val : {len(val_idx)} samples")
+    print(f"Fit : {len(fit_idx)}  |  Val : {len(val_idx)}  |  Test : {len(test_idx)} samples")
     print("\n" + "=" * 60)
     print(f"SMOKE TEST  fish_oil_chroma  (seed={seed}, fold={fold_idx}, epochs={epochs})")
     print("=" * 60)
@@ -86,9 +91,10 @@ def main(config_path: str, seed: int, fold_idx: int, epochs: int) -> None:
         model = _build_model(model_config, cond, chroma_pretrain_ckpt).to(device)
         metrics = _train_fold(
             model,
-            [npz_paths[i] for i in train_idx],
+            [npz_paths[i] for i in fit_idx],
             [npz_paths[i] for i in val_idx],
-            y[train_idx], y[val_idx],
+            [npz_paths[i] for i in test_idx],
+            y[fit_idx], y[val_idx], y[test_idx],
             cfg, device,
         )
         elapsed = time.perf_counter() - t0

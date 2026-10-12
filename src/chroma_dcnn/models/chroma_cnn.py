@@ -105,6 +105,7 @@ class ChromatogramCNN(nn.Module):
     def load_pretrained_chroma_encoder(self, checkpoint_path: str) -> None:
         """Load spec_proj and CNN weights from a ChromaNextFramePredictor checkpoint."""
         import sys
+
         import chroma_dcnn as _pkg
         sys.modules.setdefault("msformer", _pkg)          # compat: checkpoint saved under old name
         ckpt = torch.load(checkpoint_path, map_location="cpu", weights_only=False)

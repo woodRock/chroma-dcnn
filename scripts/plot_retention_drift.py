@@ -19,13 +19,14 @@ import sys
 from pathlib import Path
 
 import matplotlib
+
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
 import numpy as np
-from scipy.signal import find_peaks
 from scipy.interpolate import interp1d
 from scipy.optimize import linear_sum_assignment
+from scipy.signal import find_peaks
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 

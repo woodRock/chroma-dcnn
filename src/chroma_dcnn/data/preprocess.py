@@ -9,14 +9,11 @@ The 1000-dim output vector represents m/z 0–999 with 1 Da resolution.
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
-from typing import Sequence
 
 import h5py
 import numpy as np
 from tqdm import tqdm
-
 
 MZ_MAX = 1000  # exclusive upper bound; bins 0..999
 
@@ -138,7 +135,7 @@ def report_dataset_stats(h5_path: str | Path) -> None:
     nonzero_per_spectrum = (spectra > 0).sum(axis=1)
     source_counts = {s: sources.count(s) for s in set(sources)}
 
-    print(f"\n=== Dataset statistics ===")
+    print("\n=== Dataset statistics ===")
     print(f"Total spectra     : {n}")
     print(f"Train / Val split : {split_arr.count('train')} / {split_arr.count('val')}")
     print(f"Source breakdown  : {source_counts}")

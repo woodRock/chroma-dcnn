@@ -7,6 +7,13 @@ Two conditions:
 
   chroma_pretrain — same architecture, weights initialised from next-frame
                     prediction pretraining on synthetic GC-MS (MoNA/MassBank).
+
+Evaluation protocol (nested hold-out within each outer CV fold):
+  outer fold → train / test
+  train      → fit / val   (stratified, grouped when groups are given)
+
+The val split drives checkpoint selection and early stopping.  The test fold
+is only used once, after training, to compute the reported metrics.
 """
 
 from __future__ import annotations
@@ -18,7 +25,11 @@ from typing import Literal
 import numpy as np
 import torch
 import torch.nn as nn
-from sklearn.model_selection import StratifiedGroupKFold, StratifiedKFold
+from sklearn.model_selection import (
+    StratifiedGroupKFold,
+    StratifiedKFold,
+    StratifiedShuffleSplit,
+)
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.utils.data import DataLoader
@@ -82,24 +93,57 @@ def _class_weights(labels: np.ndarray, num_classes: int) -> torch.Tensor:
 # Training loop
 # ---------------------------------------------------------------------------
 
+def _inner_val_split(
+    y: np.ndarray,
+    val_fraction: float,
+    seed: int,
+    groups: np.ndarray | None = None,
+) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Split a training fold into (fit, val) index arrays, relative to ``y``.
+
+    Stratified by class.  When ``groups`` is given, no group is split across
+    fit and val (StratifiedGroupKFold with ~1/val_fraction folds, first fold).
+    """
+    if not 0.0 < val_fraction < 1.0:
+        raise ValueError(f"val_fraction must be in (0, 1), got {val_fraction}")
+    idx = np.arange(len(y))
+    if groups is not None:
+        n_splits = max(2, round(1.0 / val_fraction))
+        splitter = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+        fit_idx, val_idx = next(splitter.split(idx, y, groups=groups))
+    else:
+        splitter = StratifiedShuffleSplit(n_splits=1, test_size=val_fraction, random_state=seed)
+        fit_idx, val_idx = next(splitter.split(idx, y))
+    return fit_idx, val_idx
+
+
 def _train_fold(
     model: ChromatogramCNN,
     train_paths: list[Path],
     val_paths: list[Path],
+    test_paths: list[Path],
     train_labels: np.ndarray,
     val_labels: np.ndarray,
+    test_labels: np.ndarray,
     cfg: dict,
     device: torch.device,
     lr: float | None = None,
 ) -> dict[str, float]:
+    """
+    Train on ``train``, select the checkpoint / early-stop on ``val``, and
+    report metrics on ``test``.  ``test`` must be disjoint from ``val``.
+    """
     tcfg = cfg["finetuning"]
     epochs     = tcfg["epochs"]
     batch_size = min(tcfg.get("batch_size", 16), len(train_paths))
 
     train_ds = ChromaDataset(train_paths, train_labels)
     val_ds   = ChromaDataset(val_paths,   val_labels)
+    test_ds  = ChromaDataset(test_paths,  test_labels)
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True,  drop_last=False)
     val_loader   = DataLoader(val_ds,   batch_size=batch_size, shuffle=False)
+    test_loader  = DataLoader(test_ds,  batch_size=batch_size, shuffle=False)
 
     if lr is None:
         lr = tcfg.get("lr", 1e-3)
@@ -137,7 +181,7 @@ def _train_fold(
 
     model.load_state_dict(best_state)
     model.eval()
-    return _compute_metrics(model, val_loader, device)
+    return _compute_metrics(model, test_loader, device)
 
 
 # ---------------------------------------------------------------------------
@@ -175,7 +219,7 @@ class ChromaFinetuner:
             dropout      = m.get("dropout", 0.3),
         )
         self.chroma_pretrain_ckpt = config.get("pretrained_checkpoints", {}).get("chroma_pretrain")
-        self.groups = groups
+        self.groups = np.asarray(groups) if groups is not None else None
         self.cv_strategy = config["task"].get("cv_strategy", "kfold")
 
     def evaluate_condition(
@@ -194,6 +238,7 @@ class ChromaFinetuner:
 
         all_ba, all_f1 = [], []
         n_folds = self.cfg["task"].get("cv_folds", 5)
+        val_fraction = tcfg.get("val_fraction", 0.2)
         for seed in seeds:
             torch.manual_seed(seed)
             np.random.seed(seed)
@@ -203,15 +248,23 @@ class ChromaFinetuner:
             else:
                 splitter = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=seed)
                 split_iter = splitter.split(self.paths, self.y)
-            for train_idx, val_idx in split_iter:
+            for fold, (train_idx, test_idx) in enumerate(split_iter):
+                train_groups = self.groups[train_idx] if self.groups is not None else None
+                fit_rel, val_rel = _inner_val_split(
+                    self.y[train_idx], val_fraction, seed=seed * 1000 + fold,
+                    groups=train_groups if self.cv_strategy == "grouped" else None,
+                )
+                fit_idx, val_idx = train_idx[fit_rel], train_idx[val_rel]
+
                 model = _build_model(
                     self.model_config, condition, self.chroma_pretrain_ckpt,
                 ).to(self.device)
                 metrics = _train_fold(
                     model,
-                    [self.paths[i] for i in train_idx],
+                    [self.paths[i] for i in fit_idx],
                     [self.paths[i] for i in val_idx],
-                    self.y[train_idx], self.y[val_idx],
+                    [self.paths[i] for i in test_idx],
+                    self.y[fit_idx], self.y[val_idx], self.y[test_idx],
                     self.cfg, self.device, lr=lr,
                 )
                 all_ba.append(metrics["balanced_accuracy"])

@@ -13,7 +13,6 @@ import argparse
 import json
 from pathlib import Path
 
-import numpy as np
 import yaml
 
 from chroma_dcnn.evaluation.stats import compare_conditions, print_results_table

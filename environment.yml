@@ -21,5 +21,5 @@ dependencies:
   - ipykernel
   - pip
   - pip:
-    - msformer[dev]
+    - -e .[dev]
     - gc_ims_tools>=0.4

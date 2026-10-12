@@ -36,7 +36,7 @@ def main(config_path: str) -> None:
     cv_folds     = cfg['task'].get('cv_folds', 4)
     data_dir     = Path(cfg['data']['data_dir'])
 
-    from chroma_dcnn.downstream.rice import load_rice_data, load_rice_chroma_features
+    from chroma_dcnn.downstream.rice import load_rice_chroma_features, load_rice_data
 
     X_sum, y, _, _ = load_rice_data(data_dir)
     chroma_features, _ = load_rice_chroma_features(data_dir)

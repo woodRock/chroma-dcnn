@@ -236,7 +236,8 @@ def main(raw_dir: Path, output_dir: Path, n_bins: int, workers: int, no_download
     print(f"X shape: {X.shape}  |  dtype: {X.dtype}")
     for c, n in zip(classes, counts):
         print(f"  Class {c} ({label_names[c]}): {n} samples")
-    print(f"Donors: {len(set(groups_list))}  |  Chromatograms: {len(list(chroma_dir.glob('*.npz')))}")
+    n_chroma = len(list(chroma_dir.glob('*.npz')))
+    print(f"Donors: {len(set(groups_list))}  |  Chromatograms: {n_chroma}")
 
 
 if __name__ == "__main__":

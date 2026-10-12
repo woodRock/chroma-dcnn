@@ -66,7 +66,9 @@ def _read_mz_channels(filepath: Path) -> list[int]:
 def process_file(filepath: Path, mz_channels: list[int]) -> np.ndarray:
     """Sum m/z intensities across all scans, map to 1000-bin grid."""
     df = pd.read_csv(filepath, skiprows=2, header=None, low_memory=False)
-    mz_data = df.iloc[:, 2:].apply(pd.to_numeric, errors="coerce").fillna(0).values.astype(np.float32)
+    mz_data = (
+        df.iloc[:, 2:].apply(pd.to_numeric, errors="coerce").fillna(0).values.astype(np.float32)
+    )
 
     # Sum across RT scans → [344] sum spectrum
     sum_spec = mz_data.sum(axis=0)
