@@ -2,9 +2,9 @@
 Smoke test: one seed × one fold for ChromatogramCNN conditions on fish oil.
 
 Usage:
-  python scripts/07_smoke_test.py
-  python scripts/07_smoke_test.py --config configs/finetune_fish_oil_chroma.yaml
-  python scripts/07_smoke_test.py --seed 42 --fold 2 --epochs 50
+  python scripts/06_smoke_test.py
+  python scripts/06_smoke_test.py --config configs/finetune.yaml
+  python scripts/06_smoke_test.py --seed 42 --fold 2 --epochs 50
 """
 
 from __future__ import annotations

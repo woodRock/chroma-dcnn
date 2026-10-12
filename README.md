@@ -52,6 +52,8 @@ Two conditions are evaluated:
 | `from_scratch` | `Linear(1000 → 128)` | No |
 | `chroma_pretrain` | `Linear(1000 → 128)` | Yes — next-frame prediction on synthetic GC-MS (MoNA/MassBank) |
 
+All reported fish oil hyperparameters (fine-tuning and baselines) are encoded in [`configs/finetune.yaml`](configs/finetune.yaml); pretraining settings are in [`configs/pretrain.yaml`](configs/pretrain.yaml).
+
 ---
 
 ## Repository Structure
@@ -60,8 +62,9 @@ Two conditions are evaluated:
 chroma-dcnn/
 ├── configs/
 │   ├── pretrain.yaml                  # ChromaCNN next-frame pretraining
-│   ├── finetune.yaml                  # ChromatogramCNN fine-tuning (fish oil)
-│   ├── finetune_fish_oil.yaml         # Baselines config (fish oil)
+│   ├── finetune.yaml                  # Fish oil: ChromatogramCNN fine-tuning + baselines
+│   ├── finetune_rice.yaml             # MTBLS288 rice
+│   ├── finetune_wheat.yaml            # MTBLS1187 wheat
 │   └── finetune_urine.yaml            # Config for MTBLS71 urine (supplementary)
 ├── data/
 │   └── fish_oil/

@@ -11,7 +11,7 @@ the 2D GC-MS data:
 
 Usage:
   python scripts/05_run_baselines.py
-  python scripts/05_run_baselines.py --config configs/finetune_fish_oil.yaml
+  python scripts/05_run_baselines.py --config configs/finetune.yaml
 
 Results are written to results/fish_oil/baseline_gcms_{representation}_results.json
 """
@@ -84,6 +84,6 @@ def _save_and_compare(baseline_results: dict, output_dir: Path, name: str) -> No
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description="Run baselines on fish oil GC-MS")
-    ap.add_argument("--config", default="configs/finetune_fish_oil.yaml")
+    ap.add_argument("--config", default="configs/finetune.yaml")
     args = ap.parse_args()
     main(args.config)
