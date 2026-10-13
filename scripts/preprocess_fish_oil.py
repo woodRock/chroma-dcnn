@@ -108,6 +108,8 @@ def main(raw_dir: Path, output_dir: Path) -> None:
             continue
         label, group_id = result
 
+        if _read_mz_channels(fpath) != mz_channels:
+            raise ValueError(f"m/z channel layout of {fpath.name} differs from {first_csv.name}")
         spectrum = process_file(fpath, mz_channels)
         spectrum = sqrt_l2_normalize(spectrum)
 

@@ -78,7 +78,8 @@ def process_file(filepath: Path, mz_channels: list[int], n_bins: int) -> np.ndar
     spectra = np.zeros((len(tic), MZ_MAX), dtype=np.float32)
     for col_idx, mz in enumerate(mz_channels):
         if 0 <= mz < MZ_MAX and col_idx < raw_mz.shape[1]:
-            spectra[:, mz] = raw_mz[:, col_idx]
+            # sum channels that round to the same integer m/z (matches the sum spectrum)
+            spectra[:, mz] += raw_mz[:, col_idx]
 
     chroma = _bin_chromatogram(spectra, tic, n_bins)   # [n_bins, MZ_MAX]
     chroma = _sqrt_l2(chroma)                           # normalise each bin
@@ -111,6 +112,8 @@ def main(raw_dir: Path, output_dir: Path, n_bins: int) -> None:
             processed += 1
             continue
 
+        if _read_mz_channels(fpath) != mz_channels:
+            raise ValueError(f"m/z channel layout of {fpath.name} differs from {first_csv.name}")
         chroma = process_file(fpath, mz_channels, n_bins)
         np.savez_compressed(out_path, chroma=chroma)
         processed += 1

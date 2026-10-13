@@ -106,6 +106,26 @@ def test_preprocess_fish_oil_chroma_main_and_loader_agree(raw_dir, tmp_path):
     np.testing.assert_allclose(np.linalg.norm(c[nonzero], axis=1), 1.0, rtol=1e-5)
 
 
+def test_preprocess_fish_oil_chroma_sums_colliding_channels(tmp_path, monkeypatch):
+    """Two raw channels mapping to the same integer m/z are summed, not overwritten."""
+    mod = load_script("preprocess_fish_oil_chroma")
+    monkeypatch.setattr(mod, "_sqrt_l2", lambda a: a)  # inspect raw intensities
+    csv = tmp_path / "1 - SNA1 Frame A.csv"
+    _write_csv(csv, mz=(50, 51), peak_scan=10, peak_mz_col=1)
+    raw = np.loadtxt(csv, delimiter=",", skiprows=2)[:, 2:]
+    chroma = mod.process_file(csv, [75, 75], n_bins=30)  # one scan per bin
+    np.testing.assert_allclose(chroma[:, 75], raw.sum(axis=1), rtol=1e-5)
+
+
+@pytest.mark.parametrize("script", ["preprocess_fish_oil", "preprocess_fish_oil_chroma"])
+def test_preprocess_rejects_inconsistent_mz_layout(raw_dir, tmp_path, script):
+    _write_csv(raw_dir / "4 - BCO4 Head A.csv", mz=(50, 52, 75))
+    mod = load_script(script)
+    args = (raw_dir, tmp_path / "out") + ((6,) if script.endswith("chroma") else ())
+    with pytest.raises(ValueError, match="channel layout"):
+        mod.main(*args)
+
+
 def test_preprocess_fish_oil_chroma_no_files(tmp_path):
     with pytest.raises(RuntimeError, match="No parseable"):
         load_script("preprocess_fish_oil_chroma").main(tmp_path, tmp_path / "o", 4)
@@ -158,8 +178,8 @@ def test_run_baselines_script(fish_project, monkeypatch):
     mod = load_script("05_run_baselines")
     # keep the expensive grid searches out of the test; the CV plumbing is what's tested
     fast = bl.run_random_forest
-    monkeypatch.setattr(bl, "run_svm", lambda X, y: fast(X, y))
-    monkeypatch.setattr(bl, "run_mlp", lambda X, y: fast(X, y))
+    monkeypatch.setattr(bl, "run_svm", lambda X, y, **kw: fast(X, y, **kw))
+    monkeypatch.setattr(bl, "run_mlp", lambda X, y, **kw: fast(X, y, **kw))
     mod.main(str(cfg_path))
     for rep in ("sum", "max_proj", "chroma_pca"):
         res = json.loads((results / f"baseline_gcms_{rep}_results.json").read_text())

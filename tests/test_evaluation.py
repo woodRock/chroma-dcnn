@@ -32,8 +32,13 @@ def separable():
 def test_plsda_classifier_fits_separable(separable):
     X, y = separable
     clf = bl.PLSDAClassifier(n_components=10).fit(X, y)
-    assert clf.pls.n_components == 2  # capped at n_classes - 1
+    assert clf.pls.n_components == 10  # not capped at n_classes - 1
     assert clf.score(X, y) == 1.0
+
+
+def test_plsda_clamps_components_to_data(separable):
+    X, y = separable
+    assert bl.PLSDAClassifier(n_components=50).fit(X, y).pls.n_components == X.shape[1]
 
 
 def test_plsda_preserves_label_values(separable):
@@ -45,7 +50,7 @@ def test_plsda_preserves_label_values(separable):
 def test_run_plsda_selects_components(separable):
     X, y = separable
     clf = bl.run_plsda(X, y)
-    assert 1 <= clf.n_components <= 2
+    assert 1 <= clf.n_components <= 15
     assert clf.score(X, y) == 1.0
     assert bl.run_plsda(X, y, n_components_range=[1]).n_components == 1
 
@@ -81,8 +86,8 @@ def test_baseline_cv_strategies(separable):
 
 def test_baseline_cv_defaults_to_ten_seeds(separable, monkeypatch):
     X, y = separable
-    monkeypatch.setattr(bl, "run_random_forest",
-                        lambda X, y: type("C", (), {"predict": lambda self, Z: np.zeros(len(Z))})())
+    stub = type("C", (), {"predict": lambda self, Z: np.zeros(len(Z))})
+    monkeypatch.setattr(bl, "run_random_forest", lambda X, y, **kw: stub())
     assert len(bl.baseline_cv(X, y, "rf", cv_folds=3)["balanced_accuracy"]) == 30
 
 
@@ -92,16 +97,37 @@ def test_baseline_cv_pca_is_fit_on_train_only(separable, monkeypatch):
 
     X, y = separable
     fitted_sizes = []
-    real_fit_transform = decomposition.PCA.fit_transform
+    real_fit = decomposition.PCA.fit
 
     def spy(self, X, y=None):
         fitted_sizes.append(len(X))
-        return real_fit_transform(self, X, y)
+        return real_fit(self, X, y)
 
-    monkeypatch.setattr(decomposition.PCA, "fit_transform", spy)
+    monkeypatch.setattr(decomposition.PCA, "fit", spy)
     res = bl.baseline_cv(X, y, "rf", seeds=[0], cv_folds=3, n_pca_components=5)
     assert fitted_sizes == [24, 24, 24]
     assert np.mean(res["balanced_accuracy"]) > 0.5  # chance = 1/3
+
+
+@pytest.mark.parametrize("model", ["plsda", "svm"])
+def test_baseline_cv_pca_is_refit_within_inner_cv(separable, monkeypatch, model):
+    """Hyperparameter search must refit PCA on each inner training split."""
+    from joblib import parallel_config
+    from sklearn import decomposition
+
+    X, y = separable
+    fitted_sizes = []
+    real_fit = decomposition.PCA.fit
+
+    def spy(self, X, y=None):
+        fitted_sizes.append(len(X))
+        return real_fit(self, X, y)
+
+    monkeypatch.setattr(decomposition.PCA, "fit", spy)
+    with parallel_config(backend="threading"):  # keep GridSearchCV fits in-process
+        bl.baseline_cv(X, y, model, seeds=[0], cv_folds=3, n_pca_components=5)
+    assert max(fitted_sizes) == 24           # never sees the outer test fold
+    assert any(n < 24 for n in fitted_sizes)  # refit on inner training splits
 
 
 def test_baseline_cv_unknown_model(separable):

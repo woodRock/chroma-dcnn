@@ -50,7 +50,9 @@ def _build_model(
     chroma_pretrain_ckpt: str | None = None,
 ) -> ChromatogramCNN:
     model = ChromatogramCNN(config, condition="from_scratch")
-    if condition == "chroma_pretrain" and chroma_pretrain_ckpt:
+    if condition == "chroma_pretrain":
+        if not chroma_pretrain_ckpt:
+            raise ValueError("condition 'chroma_pretrain' requires a pretrained checkpoint")
         model.load_pretrained_chroma_encoder(chroma_pretrain_ckpt)
     return model
 
@@ -274,7 +276,14 @@ class ChromaFinetuner:
 
     def run_all_conditions(self, seeds: list[int] | None = None) -> dict[str, dict]:
         conditions: list[ConditionName] = ["from_scratch"]
-        if self.chroma_pretrain_ckpt and Path(self.chroma_pretrain_ckpt).exists():
+        if self.chroma_pretrain_ckpt:
+            # A configured checkpoint is required: skipping it would silently
+            # produce an incomplete experiment.
+            if not Path(self.chroma_pretrain_ckpt).exists():
+                raise FileNotFoundError(
+                    f"Pretrained checkpoint not found: {self.chroma_pretrain_ckpt} "
+                    "(run scripts/03_pretrain_chroma.py first)"
+                )
             conditions.append("chroma_pretrain")
 
         results = {}

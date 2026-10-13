@@ -210,6 +210,8 @@ def test_evaluate_condition_learning_rates(monkeypatch, chroma_dataset, finetune
     paths, y, _ = chroma_dataset
     finetune_cfg["finetuning"].update(lr=5e-5, lr_scratch=1e-3)
     calls = _record_folds(monkeypatch)
+    # only the learning-rate plumbing is under test; skip checkpoint loading
+    monkeypatch.setattr(fc, "_build_model", lambda cfg, cond, ckpt: fc.ChromatogramCNN(cfg))
     ft = fc.ChromaFinetuner(finetune_cfg, paths, y, device="cpu")
     ft.evaluate_condition("from_scratch", seeds=[0])
     ft.evaluate_condition("chroma_pretrain", seeds=[0])
@@ -231,6 +233,14 @@ def test_run_all_conditions_without_checkpoint(monkeypatch, chroma_dataset, fine
     assert list(res) == ["from_scratch"]
 
 
+def test_run_all_conditions_missing_checkpoint_raises(chroma_dataset, finetune_cfg, tmp_path):
+    """A configured but missing checkpoint must not silently drop chroma_pretrain."""
+    finetune_cfg["pretrained_checkpoints"]["chroma_pretrain"] = str(tmp_path / "missing.pt")
+    paths, y, _ = chroma_dataset
+    with pytest.raises(FileNotFoundError, match="missing.pt"):
+        fc.ChromaFinetuner(finetune_cfg, paths, y, device="cpu").run_all_conditions()
+
+
 def test_run_all_conditions_with_checkpoint(chroma_dataset, finetune_cfg, pretrain_cfg, spectra):
     ckpt = pretrain_chroma(pretrain_cfg, spectra, torch.device("cpu"))
     finetune_cfg["pretrained_checkpoints"]["chroma_pretrain"] = ckpt
@@ -246,8 +256,8 @@ def test_build_model_loads_checkpoint(pretrain_cfg, finetune_cfg, spectra):
     pre = fc._build_model(ft.model_config, "chroma_pretrain", ckpt)
     saved = torch.load(ckpt, weights_only=False)
     assert torch.equal(pre.spec_proj.weight, saved["spec_proj_state"]["weight"])
-    scratch = fc._build_model(ft.model_config, "chroma_pretrain", None)
-    assert not torch.equal(scratch.spec_proj.weight, saved["spec_proj_state"]["weight"])
+    with pytest.raises(ValueError, match="requires a pretrained checkpoint"):
+        fc._build_model(ft.model_config, "chroma_pretrain", None)
 
 
 @pytest.mark.parametrize(("cuda", "mps", "expected"), [
