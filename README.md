@@ -7,6 +7,8 @@
 
 ![When the peaks already know the fish](meme.png)
 
+**Project page with interactive results: [woodrock.github.io/chroma-dcnn](https://woodrock.github.io/chroma-dcnn/)**
+
 Species identification of four commercially important New Zealand fish (Snapper, Gurnard, Tarakihi, Blue Cod) from GC-MS lipid profiles using a 1D dilated CNN with self-supervised pretraining.
 
 ---
@@ -209,7 +211,17 @@ Seed 0 × 5 folds of `chroma_pretrain`, trained exactly as in step 4; gradient s
 `figs/saliency-{heatmaps,1d,3d}.png` and `results/fish_oil/saliency_mean.npz`.
 (`notebooks/04_saliency.ipynb` is the earlier exploratory version and does not follow this protocol.)
 
-### Step 9 — Smoke test (optional)
+### Step 9 — Project website
+
+```bash
+python scripts/13_build_site_data.py
+```
+
+Exports the results above to `docs/data.js` for the GitHub Pages site in `docs/`
+(served from the `main` branch, `/docs` folder).  Preview locally with
+`python -m http.server -d docs` and open http://localhost:8000.
+
+### Step 10 — Smoke test (optional)
 
 Quick single-seed × single-fold check before committing to the full run:
 
