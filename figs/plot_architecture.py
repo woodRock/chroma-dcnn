@@ -90,7 +90,7 @@ arch = [
     {$200 \times 128$};"""),
 
     # =========================================================================
-    # 2.  ResBlock — dilation 1   (receptive field: 7 bins)
+    # 2.  ResBlock — dilation 1   (receptive field: 13 bins — two k=7 convs per block)
     # =========================================================================
     # Redefine Conv colors to orange for ResBlocks
     raw(r"""
@@ -104,10 +104,10 @@ arch = [
                     height=25, depth=10, width=(5, 2),
                     caption="{ResBlock (dilation=1)}"),
     to_connection("proj", "res1"),
-    raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res1-south) {RF\,=\,7};"""),
+    raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res1-south) {RF\,=\,13};"""),
 
     # =========================================================================
-    # 3.  ResBlock — dilation 2   (receptive field: 19 bins)
+    # 3.  ResBlock — dilation 2   (receptive field: 37 bins)
     # =========================================================================
     to_ConvConvRelu("res2",
                     s_filer=" ", n_filer=(" ", " "),
@@ -115,10 +115,10 @@ arch = [
                     height=25, depth=10, width=(6, 2),
                     caption="{ResBlock (dilation=2)}"),
     to_connection("res1", "res2"),
-    raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res2-south) {RF\,=\,19};"""),
+    raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res2-south) {RF\,=\,37};"""),
 
     # =========================================================================
-    # 4.  ResBlock — dilation 4   (receptive field: 43 bins)
+    # 4.  ResBlock — dilation 4   (receptive field: 85 bins)
     # =========================================================================
     to_ConvConvRelu("res3",
                     s_filer=" ", n_filer=(" ", " "),
@@ -126,7 +126,7 @@ arch = [
                     height=25, depth=10, width=(7, 2),
                     caption="{ResBlock (dilation=4)}"),
     to_connection("res2", "res3"),
-    raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res3-south) {RF\,=\,43};"""),
+    raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res3-south) {RF\,=\,85};"""),
 
     # Restore default colors for pools / head
     raw(r"""

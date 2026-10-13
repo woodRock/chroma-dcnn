@@ -75,7 +75,7 @@
     };
 
 \draw [connection]  (proj-east)    -- node {\midarrow} (res1-west);
-\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res1-south) {RF\,=\,7};
+\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res1-south) {RF\,=\,13};
 \pic[shift={ (2.5,0,0) }] at (res1-east) 
     {RightBandedBox={
         name=res2,
@@ -91,7 +91,7 @@
     };
 
 \draw [connection]  (res1-east)    -- node {\midarrow} (res2-west);
-\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res2-south) {RF\,=\,19};
+\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res2-south) {RF\,=\,37};
 \pic[shift={ (2.5,0,0) }] at (res2-east) 
     {RightBandedBox={
         name=res3,
@@ -107,7 +107,7 @@
     };
 
 \draw [connection]  (res2-east)    -- node {\midarrow} (res3-west);
-\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res3-south) {RF\,=\,43};
+\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res3-south) {RF\,=\,85};
 \def\ConvColor{rgb:yellow,5;red,2.5;white,5}
 \def\ConvReluColor{rgb:yellow,5;red,5;white,5}
 
