@@ -182,7 +182,7 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
         sal_s = sal[::S_RT, ::S_MZ]
         RT_grid, MZ_grid = np.meshgrid(rt_s, mz_s)
 
-        # Blues: transparent where ignored, deep blue where attended
+        # Blues: transparent where saliency is low, deep blue where high
         sal_norm             = (sal_s - sal_s.min()) / (sal_s.max() - sal_s.min() + 1e-8)
         face_colours         = cm.Blues(sal_norm.T)
         face_colours[..., 3] = sal_norm.T ** 0.6
@@ -215,11 +215,11 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
     sm.set_array([])
     cbar = fig.colorbar(sm, cax=cbar_ax, orientation='horizontal')
     cbar.set_ticks([0, 0.25, 0.5, 0.75, 1.0])
-    cbar.set_ticklabels(['0\n(transparent — ignored)', '0.25', '0.5', '0.75',
-                         '1.0\n(deep blue — attended)'])
+    cbar.set_ticklabels(['0\n(low)', '0.25', '0.5', '0.75',
+                         '1.0\n(high)'])
     cbar.ax.tick_params(labelsize=8)
     cbar.set_label('Normalised saliency', fontsize=9, labelpad=4)
-    fig.suptitle('3D Saliency Surface — model attention overlaid on real chromatograms',
+    fig.suptitle('Gradient saliency overlaid on GC-MS chromatograms',
                  fontsize=12, y=0.97)
     fig.savefig(out, dpi=150, bbox_inches='tight')
     plt.close(fig)

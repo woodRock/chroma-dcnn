@@ -336,8 +336,8 @@ sum-spectrum baselines (e.g. PLS-DA on sum spectrum, 0.429).
 Gradient saliency for `chroma_pretrain` on held-out samples (seed 0, 5 folds, mean fold
 balanced accuracy 0.887).  The m/z saliency profile is near-identical across species
 (pairwise r ≥ 0.99); RT profiles are more variable (pairwise r 0.74–0.88).  Every species
-concentrates attention in the 40–44 min band (30–55% of RT saliency; Tarakihi most, Gurnard
-least), with a secondary band at 18–22 min (12–14%).  Gurnard also attends to 33–37 min (13%).
+concentrates saliency in the 40–44 min band (30–55% of RT saliency; Tarakihi most, Gurnard
+least), with a secondary band at 18–22 min (12–14%).  Gurnard also has saliency at 33–37 min (13%).
 The 24–28 min region carries little saliency (3–6%) for any species.
 
 ---
