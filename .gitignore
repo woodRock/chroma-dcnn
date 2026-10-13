@@ -28,7 +28,9 @@ data/mtbls288_test/
 checkpoints/
 
 # ── Results ───────────────────────────────────────────────────────────────────
-results/
+# Fish oil results are the paper's source of truth and are committed.
+results/*
+!results/fish_oil/
 
 # ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/

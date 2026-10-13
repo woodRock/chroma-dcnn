@@ -76,6 +76,7 @@ chroma-dcnn/
 ├── figs/
 │   ├── generate_gcms_3d.py            # 3D GC-MS chromatogram figure for paper
 │   └── ...
+├── results/fish_oil/                  # committed results — the paper's source of truth
 ├── scripts/
 │   ├── 01_download_pretrain_data.py   # download MoNA + MassBank
 │   ├── 02_preprocess_pretrain_data.py # build data/pretraining/spectra.h5
@@ -83,6 +84,9 @@ chroma-dcnn/
 │   ├── 04_finetune_evaluate.py        # full CV evaluation (CNN conditions)
 │   ├── 05_run_baselines.py            # PLS-DA, RF, SVM, MLP baselines
 │   ├── 06_smoke_test.py               # single seed × fold sanity check
+│   ├── 09_ablation_1d_vs_2d.py        # RT-collapse ablation (2D vs 1D-m/z input)
+│   ├── 11_saliency.py                 # gradient saliency figures (figs/saliency-*.png)
+│   ├── 12_results_table.py            # main results table + significance tests
 │   ├── preprocess_fish_oil.py         # raw CSV → X.npy, y.npy (if raw data available)
 │   ├── preprocess_fish_oil_chroma.py  # raw CSV → chroma/*.npz (if raw data available)
 │   ├── mtbls71_download_preprocess.py # MTBLS71: download CDFs + build chromatograms
@@ -167,7 +171,38 @@ Evaluates PLS-DA, RF, SVM, MLP on three feature representations:
 
 Results saved to `results/fish_oil/baseline_gcms_{representation}_results.json`.
 
-### Step 6 — Smoke test (optional)
+### Step 6 — Results table
+
+```bash
+python scripts/12_results_table.py
+```
+
+Ranks all 14 conditions and tests the best against each other (Mann-Whitney U,
+Bonferroni over 13 comparisons, rank-biserial |r|).  Writes
+`results/fish_oil/main_table.{csv,md}`.
+
+### Step 7 — RT-collapse ablation
+
+```bash
+python scripts/09_ablation_1d_vs_2d.py
+```
+
+Runs `from_scratch` ChromaDCNN through the same `ChromaFinetuner` code path as step 4, on
+(a) the 2D chromatogram and (b) a degenerate input where each sample's sum spectrum is tiled
+across all 200 RT bins.  Writes `results/fish_oil/ablation_1d_vs_2d_*`.
+
+### Step 8 — Saliency figures
+
+```bash
+python scripts/11_saliency.py
+```
+
+Seed 0 × 5 folds of `chroma_pretrain`, trained exactly as in step 4; gradient saliency
+|∂logit_c/∂X| is computed on each fold's held-out test samples only.  Writes
+`figs/saliency-{heatmaps,1d,3d}.png` and `results/fish_oil/saliency_mean.npz`.
+(`notebooks/04_saliency.ipynb` is the earlier exploratory version and does not follow this protocol.)
+
+### Step 9 — Smoke test (optional)
 
 Quick single-seed × single-fold check before committing to the full run:
 
@@ -241,30 +276,61 @@ python scripts/mtbls1187_run_baselines.py
 
 ## Results
 
-> **Note:** the ChromatogramCNN rows below were produced before the validation-split fix
-> (checkpoints were selected on the test fold's loss) and are optimistically biased.
-> Re-run `scripts/04_finetune_evaluate.py` to regenerate them.  Baseline rows are unaffected.
+All numbers below are reproduced by the scripts above and stored in
+[`results/fish_oil/`](results/fish_oil/), which is the source of truth.
 
-10 seeds × 5-fold stratified CV (n = 50 per method). Statistical comparisons use Mann-Whitney U with Bonferroni correction (α = 0.05); effect size is rank-biserial correlation r vs `chroma_pretrain`.
+10 seeds × 5-fold stratified CV (n = 50 per method).  ChromaDCNN uses a nested hold-out: within
+each outer fold, 20% of the training samples form a validation split that drives early stopping
+and checkpoint selection; the test fold is scored once, after training.  Comparisons are
+two-sided Mann-Whitney U against the best method, Bonferroni-corrected over 13 comparisons
+(α = 0.05); |r| is the rank-biserial effect size.
 
-| Rank | Method | Representation | Balanced Accuracy | \|r\| vs best | p (Bonferroni) | p < 0.05 |
-|:----:|--------|----------------|:-----------------:|:-------------:|:--------------:|:--------:|
-| 1 | **ChromatogramCNN** (`chroma_pretrain`) | 2D chromatogram | **0.951 ± 0.065** | — | — | — |
-| 2 | ChromatogramCNN (`from_scratch`) | 2D chromatogram | 0.759 ± 0.138 | 0.796 | < 0.001 | Yes |
-| 3 | PLS-DA | chroma_pca | 0.703 ± 0.091 | 0.957 | < 0.001 | Yes |
-| 4 | RF | sum | 0.697 ± 0.113 | 0.945 | < 0.001 | Yes |
-| 5 | SVM | chroma_pca | 0.694 ± 0.108 | 0.956 | < 0.001 | Yes |
-| 6 | SVM | max_proj | 0.532 ± 0.120 | 0.998 | < 0.001 | Yes |
-| 7 | RF | chroma_pca | 0.529 ± 0.116 | 1.000 | < 0.001 | Yes |
-| 8 | SVM | sum | 0.493 ± 0.083 | 1.000 | < 0.001 | Yes |
-| 9 | PLS-DA | max_proj | 0.469 ± 0.107 | 1.000 | < 0.001 | Yes |
-| 10 | PLS-DA | sum | 0.429 ± 0.114 | 1.000 | < 0.001 | Yes |
-| 11 | MLP | max_proj | 0.395 ± 0.123 | 1.000 | < 0.001 | Yes |
-| 12 | RF | max_proj | 0.382 ± 0.094 | 1.000 | < 0.001 | Yes |
-| 13 | MLP | chroma_pca | 0.377 ± 0.159 | 1.000 | < 0.001 | Yes |
-| 14 | MLP | sum | 0.369 ± 0.125 | 1.000 | < 0.001 | Yes |
+### Main comparison (`results/fish_oil/main_table.md`)
 
-`chroma_pretrain` significantly outperforms every other method (all p < 0.001 after Bonferroni correction). Among the classical baselines, the `chroma_pca` representation (full 2D chromatogram → 50 within-fold PCs) consistently yields the strongest PLS-DA and SVM results.
+| Rank | Method | Representation | Balanced acc. | \|r\| vs best | p (Bonferroni) | Sig. |
+|:----:|--------|----------------|:-------------:|:-------------:|:--------------:|:----:|
+| 1 | **ChromaDCNN (chroma_pretrain)** | 2D chromatogram | **0.854 ± 0.101** | — | — | — |
+| 2 | PLS-DA | chroma-PCA | 0.703 ± 0.091 | 0.711 | 1.13e-08 | Yes |
+| 3 | Random Forest | sum spectrum | 0.696 ± 0.113 | 0.684 | 4.91e-08 | Yes |
+| 4 | SVM (RBF) | chroma-PCA | 0.693 ± 0.108 | 0.713 | 1.04e-08 | Yes |
+| 5 | ChromaDCNN (from_scratch) | 2D chromatogram | 0.603 ± 0.176 | 0.799 | 7.43e-11 | Yes |
+| 6 | SVM (RBF) | max-projection | 0.532 ± 0.120 | 0.960 | 1.68e-15 | Yes |
+| 7 | Random Forest | chroma-PCA | 0.529 ± 0.116 | 0.969 | 8.36e-16 | Yes |
+| 8 | SVM (RBF) | sum spectrum | 0.493 ± 0.083 | 0.992 | 1.53e-16 | Yes |
+| 9 | PLS-DA | max-projection | 0.469 ± 0.107 | 0.983 | 3.15e-16 | Yes |
+| 10 | PLS-DA | sum spectrum | 0.429 ± 0.114 | 0.992 | 1.64e-16 | Yes |
+| 11 | MLP | max-projection | 0.395 ± 0.123 | 0.996 | 1.21e-16 | Yes |
+| 12 | Random Forest | max-projection | 0.382 ± 0.094 | 0.998 | 1.02e-16 | Yes |
+| 13 | MLP | chroma-PCA | 0.377 ± 0.159 | 0.970 | 8.21e-16 | Yes |
+| 14 | MLP | sum spectrum | 0.369 ± 0.125 | 0.994 | 1.39e-16 | Yes |
+
+- Pretrained ChromaDCNN significantly outperforms all 13 other conditions: +15.1 pp over the
+  best classical baseline (PLS-DA on chroma-PCA) and +25.1 pp over training from scratch.
+- From scratch, ChromaDCNN is statistically indistinguishable from the top three classical
+  baselines (Bonferroni p ≈ 0.16–0.20 for each), so pretraining is what makes it win.
+- For PLS-DA and SVM, chroma-PCA features (2D chromatogram) beat sum-spectrum features.
+
+### RT-collapse ablation (`results/fish_oil/ablation_1d_vs_2d_summary.md`)
+
+Both conditions are `from_scratch` and run through the same training code as the main table;
+the 2D condition reproduces the main table's `from_scratch` fold scores exactly.
+
+| Condition | Balanced acc. | Δ vs 2D | p (Mann-Whitney U) | \|r\| |
+|---|:-:|:-:|:-:|:-:|
+| 2D chromatogram | 0.603 ± 0.176 | — | — | — |
+| 1D-m/z (sum spectrum tiled over RT) | 0.406 ± 0.126 | −0.197 | 1.01e-07 | 0.617 |
+
+Removing RT structure costs about 20 pp, leaving ChromaDCNN level with the classical
+sum-spectrum baselines (e.g. PLS-DA on sum spectrum, 0.429).
+
+### Saliency (`figs/saliency-*.png`)
+
+Gradient saliency for `chroma_pretrain` on held-out samples (seed 0, 5 folds, mean fold
+balanced accuracy 0.887).  The m/z saliency profile is near-identical across species
+(pairwise r ≥ 0.99); RT profiles are more variable (pairwise r 0.74–0.88).  Every species
+concentrates attention in the 40–44 min band (30–55% of RT saliency; Tarakihi most, Gurnard
+least), with a secondary band at 18–22 min (12–14%).  Gurnard also attends to 33–37 min (13%).
+The 24–28 min region carries little saliency (3–6%) for any species.
 
 ---
 

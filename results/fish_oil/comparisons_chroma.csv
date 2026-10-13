@@ -1,0 +1,2 @@
+condition_a,condition_b,mean_a,std_a,mean_b,std_b,U,p_raw,p_corrected,effect_r,significant
+from_scratch,chroma_pretrain,0.602651515151515,0.1763777264495477,0.8540530303030303,0.10149282460263807,251.0,5.711677581912757e-12,5.711677581912757e-12,0.7992,True

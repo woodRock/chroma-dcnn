@@ -28,26 +28,22 @@ Outputs → results/fish_oil/
 from __future__ import annotations
 
 import argparse
-import copy
 import csv
 import json
 import sys
+import tempfile
 from pathlib import Path
 
 import numpy as np
 import torch
-import torch.nn as nn
+import yaml
 from scipy.stats import mannwhitneyu
-from sklearn.metrics import balanced_accuracy_score, f1_score
-from sklearn.model_selection import StratifiedKFold
-from torch.optim import AdamW
-from torch.optim.lr_scheduler import CosineAnnealingLR
-from torch.utils.data import DataLoader, TensorDataset
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_paths
-from chroma_dcnn.models.chroma_cnn import ChromaCNNConfig, ChromatogramCNN
+from chroma_dcnn.training.finetune_chroma import ChromaFinetuner
 
+CONFIG_PATH = Path('configs/finetune.yaml')
 DATA_DIR    = Path('data/fish_oil')
 RESULTS_DIR = Path('results/fish_oil')
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -77,98 +73,45 @@ def make_1d_mz(chroma: np.ndarray) -> np.ndarray:
 
 # ── Training ──────────────────────────────────────────────────────────────────
 
-def _class_weights(labels: np.ndarray, n_classes: int) -> torch.Tensor:
-    classes, counts = np.unique(labels, return_counts=True)
-    w = np.zeros(n_classes, dtype=np.float32)
-    for c, cnt in zip(classes, counts):
-        w[c] = len(labels) / (len(classes) * cnt)
-    return torch.tensor(w)
-
-
-def train_fold(
-    X_tr: torch.Tensor, y_tr: torch.Tensor,
-    X_te: torch.Tensor, y_te: np.ndarray,
-    cfg: ChromaCNNConfig,
-    device: torch.device,
-    epochs: int = 200,
-    patience: int = 20,
-    lr: float = 1e-3,
-) -> dict[str, float]:
-    model = ChromatogramCNN(cfg).to(device)
-    opt   = AdamW(model.parameters(), lr=lr, weight_decay=0.01)
-    sch   = CosineAnnealingLR(opt, T_max=epochs)
-    crit  = nn.CrossEntropyLoss(
-        weight=_class_weights(y_tr.cpu().numpy(), cfg.num_classes).to(device)
-    )
-    loader = DataLoader(TensorDataset(X_tr, y_tr), batch_size=16, shuffle=True)
-
-    best_loss, best_state, stale = 1e9, None, 0
-    model.train()
-    for _ in range(epochs):
-        for xb, yb in loader:
-            opt.zero_grad()
-            crit(model(xb), yb).backward()
-            nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-            opt.step()
-        sch.step()
-        with torch.no_grad():
-            vl = crit(model(X_tr), y_tr).item()
-        if vl < best_loss:
-            best_loss, best_state, stale = vl, copy.deepcopy(model.state_dict()), 0
-        else:
-            stale += 1
-            if stale >= patience:
-                break
-
-    model.load_state_dict(best_state)
-    model.eval()
-    with torch.no_grad():
-        preds = model(X_te).argmax(dim=1).cpu().numpy()
-
-    return {
-        'balanced_accuracy': float(balanced_accuracy_score(y_te, preds)),
-        'macro_f1':          float(f1_score(y_te, preds, average='macro',
-                                            zero_division=0)),
-    }
-
-
 def run_condition(
+    npz_paths: list[Path],
     chromas: np.ndarray,
     y: np.ndarray,
     name: str,
     seeds: list[int],
     n_folds: int,
-    cfg: ChromaCNNConfig,
     device: torch.device,
     degenerate: bool = False,
 ) -> dict[str, list[float]]:
+    """
+    Evaluate from_scratch ChromaDCNN through ChromaFinetuner — the same code
+    path as the main experiment — so the protocol is identical by construction.
+    The 1D-mz inputs are written to temporary .npz files for the finetuner.
+    """
     print(f'\n--- Condition: {name} ---')
+    with open(CONFIG_PATH) as f:
+        cfg = yaml.safe_load(f)
+    cfg['task']['cv_folds'] = n_folds
 
-    if degenerate:
-        print('  Applying 1D-mz degeneracy transform …')
-        chromas_in = np.stack([make_1d_mz(c) for c in chromas])
-        print(f'  All rows identical: {np.allclose(chromas_in[0, 0], chromas_in[0, 99])}')
-    else:
-        chromas_in = chromas
+    with tempfile.TemporaryDirectory() as tmp:
+        if degenerate:
+            print('  Applying 1D-mz degeneracy transform …')
+            paths = []
+            for p, c in zip(npz_paths, chromas):
+                d = make_1d_mz(c).astype(c.dtype)
+                out = Path(tmp) / Path(p).name
+                np.savez(out, chroma=d)
+                paths.append(out)
+            print(f'  All rows identical: {np.allclose(d[0], d[99])}')
+        else:
+            paths = list(npz_paths)
 
-    all_ba, all_f1 = [], []
-    for seed in seeds:
-        torch.manual_seed(seed)
-        np.random.seed(seed)
-        skf = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=seed)
-        for tr_idx, te_idx in skf.split(chromas_in, y):
-            X_tr = torch.tensor(chromas_in[tr_idx], dtype=torch.float32).to(device)
-            y_tr = torch.tensor(y[tr_idx],           dtype=torch.long).to(device)
-            X_te = torch.tensor(chromas_in[te_idx], dtype=torch.float32).to(device)
-            y_te = y[te_idx]
+        finetuner = ChromaFinetuner(cfg, paths, y, device=str(device))
+        res = finetuner.evaluate_condition('from_scratch', seeds)
 
-            m = train_fold(X_tr, y_tr, X_te, y_te, cfg, device)
-            all_ba.append(m['balanced_accuracy'])
-            all_f1.append(m['macro_f1'])
-
-    ba = np.array(all_ba)
+    ba = np.array(res['balanced_accuracy'])
     print(f'  balanced_accuracy: {ba.mean():.3f} ± {ba.std():.3f}  (n={len(ba)})')
-    return {'balanced_accuracy': all_ba, 'macro_f1': all_f1}
+    return {k: [float(v) for v in vals] for k, vals in res.items()}
 
 
 # ── Statistics ────────────────────────────────────────────────────────────────
@@ -211,15 +154,11 @@ def main(seeds: list[int], n_folds: int, device_str: str | None) -> None:
     chromas = np.stack([np.load(p)['chroma'] for p in npz_paths])
     print(f'Loaded {len(chromas)} samples  shape={chromas.shape}')
 
-    cfg = ChromaCNNConfig(
-        mz_max=1000, cnn_channels=128, kernel_size=7, num_classes=4, dropout=0.3
-    )
-
     results = {
-        '2D':    run_condition(chromas, y, '2D (from_scratch)',
-                               seeds, n_folds, cfg, device, degenerate=False),
-        '1D-mz': run_condition(chromas, y, '1D-mz (degenerate)',
-                               seeds, n_folds, cfg, device, degenerate=True),
+        '2D':    run_condition(npz_paths, chromas, y, '2D (from_scratch)',
+                               seeds, n_folds, device, degenerate=False),
+        '1D-mz': run_condition(npz_paths, chromas, y, '1D-mz (degenerate)',
+                               seeds, n_folds, device, degenerate=True),
     }
 
     # ── Save raw results ───────────────────────────────────────────────────
