@@ -4,7 +4,7 @@ ChromatogramCNN: 1D CNN classifier for 2D GC-MS chromatograms.
 Architecture:
   1. Per-bin spectral projection  Linear(mz_max → cnn_channels)  →  [B, N_bins, cnn_channels]
   2. Three dilated 1D ResBlocks (kernel=7, dilation=1/2/4)
-       receptive field: 7 → 19 → 43 bins  (spans ~8 co-eluting peak groups)
+       receptive field: 13 → 37 → 85 bins  (spans typical co-eluting peak groups)
   3. Dual temporal pooling: global max-pool ∥ soft attention-pool → [B, 2·cnn_channels]
        max   — picks the single most discriminative RT window
        attn  — weighted sum over all bins (multi-peak evidence)
@@ -103,7 +103,13 @@ class ChromatogramCNN(nn.Module):
         return self.head(torch.cat([x_max, x_attn], dim=-1))
 
     def load_pretrained_chroma_encoder(self, checkpoint_path: str) -> None:
-        """Load spec_proj and CNN weights from a ChromaNextFramePredictor checkpoint."""
+        """
+        Load spec_proj and CNN conv weights from a ChromaNextFramePredictor checkpoint.
+
+        Only the Conv1d weights of the ResBlocks transfer: the pretraining blocks
+        use LayerNorm (causal), these use BatchNorm, so the norm layers here keep
+        their default initialisation.
+        """
         import sys
 
         import chroma_dcnn as _pkg
@@ -112,5 +118,10 @@ class ChromatogramCNN(nn.Module):
         self.spec_proj.load_state_dict(ckpt["spec_proj_state"])
         print(f"  Loaded pretrained spec_proj from {checkpoint_path}")
         if "cnn_state" in ckpt:
-            self.cnn.load_state_dict(ckpt["cnn_state"])
+            conv_state = {k: v for k, v in ckpt["cnn_state"].items() if ".conv" in k}
+            missing, unexpected = self.cnn.load_state_dict(conv_state, strict=False)
+            if unexpected or any(".bn" not in k for k in missing):
+                raise RuntimeError(
+                    f"Checkpoint CNN mismatch: missing={missing}, unexpected={unexpected}"
+                )
             print(f"  Loaded pretrained CNN from {checkpoint_path}")

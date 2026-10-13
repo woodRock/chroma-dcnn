@@ -64,6 +64,30 @@ def test_causal_block_ignores_future():
     assert not torch.allclose(y1[..., 10:], y2[..., 10:])
 
 
+@pytest.mark.parametrize("train", [False, True])
+def test_causal_block_ignores_future_in_both_modes(train):
+    """Normalisation must not share statistics across RT positions (train mode too)."""
+    torch.manual_seed(0)
+    block = _CausalResBlock1d(CHANNELS, 3, 2, 0.0).train(train)
+    x = torch.randn(4, CHANNELS, 16)
+    y1 = block(x)
+    x2 = x.clone()
+    x2[..., 10:] = torch.randn_like(x2[..., 10:]) * 5
+    y2 = block(x2)
+    torch.testing.assert_close(y1[..., :10], y2[..., :10])
+
+
+def test_next_frame_predictor_is_causal_in_train_mode():
+    torch.manual_seed(0)
+    model = ChromaNextFramePredictor(_pre_cfg()).train()
+    x = torch.randn(3, N_BINS, MZ_MAX)
+    pred1, _ = model(x)
+    x2 = x.clone()
+    x2[:, 6:] = torch.randn_like(x2[:, 6:]) * 5
+    pred2, _ = model(x2)
+    torch.testing.assert_close(pred1[:, :6], pred2[:, :6])
+
+
 def test_next_frame_predictor_shapes_and_target():
     model = ChromaNextFramePredictor(_pre_cfg()).eval()
     x = torch.randn(3, N_BINS, MZ_MAX)
@@ -87,7 +111,8 @@ def test_pretrained_weights_transfer_to_classifier():
     pre = ChromaNextFramePredictor(_pre_cfg())
     clf = ChromatogramCNN(_cnn_cfg())
     clf.spec_proj.load_state_dict(pre.spec_proj.state_dict())
-    clf.cnn.load_state_dict(pre.cnn.state_dict())
+    conv_state = {k: v for k, v in pre.cnn.state_dict().items() if ".conv" in k}
+    clf.cnn.load_state_dict(conv_state, strict=False)
     torch.testing.assert_close(clf.cnn[0].conv1.weight, pre.cnn[0].conv1.weight)
 
 
@@ -105,6 +130,8 @@ def test_load_pretrained_encoder(tmp_path, capsys):
     clf.load_pretrained_chroma_encoder(str(tmp_path / "c.pt"))
     torch.testing.assert_close(clf.spec_proj.weight, pre.spec_proj.weight)
     torch.testing.assert_close(clf.cnn[2].conv2.weight, pre.cnn[2].conv2.weight)
+    # BatchNorm layers keep their defaults (pretraining uses LayerNorm)
+    torch.testing.assert_close(clf.cnn[0].bn1.weight, torch.ones(CHANNELS))
     assert "Loaded pretrained CNN" in capsys.readouterr().out
     assert "msformer" in sys.modules  # legacy-name alias for old checkpoints
 
