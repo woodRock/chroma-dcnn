@@ -12,13 +12,15 @@ This trains two components that transfer directly to ChromatogramCNN:
 Causal vs non-causal ResBlocks:
   Pretraining uses left-only padding so each position only sees past context.
   Fine-tuning (ChromatogramCNN) uses symmetric padding to see both directions.
-  The Conv1d weight shapes are identical, so conv weights transfer directly.
+  The Conv1d weight shapes are identical, so state dicts transfer directly.
 
-Normalisation:
-  The causal blocks use LayerNorm over channels at each RT position.  BatchNorm
-  would pool statistics over the whole RT axis in training mode, letting
-  position t see positions > t.  Only the conv weights transfer to
-  ChromatogramCNN, whose (non-causal) blocks use BatchNorm.
+Causality is approximate:
+  The convolutions are strictly causal (left-only padding), but BatchNorm
+  computes its statistics over the full RT sequence in training mode, so
+  position t is normalised with statistics that include positions > t.  The
+  pretraining objective is therefore approximately rather than strictly
+  autoregressive.  (In eval mode, running statistics are used and the block is
+  strictly causal.)
 """
 
 from __future__ import annotations
@@ -44,10 +46,9 @@ class _CausalResBlock1d(nn.Module):
     """
     Residual Conv1d block with causal (left-only) padding.
 
-    Output at position t depends only on positions ≤ t, in both training and
-    eval mode, making the block usable for autoregressive prediction along the
-    RT axis.  LayerNorm normalises over channels at each position, so no
-    statistics are shared across time.
+    In eval mode, output at position t depends only on positions ≤ t.  In
+    training mode the BatchNorm statistics span all positions, so the block is
+    only approximately causal (see module docstring).
 
     The Conv1d weight shapes match the non-causal _ResBlock1d used by
     ChromatogramCNN, so weights transfer between the two.
@@ -57,22 +58,17 @@ class _CausalResBlock1d(nn.Module):
         super().__init__()
         self.left_pad = (kernel_size - 1) * dilation
         self.conv1 = nn.Conv1d(channels, channels, kernel_size, dilation=dilation)
-        self.ln1   = nn.LayerNorm(channels)
+        self.bn1   = nn.BatchNorm1d(channels)
         self.drop  = nn.Dropout(dropout)
         self.conv2 = nn.Conv1d(channels, channels, kernel_size, dilation=dilation)
-        self.ln2   = nn.LayerNorm(channels)
+        self.bn2   = nn.BatchNorm1d(channels)
         self.act   = nn.ReLU()
-
-    @staticmethod
-    def _norm(ln: nn.LayerNorm, x: Tensor) -> Tensor:
-        """Apply LayerNorm over channels of a channel-first [B, C, N] tensor."""
-        return ln(x.transpose(1, 2)).transpose(1, 2)
 
     def forward(self, x: Tensor) -> Tensor:   # x: [B, C, N]
         res = x
-        x = self.act(self._norm(self.ln1, self.conv1(F.pad(x, (self.left_pad, 0)))))
+        x = self.act(self.bn1(self.conv1(F.pad(x, (self.left_pad, 0)))))
         x = self.drop(x)
-        x = self._norm(self.ln2, self.conv2(F.pad(x, (self.left_pad, 0))))
+        x = self.bn2(self.conv2(F.pad(x, (self.left_pad, 0))))
         return self.act(res + x)
 
 

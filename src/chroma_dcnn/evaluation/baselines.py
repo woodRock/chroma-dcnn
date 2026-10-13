@@ -143,15 +143,19 @@ def run_plsda(
 
     best_score, best_n = -1.0, 1
     skf = StratifiedKFold(n_splits=min(cv_folds, len(np.unique(y))), shuffle=True, random_state=0)
+    # The preprocessor does not depend on n_components: fit it once per inner split.
+    inner = []
+    for tr, te in skf.split(X, y):
+        pre, X_fit = _fit_pre(X[tr])
+        X_val = X[te] if pre is None else pre.transform(X[te])
+        inner.append((X_fit, y[tr], X_val, y[te]))
     for n in n_components_range:
         scores = []
         clf = PLSDAClassifier(n_components=n)
         try:
-            for tr, te in skf.split(X, y):
-                pre, X_fit = _fit_pre(X[tr])
-                X_val = X[te] if pre is None else pre.transform(X[te])
-                clf.fit(X_fit, y[tr])
-                scores.append(clf.score(X_val, y[te]))
+            for X_fit, y_fit, X_val, y_val in inner:
+                clf.fit(X_fit, y_fit)
+                scores.append(clf.score(X_val, y_val))
         except ValueError:
             continue  # this many components is degenerate on some inner fold
         mean_score = np.mean(scores)

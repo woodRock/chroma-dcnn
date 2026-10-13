@@ -146,6 +146,10 @@ python scripts/03_pretrain_chroma.py
 
 Checkpoint saved to `checkpoints/chroma_pretrain/best.pt`.
 
+The convolutions use strictly left-only (causal) padding, but BatchNorm computes its statistics
+over the full RT sequence in training mode, so the pretraining objective is approximately rather
+than strictly autoregressive.
+
 ### Step 4 — Full CV evaluation (ChromatogramCNN)
 
 10 seeds × 5-fold stratified CV (~10 min on GPU).  Within each outer fold, a stratified
@@ -167,7 +171,10 @@ python scripts/05_run_baselines.py
 Evaluates PLS-DA, RF, SVM, MLP on three feature representations:
 - `sum` — per-m/z sum spectrum
 - `max_proj` — per-m/z maximum across RT (peak heights)
-- `chroma_pca` — full 2D chromatogram, 50 PCs within each CV fold
+- `chroma_pca` — full 2D chromatogram, StandardScaler + 50 PCs.  PCA is fit on the outer
+  training fold only, and refit within every inner CV split used for hyperparameter selection.
+
+PLS-DA selects 1–15 latent variables by inner 5-fold CV; SVM tunes C and γ by inner 3-fold CV.
 
 Results saved to `results/fish_oil/baseline_gcms_{representation}_results.json`.
 
@@ -290,12 +297,12 @@ two-sided Mann-Whitney U against the best method, Bonferroni-corrected over 13 c
 | Rank | Method | Representation | Balanced acc. | \|r\| vs best | p (Bonferroni) | Sig. |
 |:----:|--------|----------------|:-------------:|:-------------:|:--------------:|:----:|
 | 1 | **ChromaDCNN (chroma_pretrain)** | 2D chromatogram | **0.854 ± 0.101** | — | — | — |
-| 2 | PLS-DA | chroma-PCA | 0.703 ± 0.091 | 0.711 | 1.13e-08 | Yes |
+| 2 | SVM (RBF) | chroma-PCA | 0.698 ± 0.102 | 0.711 | 1.13e-08 | Yes |
 | 3 | Random Forest | sum spectrum | 0.696 ± 0.113 | 0.684 | 4.91e-08 | Yes |
-| 4 | SVM (RBF) | chroma-PCA | 0.693 ± 0.108 | 0.713 | 1.04e-08 | Yes |
+| 4 | PLS-DA | chroma-PCA | 0.692 ± 0.096 | 0.734 | 3.22e-09 | Yes |
 | 5 | ChromaDCNN (from_scratch) | 2D chromatogram | 0.603 ± 0.176 | 0.799 | 7.43e-11 | Yes |
 | 6 | SVM (RBF) | max-projection | 0.532 ± 0.120 | 0.960 | 1.68e-15 | Yes |
-| 7 | Random Forest | chroma-PCA | 0.529 ± 0.116 | 0.969 | 8.36e-16 | Yes |
+| 7 | Random Forest | chroma-PCA | 0.530 ± 0.115 | 0.970 | 8.19e-16 | Yes |
 | 8 | SVM (RBF) | sum spectrum | 0.493 ± 0.083 | 0.992 | 1.53e-16 | Yes |
 | 9 | PLS-DA | max-projection | 0.469 ± 0.107 | 0.983 | 3.15e-16 | Yes |
 | 10 | PLS-DA | sum spectrum | 0.429 ± 0.114 | 0.992 | 1.64e-16 | Yes |
@@ -304,11 +311,12 @@ two-sided Mann-Whitney U against the best method, Bonferroni-corrected over 13 c
 | 13 | MLP | chroma-PCA | 0.377 ± 0.159 | 0.970 | 8.21e-16 | Yes |
 | 14 | MLP | sum spectrum | 0.369 ± 0.125 | 0.994 | 1.39e-16 | Yes |
 
-- Pretrained ChromaDCNN significantly outperforms all 13 other conditions: +15.1 pp over the
-  best classical baseline (PLS-DA on chroma-PCA) and +25.1 pp over training from scratch.
+- Pretrained ChromaDCNN significantly outperforms all 13 other conditions: +15.6 pp over the
+  best classical baseline (SVM on chroma-PCA) and +25.1 pp over training from scratch.
 - From scratch, ChromaDCNN is statistically indistinguishable from the top three classical
-  baselines (Bonferroni p ≈ 0.16–0.20 for each), so pretraining is what makes it win.
-- For PLS-DA and SVM, chroma-PCA features (2D chromatogram) beat sum-spectrum features.
+  baselines (Bonferroni p ≈ 0.15–0.44), so pretraining is what makes it win.
+- For PLS-DA and SVM, chroma-PCA features (2D chromatogram) beat sum-spectrum features
+  (+26.3 pp and +20.5 pp).
 
 ### RT-collapse ablation (`results/fish_oil/ablation_1d_vs_2d_summary.md`)
 
