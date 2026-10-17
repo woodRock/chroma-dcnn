@@ -4,806 +4,419 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ChromaDCNN</title>
-<meta name="description" content="Identifying New Zealand fish species from GC-MS lipid profiles with a self-supervised dilated CNN. Interactive results, ablation and saliency.">
+<meta name="description" content="Identifying New Zealand fish species from GC-MS lipid profiles with a self-supervised dilated CNN. Interactive results, architecture, ablation and saliency.">
+<meta property="og:title" content="ChromaDCNN — telling fish apart by the shape of their lipids">
+<meta property="og:description" content="A 1D dilated CNN pretrained on synthetic GC-MS chromatograms identifies four NZ fish species with 0.854 balanced accuracy, +15.6 pp over the best classical baseline.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 26 C7 26 8 10 11 10 S14 26 17 26 20 4 22 4 25 26 30 26' fill='none' stroke='%232a78d6' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+  // Apply a saved theme before first paint (no flash).
+  try { const t = localStorage.getItem('chroma-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="data.js"></script>
-<style>
-:root {
-  --bg: #f7f6f2;
-  --surface: #ffffff;
-  --surface-2: #efede6;
-  --ink: #16181d;
-  --ink-2: #4a4f59;
-  --ink-3: #7b808a;
-  --line: #e1ded5;
-  --accent: #1d4ed8;
-  --accent-soft: #dbe5fd;
-  --good: #0f766e;
-  --SNA: #2196f3;
-  --GUR: #f08a00;
-  --TAR: #3a9a3e;
-  --BCO: #e0245e;
-  --shadow: 0 1px 2px rgba(20, 20, 30, .05), 0 8px 24px rgba(20, 20, 30, .06);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0e1015;
-    --surface: #161922;
-    --surface-2: #1d212c;
-    --ink: #eceef3;
-    --ink-2: #b4bac6;
-    --ink-3: #848b99;
-    --line: #2a2f3c;
-    --accent: #7aa2ff;
-    --accent-soft: #1d2a4d;
-    --good: #4fd1c5;
-    --SNA: #5cb4ff;
-    --GUR: #ffad42;
-    --TAR: #6cc96f;
-    --BCO: #ff5c8d;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0e1015;
-  --surface: #161922;
-  --surface-2: #1d212c;
-  --ink: #eceef3;
-  --ink-2: #b4bac6;
-  --ink-3: #848b99;
-  --line: #2a2f3c;
-  --accent: #7aa2ff;
-  --accent-soft: #1d2a4d;
-  --good: #4fd1c5;
-  --SNA: #5cb4ff;
-  --GUR: #ffad42;
-  --TAR: #6cc96f;
-  --BCO: #ff5c8d;
-  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
-}
-
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font: 16px/1.65 Inter, system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-h1, h2, h3 { font-family: Fraunces, Georgia, serif; font-weight: 650; letter-spacing: -.01em; line-height: 1.15; }
-h2 { font-size: clamp(1.7rem, 3.2vw, 2.4rem); margin: 0 0 .6rem; }
-h3 { font-size: 1.2rem; margin: 0 0 .4rem; }
-p { margin: 0 0 1rem; color: var(--ink-2); }
-code, .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .88em; }
-.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-
-/* nav */
-nav {
-  position: sticky; top: 0; z-index: 20;
-  background: color-mix(in srgb, var(--bg) 85%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-}
-nav .wrap { display: flex; align-items: center; gap: 22px; height: 56px; }
-nav .brand { font-family: Fraunces, serif; font-weight: 650; color: var(--ink); font-size: 1.1rem; }
-nav .links { display: flex; gap: 18px; margin-left: auto; font-size: .9rem; }
-nav .links a { color: var(--ink-2); }
-nav .links a:hover { color: var(--ink); text-decoration: none; }
-.icon-btn {
-  border: 1px solid var(--line); background: var(--surface); color: var(--ink-2);
-  border-radius: 8px; height: 32px; padding: 0 10px; cursor: pointer; font: inherit; font-size: .85rem;
-}
-@media (max-width: 760px) { nav .links { display: none; } nav .icon-btn { margin-left: auto; } }
-
-/* hero */
-header.hero { padding: 72px 0 40px; position: relative; overflow: hidden; }
-.eyebrow { font-size: .8rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
-.hero h1 { font-size: clamp(2.4rem, 6vw, 4.4rem); margin: .4rem 0 1rem; max-width: 15ch; }
-.hero .lede { font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-width: 62ch; color: var(--ink-2); }
-.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 26px 0 0; }
-.btn {
-  display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 10px;
-  font-weight: 500; font-size: .95rem; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
-}
-.btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.btn:hover { text-decoration: none; filter: brightness(1.08); }
-#hero-trace { width: 100%; height: 150px; margin-top: 44px; display: block; }
-
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 28px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; box-shadow: var(--shadow); }
-.stat .v { font-family: Fraunces, serif; font-size: 2.1rem; font-weight: 650; line-height: 1; color: var(--ink); }
-.stat .v small { font-size: 1rem; color: var(--ink-3); font-weight: 500; }
-.stat .l { font-size: .86rem; color: var(--ink-2); margin-top: 8px; line-height: 1.4; }
-@media (max-width: 860px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-
-/* sections */
-section { padding: 72px 0 24px; scroll-margin-top: 60px; }
-.kicker { font-family: "JetBrains Mono", monospace; font-size: .8rem; color: var(--ink-3); margin-bottom: 6px; }
-.section-intro { max-width: 70ch; margin-bottom: 28px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px; box-shadow: var(--shadow); }
-.card + .card { margin-top: 18px; }
-.grid-2 > .card, .grid-3 > .card { margin-top: 0; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-@media (max-width: 860px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
-.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
-.card-head p { margin: 0; font-size: .92rem; }
-.caption { font-size: .86rem; color: var(--ink-3); margin: 10px 0 0; }
-.plot { width: 100%; }
-
-/* controls */
-.seg { display: inline-flex; background: var(--surface-2); border-radius: 10px; padding: 3px; gap: 2px; flex-wrap: wrap; }
-.seg button {
-  border: 0; background: transparent; color: var(--ink-2); font: inherit; font-size: .85rem;
-  padding: 6px 12px; border-radius: 8px; cursor: pointer;
-}
-.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); font-weight: 500; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip {
-  border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); font: inherit; font-size: .82rem;
-  border-radius: 999px; padding: 5px 12px 5px 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
-}
-.chip .dot { width: 9px; height: 9px; border-radius: 50%; }
-.chip[aria-pressed="false"] { opacity: .45; }
-.controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-
-/* steps */
-.step .n { font-family: "JetBrains Mono", monospace; font-size: .78rem; color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 2px 8px; display: inline-block; margin-bottom: 10px; }
-.step p { font-size: .93rem; margin: 0; }
-figure { margin: 0; }
-figure img { width: 100%; height: auto; border-radius: 10px; display: block; background: #fff; }
-.figure-pad { background: #fff; border-radius: 12px; padding: 12px; }
-
-/* table */
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
-th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
-th { font-weight: 600; color: var(--ink-3); font-size: .8rem; cursor: pointer; user-select: none; }
-th[data-sort]:hover { color: var(--ink); }
-td.num { font-family: "JetBrains Mono", monospace; font-size: .84rem; }
-tr.best td { background: var(--accent-soft); }
-.bar { display: inline-block; height: 6px; border-radius: 3px; background: var(--accent); vertical-align: middle; margin-right: 8px; opacity: .8; }
-.tag { font-size: .74rem; padding: 2px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); }
-
-/* callouts */
-.callout { border-left: 3px solid var(--accent); background: var(--surface); padding: 14px 18px; border-radius: 0 12px 12px 0; margin: 18px 0; }
-.callout p { margin: 0; color: var(--ink); }
-.big-num { font-family: Fraunces, serif; font-size: 2.6rem; font-weight: 650; line-height: 1; }
-.delta { color: var(--good); }
-
-.limits li { margin-bottom: 12px; color: var(--ink-2); }
-.limits li strong { color: var(--ink); }
-pre { background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 16px; overflow-x: auto; font-size: .84rem; line-height: 1.55; margin: 0; }
-footer { padding: 48px 0 64px; color: var(--ink-3); font-size: .86rem; border-top: 1px solid var(--line); margin-top: 72px; }
-.legend-sp { display: flex; gap: 14px; flex-wrap: wrap; font-size: .85rem; color: var(--ink-2); }
-.legend-sp span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; background: var(--c); }
-@media (max-width: 600px) { .wrap { padding: 0 16px; } .card { padding: 16px; } }
-</style>
 </head>
 <body>
 
-<nav>
-  <div class="wrap">
-    <a class="brand" href="#top">ChromaDCNN</a>
-    <div class="links">
+<nav class="nav" aria-label="Sections">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M2 26 C7 26 8 10 11 10 S14 26 17 26 20 4 22 4 25 26 30 26" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/></svg>
+      ChromaDCNN
+    </a>
+    <div class="nav-links">
       <a href="#data">Data</a>
       <a href="#method">Method</a>
       <a href="#results">Results</a>
+      <a href="#pretraining">Pretraining</a>
       <a href="#ablation">Ablation</a>
       <a href="#saliency">Saliency</a>
-      <a href="#limits">Limitations</a>
-      <a href="https://github.com/woodRock/chroma-dcnn">GitHub</a>
+      <a href="#limits">Caveats</a>
+      <a href="#reproduce">Reproduce</a>
     </div>
-    <button class="icon-btn" id="theme-btn" type="button" aria-label="Toggle colour theme">◐ Theme</button>
+    <button class="icon-btn" id="theme-btn" type="button" aria-label="Toggle colour theme" title="Toggle theme">
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.4 5.4 0 0 1-9.54-4.54A5.4 5.4 0 0 1 13.36 3.1C12.92 3.04 12.46 3 12 3Z"/></svg>
+    </button>
+    <a class="icon-btn" href="https://github.com/woodRock/chroma-dcnn" aria-label="GitHub repository">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+    </a>
   </div>
+  <div class="progress" id="progress"></div>
 </nav>
 
 <header class="hero" id="top">
   <div class="wrap">
-    <div class="eyebrow">GC-MS · self-supervised learning · food authentication</div>
-    <h1>Telling fish apart by the shape of their lipids</h1>
-    <p class="lede">
-      ChromaDCNN reads a whole two-dimensional GC-MS chromatogram (retention time × <i>m/z</i>)
-      and identifies which of four New Zealand fish species it came from. It is pretrained to predict the
-      next spectrum in synthetic chromatograms built from public reference spectra, so it learns how
-      chromatograms behave before it ever sees a fish.
-    </p>
-    <div class="hero-cta">
-      <a class="btn primary" href="#results">See the results</a>
-      <a class="btn" href="https://github.com/woodRock/chroma-dcnn">Code &amp; data on GitHub</a>
+    <div class="hero-inner">
+      <div class="reveal">
+        <div class="eyebrow">GC-MS · self-supervised learning · food authentication</div>
+        <h1>Telling fish apart by the <span class="grad">shape of their lipids</span></h1>
+        <p class="lede">A whole GC-MS run is a 200 × 1000 matrix: a mass spectrum for every slice of retention time.
+          ChromaDCNN reads that matrix bin by bin with a dilated 1D CNN and names one of four New Zealand fish species.
+          It learns how chromatograms behave from <strong>synthetic runs built from public reference spectra</strong>
+          before it ever sees a fish.</p>
+        <div class="cta">
+          <a class="btn primary" href="#results">See the results ↓</a>
+          <a class="btn" href="https://github.com/woodRock/chroma-dcnn">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+            Code &amp; data
+          </a>
+        </div>
+      </div>
+      <figure class="hero-figure reveal" style="margin:0">
+        <div class="fig-head">
+          <span class="state-label"><span class="state-dot" id="hero-dot"></span><span id="hero-state">Reading a Snapper run, bin by bin</span></span>
+          <div class="group" style="display:flex;gap:8px;flex-wrap:wrap">
+            <div class="seg" id="hero-species" role="group" aria-label="Species"></div>
+            <button class="small-btn" id="hero-play" type="button" aria-pressed="true">⏸ Pause</button>
+          </div>
+        </div>
+        <div class="reader" id="hero-reader" aria-label="A chromatogram as the model sees it: a heatmap of retention time against m/z, a summed trace above it, and the mass spectrum at the current retention-time bin to the right">
+          <div class="tic"><svg id="hero-tic"></svg></div>
+          <div class="corner" id="hero-corner"></div>
+          <div class="heat" id="hero-heat"><canvas id="hero-canvas"></canvas><div class="playhead" id="hero-playhead"></div></div>
+          <div class="spec"><svg id="hero-spec"></svg></div>
+        </div>
+        <figcaption class="fig-caption" id="hero-caption">Hover the heatmap to scrub. Retention time runs left to right, <i>m/z</i> bottom to top; the right panel is the spectrum under the playhead.</figcaption>
+      </figure>
     </div>
-    <div class="stats" id="stats"></div>
-    <svg id="hero-trace" viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true"></svg>
+    <div class="stats" id="stats">
+      <div class="stat reveal"><div class="v num" data-count="0.854" data-dec="3">0.000</div><div class="k">balanced accuracy, pretrained ChromaDCNN (± 0.101 over 50 folds)</div></div>
+      <div class="stat reveal"><div class="v num"><span data-count="15.6" data-dec="1" data-prefix="+">+0.0</span><small>pp</small></div><div class="k">over the best classical baseline (SVM on chroma-PCA, 0.698)</div></div>
+      <div class="stat reveal"><div class="v num"><span data-count="25.1" data-dec="1" data-prefix="+">+0.0</span><small>pp</small></div><div class="k">from synthetic pretraining (same network from scratch: 0.603)</div></div>
+      <div class="stat reveal"><div class="v num" data-count="9553" data-dec="0">0</div><div class="k">public reference spectra behind pretraining. No fish data involved.</div></div>
+    </div>
   </div>
 </header>
 
 <main>
-
-<section id="data">
-  <div class="wrap">
-    <div class="kicker">01 — Data</div>
+<!-- 01 ─────────────────────────────────────────────────────────────────── -->
+<section class="chapter" id="data">
+  <div class="chapter-head reveal">
+    <div class="kicker">01 — DATA</div>
     <h2>103 chromatograms, four species, six body parts</h2>
-    <p class="section-intro">
-      Lipids were extracted from six body parts of Snapper, Gurnard, Tarakihi and Blue Cod and run on
-      coupled gas chromatography–mass spectrometry. Each run becomes a 200 × 1000 matrix: 200 retention-time
-      bins from 5 to 45 minutes, each holding a mass spectrum. Every bin is square-root transformed and
-      scaled to unit length, so the model sees the <em>shape</em> of each spectrum along the run.
-    </p>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-head"><h3>Samples per species and body part</h3></div>
-        <div id="composition" class="plot" style="height:330px"></div>
-        <p class="caption" id="individuals-caption"></p>
-      </div>
-      <div class="card">
-        <div class="card-head">
-          <h3>One chromatogram per species</h3>
-          <div class="seg" id="example-species" role="group" aria-label="Species"></div>
+    <p class="intro">Lipids were extracted from six body parts of Snapper, Gurnard, Tarakihi and Blue Cod and run on coupled
+      gas chromatography–mass spectrometry. Each run becomes a 200 × 1000 matrix: 200 retention-time bins from 5 to 45 minutes,
+      each holding a mass spectrum. Every bin is square-root transformed and scaled to unit length, so the model sees the
+      <strong>shape</strong> of each spectrum along the run, not its absolute intensity.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card reveal">
+      <div class="card-head">
+        <h3>Where the samples come from</h3>
+        <div class="seg" id="comp-mode" role="group" aria-label="Group by">
+          <button type="button" data-mode="part" aria-pressed="true">By body part</button>
+          <button type="button" data-mode="individual" aria-pressed="false">By individual fish</button>
         </div>
-        <div id="example-heat" class="plot" style="height:330px"></div>
-        <p class="caption" id="example-caption"></p>
       </div>
+      <div class="chart" id="composition"></div>
+      <div class="legend" id="composition-legend"></div>
+      <p class="caption" id="composition-caption"></p>
+    </div>
+    <div class="card reveal">
+      <div class="card-head">
+        <h3>Four species, one trace each</h3>
+        <label class="inline"><input type="checkbox" id="tic-overlay"> Overlay</label>
+      </div>
+      <div class="chart" id="tic-chart"></div>
+      <div class="legend" id="tic-legend"></div>
+      <p class="caption">Summed √intensity across <i>m/z</i> for the first sample of each species. Hover to read all four at one retention time.
+        The same lipid classes elute everywhere; what differs is the relative pattern.</p>
     </div>
   </div>
 </section>
 
-<section id="method">
-  <div class="wrap">
-    <div class="kicker">02 — Method</div>
+<!-- 02 ─────────────────────────────────────────────────────────────────── -->
+<section class="chapter" id="method">
+  <div class="chapter-head reveal">
+    <div class="kicker">02 — METHOD</div>
     <h2>Pretrain on synthetic chemistry, fine-tune on fish</h2>
-    <p class="section-intro">
-      Labelled GC-MS data is scarce, so ChromaDCNN first learns from chromatograms that do not exist.
-      None of the fish data is used for pretraining, so nothing leaks into the cross-validation folds.
-    </p>
-    <div class="grid-3">
-      <div class="card step">
-        <span class="n">STEP 1</span>
-        <h3>Synthesise</h3>
-        <p>9,553 electron-ionisation spectra from MoNA and MassBank are mixed into synthetic chromatograms:
-          5–30 compounds per run, each eluting as a Gaussian peak of random position and width.</p>
-      </div>
-      <div class="card step">
-        <span class="n">STEP 2</span>
-        <h3>Pretrain</h3>
-        <p>The network predicts the next RT bin's spectrum from the bins before it (next-frame prediction,
-          20,000 iterations), learning how co-eluting compounds and peak shapes behave.</p>
-      </div>
-      <div class="card step">
-        <span class="n">STEP 3</span>
-        <h3>Fine-tune &amp; evaluate</h3>
-        <p>The pretrained encoder gets a 4-way classification head and is fine-tuned on the fish data
-          under 10 seeds × 5-fold stratified cross-validation, with a nested validation split for early stopping.</p>
-      </div>
+    <p class="intro">Labelled GC-MS data is scarce, so ChromaDCNN first learns from chromatograms that do not exist.
+      None of the fish data is used for pretraining, so nothing leaks into the cross-validation folds.</p>
+  </div>
+  <div class="steps reveal">
+    <div class="step">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M4 36c6 0 7-18 10-18s4 18 7 18 4-26 6-26 4 26 7 26 3-8 6-8" fill="none" stroke="var(--GUR)" stroke-width="2.5" stroke-linecap="round"/></svg>
+      <h4>Synthesise</h4>
+      <p>9,553 electron-ionisation spectra from MoNA and MassBank are mixed into synthetic chromatograms: 5–30 compounds per run,
+        each eluting as a Gaussian peak of random position and width.</p>
     </div>
+    <div class="step">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><rect x="4" y="12" width="22" height="20" rx="3" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/><rect x="30" y="12" width="10" height="20" rx="3" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="3 3"/><path d="M26 22h4" stroke="var(--accent)" stroke-width="2"/></svg>
+      <h4>Pretrain</h4>
+      <p>The network predicts the next bin's spectrum from the bins before it (next-frame prediction, 20,000 iterations),
+        learning how co-eluting compounds and peak shapes behave.</p>
+    </div>
+    <div class="step">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="12" cy="14" r="5" fill="var(--SNA)"/><circle cx="32" cy="14" r="5" fill="var(--GUR)"/><circle cx="12" cy="32" r="5" fill="var(--TAR)"/><circle cx="32" cy="32" r="5" fill="var(--BCO)"/></svg>
+      <h4>Fine-tune &amp; evaluate</h4>
+      <p>The pretrained encoder gets a 4-way head and is fine-tuned on the fish data under 10 seeds × 5-fold stratified
+        cross-validation, with a nested validation split for early stopping.</p>
+    </div>
+  </div>
 
-    <div class="card" style="margin-top:18px">
+  <div class="card reveal" style="margin-top:18px">
+    <div class="card-head">
+      <div><h3>Architecture, stage by stage</h3><p class="sub">Click a stage. Bar width is its share of the 819,717 parameters.</p></div>
+    </div>
+    <div class="pipeline" id="pipeline" role="group" aria-label="Model stages"></div>
+    <div class="stage-detail" id="stage-detail"></div>
+    <details class="paperfig">
+      <summary>Show the paper's architecture figure</summary>
+      <figure><img src="assets/architecture.png" alt="ChromaDCNN architecture: per-bin linear embedding of each 1000-channel spectrum into 128 features, three dilated residual blocks with kernel 7 and dilations 1, 2 and 4, dual max and attention pooling, and a linear classifier." loading="lazy"></figure>
+    </details>
+  </div>
+
+  <div class="grid-2 wide" style="margin-top:18px">
+    <div class="card reveal">
       <div class="card-head">
-        <h3>Architecture</h3>
-        <p class="mono">819,717 parameters</p>
+        <div><h3>How far can one output bin see?</h3><p class="sub">Six dilated convolutions widen the receptive field from 7 bins to 85, about 17 minutes of run time.</p></div>
       </div>
-      <div class="figure-pad"><figure><img src="assets/architecture.png" alt="ChromaDCNN architecture: per-bin linear embedding of each 1000-channel spectrum into 128 features, three dilated residual blocks with kernel 7 and dilations 1, 2 and 4, dual max and attention pooling, and a linear classifier." loading="lazy"></figure></div>
-      <p class="caption">
-        Each RT bin's spectrum is embedded by a shared Linear(1000 → 128). Three dilated residual blocks
-        (kernel 7, dilations 1, 2, 4; two convolutions each) grow the receptive field to 13 → 37 → 85 bins,
-        about 17 minutes of run time. Max pooling and a learned soft-attention pooling are concatenated before the classifier.
-      </p>
+      <div class="controls">
+        <div class="seg" id="rf-mode" role="group" aria-label="Padding">
+          <button type="button" data-mode="sym" aria-pressed="true">Fine-tuning (symmetric)</button>
+          <button type="button" data-mode="causal" aria-pressed="false">Pretraining (causal)</button>
+        </div>
+        <div class="slider" style="min-width:220px;flex:1"><span>Output bin</span><input type="range" id="rf-pos" min="0" max="199" value="120"><b id="rf-pos-v">120</b></div>
+      </div>
+      <div class="chart" id="rf-chart"></div>
+      <p class="caption" id="rf-caption"></p>
     </div>
-
-    <div class="card">
-      <div class="card-head"><h3>Synthetic pretraining data</h3></div>
-      <div class="figure-pad"><figure><img src="assets/synthetic-dataset.png" alt="Examples of synthetic GC-MS chromatograms built from reference EI spectra." loading="lazy"></figure></div>
+    <div class="card reveal">
+      <div class="card-head">
+        <div><h3>A synthetic run, and the next-frame game</h3><p class="sub">The pretraining task: given every bin so far, predict the next one.</p></div>
+      </div>
+      <div class="controls" style="gap:14px">
+        <div class="slider" style="flex:1;min-width:160px"><span>Compounds</span><input type="range" id="syn-k" min="5" max="30" value="12"><b id="syn-k-v">12</b></div>
+        <div class="slider" style="flex:1;min-width:160px"><span>Peak width</span><input type="range" id="syn-sig" min="1" max="15" value="6"><b id="syn-sig-v">6</b></div>
+        <div class="group">
+          <button class="small-btn" id="syn-new" type="button">↻ New sample</button>
+          <button class="small-btn" id="syn-play" type="button" aria-pressed="true">⏸</button>
+        </div>
+      </div>
+      <div class="heatwrap" id="syn-wrap" style="height:220px"><canvas id="syn-canvas"></canvas></div>
+      <div class="chart" id="syn-tic"></div>
+      <p class="caption" id="syn-caption"></p>
     </div>
   </div>
 </section>
 
-<section id="results">
-  <div class="wrap">
-    <div class="kicker">03 — Results</div>
+<!-- 03 ─────────────────────────────────────────────────────────────────── -->
+<section class="chapter" id="results">
+  <div class="chapter-head reveal">
+    <div class="kicker">03 — RESULTS</div>
     <h2>Pretrained ChromaDCNN beats every classical baseline</h2>
-    <p class="section-intro">
-      Fourteen methods, each scored on the same 50 held-out folds (10 seeds × 5 folds). Classical baselines
-      (PLS-DA, random forest, RBF-SVM, MLP) are tuned by inner cross-validation on three representations
-      of the chromatogram: the summed spectrum, the per-<i>m/z</i> maximum, and 50 principal components of the
-      full 2D matrix. Every point is one fold.
-    </p>
-    <div class="card">
-      <div class="controls">
-        <div class="chips" id="rep-chips" role="group" aria-label="Filter by representation"></div>
-        <div class="seg" id="metric-seg" role="group" aria-label="Metric">
-          <button type="button" data-metric="ba" aria-pressed="true">Balanced accuracy</button>
-          <button type="button" data-metric="f1" aria-pressed="false">Macro F1</button>
-        </div>
+    <p class="intro">Fourteen methods, each scored on the same 50 held-out folds (10 seeds × 5 folds). Classical baselines
+      (PLS-DA, random forest, RBF-SVM, MLP) are tuned by inner cross-validation on three representations of the chromatogram:
+      the summed spectrum, the per-<i>m/z</i> maximum, and 50 principal components of the full 2D matrix. Every dot is one fold.</p>
+  </div>
+  <div class="card reveal">
+    <div class="controls">
+      <div class="group" id="rep-chips" role="group" aria-label="Filter by input representation"></div>
+      <div class="seg" id="metric-seg" role="group" aria-label="Metric">
+        <button type="button" data-metric="ba" aria-pressed="true">Balanced accuracy</button>
+        <button type="button" data-metric="f1" aria-pressed="false">Macro F1</button>
       </div>
-      <div id="results-plot" class="plot" style="height:600px"></div>
-      <p class="caption">Box: median and quartiles over 50 folds. Dashed line: chance (0.25). Hover a point for its value.</p>
     </div>
-
-    <div class="card">
-      <div class="card-head">
-        <h3>Full table</h3>
-        <p>Mann–Whitney U against the best method, Bonferroni-corrected over 13 comparisons; |r| is rank-biserial effect size. Click a header to sort.</p>
-      </div>
-      <div class="table-wrap"><table id="results-table"></table></div>
+    <div class="chart" id="results-chart"></div>
+    <p class="caption">Box: median and quartiles over 50 folds; the large marker is the mean. Vertical rule: chance (0.25). Hover a dot for its fold.</p>
+  </div>
+  <div class="card reveal" style="margin-top:18px">
+    <div class="card-head">
+      <div><h3>Full table</h3><p class="sub">Mann–Whitney U against the best method, Bonferroni-corrected over 13 comparisons; |r| is rank-biserial effect size. Click a header to sort.</p></div>
     </div>
+    <div class="tablewrap"><table class="data" id="results-table"></table></div>
   </div>
 </section>
 
-<section id="pretraining">
-  <div class="wrap">
-    <div class="kicker">04 — Pretraining</div>
+<!-- 04 ─────────────────────────────────────────────────────────────────── -->
+<section class="chapter" id="pretraining">
+  <div class="chapter-head reveal">
+    <div class="kicker">04 — PRETRAINING</div>
     <h2>Synthetic pretraining adds 25 points</h2>
-    <p class="section-intro">
-      The same network trained from random initialisation reaches only 0.603. Because both conditions
-      use identical seeds and folds, each fold can be compared directly.
-    </p>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-head"><h3>Fold by fold</h3></div>
-        <div id="paired-plot" class="plot" style="height:380px"></div>
-        <p class="caption" id="paired-caption"></p>
-      </div>
-      <div class="card">
-        <div class="card-head"><h3>Distribution over 50 folds</h3></div>
-        <div id="pretrain-violin" class="plot" style="height:380px"></div>
-        <p class="caption">From scratch is also far less stable: SD 0.176 vs 0.101.</p>
-      </div>
-    </div>
+    <p class="intro">The same network trained from random initialisation reaches only 0.603. Both conditions use identical
+      seeds and folds, so every fold can be compared directly.</p>
   </div>
-</section>
-
-<section id="ablation">
-  <div class="wrap">
-    <div class="kicker">05 — Ablation</div>
-    <h2>Does the model need retention time?</h2>
-    <p class="section-intro">
-      We replaced every chromatogram with its summed spectrum, copied into all 200 RT bins. The model,
-      hyperparameters and training code are unchanged, but there is no retention-time structure left to use.
-    </p>
-    <div class="grid-2">
-      <div class="card">
-        <div id="ablation-plot" class="plot" style="height:360px"></div>
-        <p class="caption">ChromaDCNN from scratch, 10 seeds × 5 folds. Dotted line: PLS-DA on the summed spectrum (0.429).</p>
-      </div>
-      <div class="card" style="display:flex;flex-direction:column;justify-content:center">
-        <div class="big-num" id="ablation-delta"></div>
-        <p style="margin-top:8px">balanced accuracy lost when the retention-time axis is removed
-          (Mann–Whitney p = 1.0 × 10<sup>−7</sup>, |r| = 0.62).</p>
-        <div class="callout"><p>Without RT, ChromaDCNN falls to the level of classical models on the summed
-          spectrum. Its advantage comes from <em>when</em> compounds elute, not just <em>which</em> ions appear.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="saliency">
-  <div class="wrap">
-    <div class="kicker">06 — Saliency</div>
-    <h2>Where in the chromatogram is the evidence?</h2>
-    <p class="section-intro">
-      Gradient saliency |∂logit<sub>c</sub>/∂X| for the true class, computed only on held-out samples:
-      one pretrained model per fold (seed 0, mean fold balanced accuracy <span id="sal-ba"></span>),
-      averaged per species.
-    </p>
-
-    <div class="card">
-      <div class="controls">
-        <div class="seg" id="sal-species" role="group" aria-label="Species"></div>
-        <div class="seg" id="sal-view" role="group" aria-label="View">
-          <button type="button" data-view="3d" aria-pressed="true">3D surface</button>
-          <button type="button" data-view="heat" aria-pressed="false">Saliency map</button>
-        </div>
-      </div>
-      <div id="sal-main" class="plot" style="height:560px"></div>
-      <p class="caption" id="sal-caption"></p>
-    </div>
-
-    <div class="grid-2" style="margin-top:18px">
-      <div class="card">
-        <div class="card-head"><h3>Retention-time profile</h3></div>
-        <div id="rt-profile" class="plot" style="height:320px"></div>
-        <p class="caption" id="rt-caption"></p>
-      </div>
-      <div class="card">
-        <div class="card-head"><h3><i>m/z</i> profile</h3></div>
-        <div id="mz-profile" class="plot" style="height:320px"></div>
-        <p class="caption" id="mz-caption"></p>
-      </div>
-    </div>
-
-    <div class="card">
+  <div class="grid-2">
+    <div class="card reveal">
       <div class="card-head">
-        <h3>Share of RT saliency by window</h3>
-        <p>40–44 min dominates for every species; Tarakihi is the most concentrated.</p>
+        <h3>Fold by fold</h3>
+        <button class="small-btn" id="paired-replay" type="button">▶ Replay</button>
       </div>
-      <div id="share-plot" class="plot" style="height:300px"></div>
+      <div class="chart" id="paired-chart"></div>
+      <div class="legend" id="paired-legend"></div>
+      <p class="caption" id="paired-caption"></p>
+    </div>
+    <div class="card reveal">
+      <div class="card-head"><h3>Distribution over 50 folds</h3></div>
+      <div class="chart" id="pretrain-dist"></div>
+      <div class="kpis" id="pretrain-kpis"></div>
+      <p class="caption">From scratch is also far less stable: SD 0.176 against 0.101 pretrained.</p>
     </div>
   </div>
 </section>
 
-<section id="limits">
-  <div class="wrap">
-    <div class="kicker">07 — Caveats</div>
+<!-- 05 ─────────────────────────────────────────────────────────────────── -->
+<section class="chapter" id="ablation">
+  <div class="chapter-head reveal">
+    <div class="kicker">05 — ABLATION</div>
+    <h2>Does the model need retention time?</h2>
+    <p class="intro">Replace every chromatogram with its summed spectrum, copied into all 200 bins. The model, hyperparameters and
+      training code are unchanged, but there is no retention-time structure left to use.</p>
+  </div>
+  <div class="grid-2">
+    <div class="card reveal">
+      <div class="card-head">
+        <div><h3>Collapse the RT axis</h3><p class="sub">Watch the input the model receives, and what happens to its accuracy.</p></div>
+        <button class="small-btn primary" id="abl-toggle" type="button">Collapse RT</button>
+      </div>
+      <div class="heat-axes">
+        <div class="ylab">Retention time →</div>
+        <div class="heatwrap" id="abl-wrap" style="height:260px"><canvas id="abl-canvas"></canvas></div>
+        <div></div>
+        <div class="xlab"><span><i>m/z</i> 50</span><span>450</span></div>
+      </div>
+      <div class="kpis" style="grid-template-columns:1fr 1fr">
+        <div class="kpi"><div class="v num" id="abl-acc">0.603</div><div class="k" id="abl-acc-k">balanced accuracy, 2D input (from scratch)</div></div>
+        <div class="kpi"><div class="v num" id="abl-delta">—</div><div class="k">change when RT is removed</div></div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="card-head"><h3>50 folds each, same seeds</h3></div>
+      <div class="chart" id="ablation-chart"></div>
+      <div class="legend" id="ablation-legend"></div>
+      <div class="callout"><p>Without RT, ChromaDCNN falls to the level of classical models on the summed spectrum
+        (PLS-DA: 0.429, dashed). Its advantage comes from <strong>when</strong> compounds elute, not just <strong>which</strong> ions appear.
+        Mann–Whitney p = 1.0 × 10<sup>−7</sup>, |r| = 0.62.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 ─────────────────────────────────────────────────────────────────── -->
+<section class="chapter" id="saliency">
+  <div class="chapter-head reveal">
+    <div class="kicker">06 — SALIENCY</div>
+    <h2>Where in the chromatogram is the evidence?</h2>
+    <p class="intro">Gradient saliency |∂logit<sub>c</sub>/∂X| for the true class, computed only on held-out samples:
+      one pretrained model per fold (seed 0, mean fold balanced accuracy <span id="sal-ba"></span>), averaged per species.</p>
+  </div>
+  <div class="card reveal">
+    <div class="controls">
+      <div class="seg" id="sal-species" role="group" aria-label="Species"></div>
+      <div class="seg" id="sal-view" role="group" aria-label="View">
+        <button type="button" data-view="sal" aria-pressed="true">Saliency</button>
+        <button type="button" data-view="chroma" aria-pressed="false">Chromatogram</button>
+        <button type="button" data-view="3d" aria-pressed="false">3D surface</button>
+      </div>
+    </div>
+    <div id="sal-2d">
+      <div class="heat-axes">
+        <div class="ylab">Retention time (min)</div>
+        <div class="heatwrap" id="sal-wrap" style="height:420px"><canvas id="sal-canvas"></canvas><div id="sal-rtline" style="position:absolute;left:0;right:0;height:0;border-top:1.5px solid var(--GUR);opacity:0;pointer-events:none"></div></div>
+        <div></div>
+        <div class="xlab"><span><i>m/z</i> 50</span><span>150</span><span>250</span><span>350</span><span>450</span></div>
+      </div>
+      <div class="ramp-row"><span id="sal-ramp-lo">low</span><div class="ramp"></div><span id="sal-ramp-hi">high</span></div>
+    </div>
+    <div id="sal-3d" style="display:none;height:520px"></div>
+    <p class="caption" id="sal-caption"></p>
+  </div>
+  <div class="grid-2" style="margin-top:18px">
+    <div class="card reveal">
+      <div class="card-head"><h3>Retention-time profile</h3></div>
+      <div class="chart" id="rt-profile"></div>
+      <div class="legend" id="rt-legend"></div>
+      <p class="caption" id="rt-caption"></p>
+    </div>
+    <div class="card reveal">
+      <div class="card-head"><h3><i>m/z</i> profile</h3></div>
+      <div class="chart" id="mz-profile"></div>
+      <div class="legend" id="mz-legend"></div>
+      <p class="caption" id="mz-caption"></p>
+    </div>
+  </div>
+  <div class="card reveal" style="margin-top:18px">
+    <div class="card-head">
+      <div><h3>Share of RT saliency by window</h3><p class="sub">40–44 min dominates for every species; Tarakihi is the most concentrated.</p></div>
+    </div>
+    <div class="chart" id="share-chart"></div>
+    <div class="legend" id="share-legend"></div>
+  </div>
+</section>
+
+<!-- 07 ─────────────────────────────────────────────────────────────────── -->
+<section class="chapter" id="limits">
+  <div class="chapter-head reveal">
+    <div class="kicker">07 — CAVEATS</div>
     <h2>What these results do and don't show</h2>
-    <div class="card">
-      <ul class="limits">
-        <li><strong>Few individuals.</strong> The 103 samples come from six fish: one each of Snapper, Gurnard and
-          Tarakihi, and three Blue Cod. Cross-validation is stratified by species, so different body parts of the
-          same fish fall on both sides of a split. The accuracies measure generalisation across body parts and
-          replicates, not to new individuals.</li>
-        <li><strong>Approximately causal pretraining.</strong> The convolutions only look backwards in retention time,
-          but batch-normalisation statistics are computed over the whole sequence during training, so the
-          next-frame objective is approximately rather than strictly autoregressive.</li>
-        <li><strong>Saliency is one seed.</strong> The saliency maps use seed 0 only and show where the gradient is large,
-          which is not the same as a causal attribution to specific compounds.</li>
-        <li><strong>Class imbalance.</strong> Blue Cod makes up 57 of 103 samples. All results are balanced accuracy, and
-          training uses a class-weighted loss.</li>
-      </ul>
-    </div>
+  </div>
+  <div class="limits reveal">
+    <div class="limit"><h4>Few individuals</h4><p>The 103 samples come from six fish: one each of Snapper, Gurnard and Tarakihi, and three Blue Cod.
+      Cross-validation is stratified by species, so body parts of the same fish fall on both sides of a split. The accuracies measure
+      generalisation across body parts and replicates, not to new individuals.</p></div>
+    <div class="limit"><h4>Approximately causal pretraining</h4><p>The convolutions only look backwards in retention time, but batch-normalisation
+      statistics are computed over the whole sequence during training, so the next-frame objective is approximately rather than strictly autoregressive.</p></div>
+    <div class="limit"><h4>Saliency is one seed</h4><p>The saliency maps use seed 0 only and show where the gradient is large, which is not the same
+      as a causal attribution to specific compounds.</p></div>
+    <div class="limit"><h4>Class imbalance</h4><p>Blue Cod makes up 57 of 103 samples. All results are balanced accuracy, and training uses a
+      class-weighted loss.</p></div>
+    <div class="limit"><h4>Not a universal win</h4><p>On public urine (MTBLS71) and rice (MTBLS288) datasets, classical sum-spectrum baselines beat
+      the 2D CNN. There the retention-time axis is dominated by a nuisance variable rather than the target class. The advantage shown here
+      needs chromatographic structure that is informative for the label.</p></div>
+    <div class="limit"><h4>One instrument, one lab</h4><p>All runs come from a single GC-MS method. Transfer across instruments, columns or
+      acquisition batches is untested.</p></div>
   </div>
 </section>
 
-<section id="reproduce">
-  <div class="wrap">
-    <div class="kicker">08 — Reproduce</div>
+<!-- 08 ─────────────────────────────────────────────────────────────────── -->
+<section class="chapter" id="reproduce">
+  <div class="chapter-head reveal">
+    <div class="kicker">08 — REPRODUCE</div>
     <h2>Run it yourself</h2>
-    <p class="section-intro">The preprocessed fish oil data and the pretrained checkpoint are in the repository.
-      Every number on this page is read from <code>results/fish_oil/</code> by <code>scripts/13_build_site_data.py</code>.</p>
-    <div class="grid-2">
-      <pre><code>git clone https://github.com/woodRock/chroma-dcnn.git
+    <p class="intro">The preprocessed fish oil data and the pretrained checkpoint are in the repository. Every number on this page is read
+      from <code>results/fish_oil/</code> by <code>scripts/13_build_site_data.py</code>.</p>
+  </div>
+  <div class="grid-2 reveal">
+    <div class="relative">
+      <button class="small-btn copy" type="button" data-copy="repro-code">Copy</button>
+<pre class="code" id="repro-code"><span class="c"># clone, install</span>
+git clone https://github.com/woodRock/chroma-dcnn.git
 cd chroma-dcnn
 pip install -e ".[dev]"
 
-python scripts/04_finetune_evaluate.py   # ChromaDCNN
-python scripts/05_run_baselines.py       # PLS-DA, RF, SVM, MLP
-python scripts/12_results_table.py      # ranking + statistics
-python scripts/09_ablation_1d_vs_2d.py   # RT-collapse ablation
-python scripts/11_saliency.py            # saliency maps
-python scripts/13_build_site_data.py     # refresh this page</code></pre>
-      <pre><code>@misc{wood2026chromadcnn,
+<span class="c"># ~10 min on a GPU for the CNN; baselines are CPU-only</span>
+python scripts/04_finetune_evaluate.py   <span class="c"># ChromaDCNN, 10 seeds × 5 folds</span>
+python scripts/05_run_baselines.py       <span class="c"># PLS-DA, RF, SVM, MLP</span>
+python scripts/12_results_table.py      <span class="c"># ranking + statistics</span>
+python scripts/09_ablation_1d_vs_2d.py   <span class="c"># RT-collapse ablation</span>
+python scripts/11_saliency.py            <span class="c"># saliency maps</span>
+python scripts/13_build_site_data.py     <span class="c"># refresh this page</span></pre>
+    </div>
+    <div class="relative">
+      <button class="small-btn copy" type="button" data-copy="cite-code">Copy</button>
+<pre class="code" id="cite-code">@misc{wood2026chromadcnn,
   author = {Wood, Jesse},
   title  = {chroma-dcnn: GC-MS Fish Species
             Identification with Self-Supervised
             Pretraining},
   year   = {2026},
   url    = {https://github.com/woodRock/chroma-dcnn}
-}</code></pre>
+}</pre>
     </div>
   </div>
 </section>
-
 </main>
 
 <footer>
-  <div class="wrap">
-    Jesse Wood ·
-    <a href="https://github.com/woodRock/chroma-dcnn">github.com/woodRock/chroma-dcnn</a><br>
-    Pretraining spectra: <a href="https://mona.fiehnlab.ucdavis.edu">MoNA</a> and <a href="https://massbank.eu">MassBank EU</a>.
+  <div class="inner">
+    <span>Jesse Wood · <a href="https://github.com/woodRock/chroma-dcnn">github.com/woodRock/chroma-dcnn</a></span>
+    <span>Pretraining spectra: <a href="https://mona.fiehnlab.ucdavis.edu">MoNA</a> and <a href="https://massbank.eu">MassBank EU</a></span>
   </div>
 </footer>
 
-<script>
-(() => {
-  const D = window.SITE_DATA;
-  const SP = D.species;
-  const SP_NAME = { SNA: 'Snapper', GUR: 'Gurnard', TAR: 'Tarakihi', BCO: 'Blue Cod' };
-  const PART_NAME = { ROG: 'Rest of guts' };
-  const REPS = ['2D chromatogram', 'chroma-PCA', 'sum spectrum', 'max-projection'];
-  const fmt = (x, d = 3) => x.toFixed(d);
-  const mean = a => a.reduce((s, v) => s + v, 0) / a.length;
-  const $ = id => document.getElementById(id);
-
-  // ── theme ────────────────────────────────────────────────────────────────
-  const root = document.documentElement;
-  try { const t = localStorage.getItem('theme'); if (t) root.dataset.theme = t; } catch (e) {}
-  const css = name => getComputedStyle(root).getPropertyValue(name).trim();
-  const isDark = () => css('--bg').toLowerCase() !== '#f7f6f2';
-  const repColour = () => ({
-    '2D chromatogram': css('--accent'), 'chroma-PCA': isDark() ? '#a78bfa' : '#7c3aed',
-    'sum spectrum': isDark() ? '#9aa3b2' : '#6b7280', 'max-projection': isDark() ? '#d4a373' : '#b7791f',
-  });
-  const spColour = s => css('--' + s);
-
-  function baseLayout(extra = {}) {
-    const ink = css('--ink-2'), line = css('--line');
-    const axis = { gridcolor: line, zerolinecolor: line, linecolor: line, tickfont: { color: ink, size: 11 },
-                   title: { font: { color: ink, size: 12 } }, automargin: true };
-    return Object.assign({
-      paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)',
-      font: { family: 'Inter, system-ui, sans-serif', color: ink, size: 12 },
-      margin: { l: 10, r: 10, t: 10, b: 10 },
-      xaxis: Object.assign({}, axis, { title: { font: axis.title.font } }),
-      yaxis: Object.assign({}, axis, { title: { font: axis.title.font } }),
-      hoverlabel: { bgcolor: css('--surface'), bordercolor: line, font: { color: css('--ink'), family: 'Inter' } },
-      legend: { orientation: 'h', y: 1.08, x: 0, font: { size: 11 } },
-    }, extra);
-  }
-  const CONFIG = { responsive: true, displaylogo: false,
-                   modeBarButtonsToRemove: ['lasso2d', 'select2d', 'autoScale2d', 'toggleSpikelines'] };
-  const plot = (id, data, layout) => Plotly.react(id, data, layout, CONFIG);
-
-  function segmented(el, items, onPick, initial) {
-    el.innerHTML = '';
-    items.forEach(([key, label]) => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.textContent = label; b.dataset.key = key;
-      b.setAttribute('aria-pressed', String(key === initial));
-      b.onclick = () => { [...el.children].forEach(c => c.setAttribute('aria-pressed', String(c === b))); onPick(key); };
-      el.appendChild(b);
-    });
-  }
-  const decode = m => m.q.map(r => r.map(v => v / 255 * m.max));
-
-  // ── data shortcuts ───────────────────────────────────────────────────────
-  const M = D.methods;
-  const best = M[0];
-  const scratch = M.find(m => m.method.includes('from_scratch'));
-  const bestBaseline = M.find(m => !m.method.startsWith('ChromaDCNN'));
-  const label = m => m.method.startsWith('ChromaDCNN')
-    ? (m.method.includes('pretrain') ? 'ChromaDCNN, pretrained' : 'ChromaDCNN, from scratch')
-    : `${m.method} · ${m.representation}`;
-
-  // ── hero ─────────────────────────────────────────────────────────────────
-  $('stats').innerHTML = [
-    [fmt(best.mean), `balanced accuracy<br>pretrained ChromaDCNN (± ${fmt(best.sd)})`],
-    [`+${((best.mean - bestBaseline.mean) * 100).toFixed(1)}<small> pp</small>`, `over the best classical baseline<br>(${label(bestBaseline)}, ${fmt(bestBaseline.mean)})`],
-    [`+${((best.mean - scratch.mean) * 100).toFixed(1)}<small> pp</small>`, `from synthetic pretraining<br>(from scratch: ${fmt(scratch.mean)})`],
-    ['9,553', 'public reference spectra for pretraining, no fish data'],
-  ].map(([v, l]) => `<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
-
-  function drawHeroTrace() {
-    const svg = $('hero-trace');
-    const prof = D.saliency.rt_profile;
-    svg.innerHTML = SP.map((s, c) => {
-      const p = prof[c];
-      const pts = p.map((v, i) => `${(i / (p.length - 1) * 1000).toFixed(1)},${(146 - v * 130).toFixed(1)}`).join(' ');
-      return `<polyline points="${pts}" fill="none" stroke="${spColour(s)}" stroke-width="1.6" stroke-opacity=".8" vector-effect="non-scaling-stroke"/>`;
-    }).join('');
-  }
-
-  // ── 01 data ──────────────────────────────────────────────────────────────
-  function drawComposition() {
-    const parts = [...new Set(D.composition.map(r => r.part))];
-    const traces = SP.map(s => ({
-      type: 'bar', name: SP_NAME[s], marker: { color: spColour(s) },
-      x: parts.map(p => PART_NAME[p] || p),
-      y: parts.map(p => (D.composition.find(r => r.species === s && r.part === p) || { n: 0 }).n),
-      hovertemplate: `${SP_NAME[s]} · %{x}: %{y} samples<extra></extra>`,
-    }));
-    const L = baseLayout({ barmode: 'stack', bargap: .35, margin: { l: 10, r: 10, t: 30, b: 10 } });
-    L.yaxis.title.text = 'Samples';
-    plot('composition', traces, L);
-  }
-  $('individuals-caption').textContent = 'Individuals: ' +
-    D.individuals.map(r => `${r.individual} (${r.n})`).join(', ') + '.';
-
-  let exSpecies = 0;
-  function drawExample() {
-    const ex = D.saliency.examples[exSpecies];
-    const z = decode(ex.chroma);
-    const L = baseLayout({ margin: { l: 10, r: 10, t: 10, b: 10 } });
-    L.xaxis.title.text = 'm/z'; L.yaxis.title.text = 'Retention time (min)';
-    plot('example-heat', [{
-      type: 'heatmap', x: D.saliency.grid_mz, y: D.saliency.grid_rt, z,
-      colorscale: isDark() ? 'Viridis' : [[0, '#ffffff'], [0.15, '#c7d7f5'], [0.5, '#3b6fd6'], [1, '#0b1f4d']],
-      colorbar: { title: { text: '√ intensity', side: 'right' }, thickness: 10, outlinewidth: 0 },
-      hovertemplate: 'RT %{y:.1f} min<br>m/z %{x}<br>%{z:.3f}<extra></extra>',
-    }], L);
-    $('example-caption').textContent = `Sample “${ex.sample.replace(/^\d+ - /, '')}”, after binning and per-bin normalisation (m/z 50–450 shown).`;
-  }
-  segmented($('example-species'), SP.map((s, i) => [i, s]), k => { exSpecies = +k; drawExample(); }, 0);
-
-  // ── 03 results ───────────────────────────────────────────────────────────
-  let metric = 'ba';
-  const activeReps = new Set(REPS);
-  const chips = $('rep-chips');
-  function drawChips() {
-    const col = repColour();
-    chips.innerHTML = '';
-    REPS.forEach(r => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.className = 'chip';
-      b.setAttribute('aria-pressed', String(activeReps.has(r)));
-      b.innerHTML = `<span class="dot" style="background:${col[r]}"></span>${r}`;
-      b.onclick = () => { activeReps.has(r) ? activeReps.delete(r) : activeReps.add(r); if (!activeReps.size) activeReps.add(r); drawChips(); drawResults(); };
-      chips.appendChild(b);
-    });
-  }
-  function drawResults() {
-    const col = repColour();
-    const rows = M.filter(m => activeReps.has(m.representation))
-      .slice().sort((a, b) => mean(a[metric]) - mean(b[metric]));
-    const traces = rows.map(m => ({
-      type: 'box', orientation: 'h', x: m[metric], y: Array(m[metric].length).fill(label(m)),
-      name: label(m), boxpoints: 'all', jitter: .55, pointpos: 0,
-      marker: { color: col[m.representation], size: 4.5, opacity: .55 },
-      line: { color: col[m.representation], width: m === best ? 2.2 : 1.4 },
-      fillcolor: 'rgba(0,0,0,0)', showlegend: false,
-      hovertemplate: `${label(m)}<br>${metric === 'ba' ? 'Balanced acc.' : 'Macro F1'}: %{x:.3f}<extra></extra>`,
-    }));
-    const L = baseLayout({ margin: { l: 10, r: 20, t: 10, b: 10 }, showlegend: false,
-      shapes: [{ type: 'line', x0: .25, x1: .25, yref: 'paper', y0: 0, y1: 1, line: { color: css('--ink-3'), dash: 'dash', width: 1 } }] });
-    L.xaxis.title.text = metric === 'ba' ? 'Balanced accuracy (per fold)' : 'Macro F1 (per fold)';
-    L.xaxis.range = [0, 1.02];
-    L.yaxis.tickfont = { size: innerWidth < 600 ? 10 : 12, color: css('--ink') };
-    $('results-plot').style.height = Math.max(260, 60 + rows.length * 38) + 'px';
-    plot('results-plot', traces, L);
-  }
-  drawChips();
-  document.querySelectorAll('#metric-seg button').forEach(b => b.onclick = () => {
-    document.querySelectorAll('#metric-seg button').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
-    metric = b.dataset.metric; drawResults();
-  });
-
-  // table
-  let sortKey = 'mean', sortDir = -1;
-  const COLS = [
-    ['rank', '#'], ['label', 'Method'], ['representation', 'Input'], ['mean', 'Balanced acc.'],
-    ['f1', 'Macro F1'], ['abs_r', '|r| vs best'], ['p', 'p (Bonf.)'],
-  ];
-  M.forEach((m, i) => { m.rank = i + 1; m.label = label(m); m.f1mean = mean(m.f1); });
-  function drawTable() {
-    const val = (m, k) => k === 'f1' ? m.f1mean : m[k];
-    const rows = M.slice().sort((a, b) => {
-      const x = val(a, sortKey), y = val(b, sortKey);
-      if (x == null) return 1; if (y == null) return -1;
-      return (typeof x === 'string' ? x.localeCompare(y) : x - y) * sortDir;
-    });
-    const col = repColour();
-    $('results-table').innerHTML =
-      `<thead><tr>${COLS.map(([k, t]) => `<th data-sort="${k}">${t}${k === sortKey ? (sortDir > 0 ? ' ↑' : ' ↓') : ''}</th>`).join('')}</tr></thead><tbody>` +
-      rows.map(m => `<tr class="${m === best ? 'best' : ''}">
-        <td class="num">${m.rank}</td>
-        <td>${m.label}</td>
-        <td><span class="tag" style="box-shadow: inset 3px 0 0 ${col[m.representation]}">${m.representation}</span></td>
-        <td class="num"><span class="bar" style="width:${(m.mean * 70).toFixed(0)}px;background:${col[m.representation]}"></span>${fmt(m.mean)} ± ${fmt(m.sd)}</td>
-        <td class="num">${fmt(m.f1mean)}</td>
-        <td class="num">${m.abs_r == null ? '—' : fmt(m.abs_r)}</td>
-        <td class="num">${m.p == null ? '—' : m.p.toExponential(1)}</td>
-      </tr>`).join('') + '</tbody>';
-    document.querySelectorAll('#results-table th').forEach(th => th.onclick = () => {
-      const k = th.dataset.sort;
-      if (k === sortKey) sortDir *= -1; else { sortKey = k; sortDir = (k === 'label' || k === 'representation' || k === 'rank' || k === 'p' || k === 'abs_r') ? 1 : -1; }
-      drawTable();
-    });
-  }
-
-  // ── 04 pretraining ───────────────────────────────────────────────────────
-  function drawPretraining() {
-    const a = scratch.ba, b = best.ba;
-    const above = b.filter((v, i) => v > a[i]).length, ties = b.filter((v, i) => v === a[i]).length;
-    const text = a.map((_, i) => `seed ${Math.floor(i / 5)}, fold ${i % 5}`);
-    const L = baseLayout({ showlegend: false, margin: { l: 10, r: 10, t: 10, b: 10 },
-      shapes: [{ type: 'line', x0: 0, y0: 0, x1: 1, y1: 1, line: { color: css('--ink-3'), dash: 'dot', width: 1 } }] });
-    L.xaxis.title.text = 'From scratch'; L.yaxis.title.text = 'Pretrained';
-    L.xaxis.range = [0, 1.03]; L.yaxis.range = [0, 1.03]; L.yaxis.scaleanchor = 'x';
-    plot('paired-plot', [{
-      type: 'scatter', mode: 'markers', x: a, y: b, text,
-      marker: { color: b.map((v, i) => v > a[i] ? css('--accent') : css('--BCO')), size: 9, opacity: .75,
-                line: { color: css('--surface'), width: 1 } },
-      hovertemplate: '%{text}<br>scratch %{x:.3f} → pretrained %{y:.3f}<extra></extra>',
-    }], L);
-    $('paired-caption').textContent = `Pretraining wins on ${above} of 50 folds` +
-      (ties ? `, ties on ${ties}` : '') + '. Points above the diagonal favour pretraining.';
-
-    const V = baseLayout({ showlegend: false, margin: { l: 10, r: 10, t: 10, b: 10 }, violingap: .3 });
-    V.yaxis.title.text = 'Balanced accuracy'; V.yaxis.range = [0, 1.05];
-    plot('pretrain-violin', [[scratch, 'From scratch', css('--ink-3')], [best, 'Pretrained', css('--accent')]].map(([m, n, c]) => ({
-      type: 'violin', y: m.ba, name: n, box: { visible: true }, meanline: { visible: true },
-      points: 'all', pointpos: 0, jitter: .4, line: { color: c }, marker: { color: c, size: 4, opacity: .5 },
-      fillcolor: c + '40', hoverinfo: 'y', spanmode: 'hard',
-    })), V);
-  }
-
-  // ── 05 ablation ──────────────────────────────────────────────────────────
-  function drawAblation() {
-    const A = D.ablation;
-    const d = mean(A['1D-mz']) - mean(A['2D']);
-    $('ablation-delta').innerHTML = `<span style="color:var(--BCO)">${(d * 100).toFixed(1)} pp</span>`;
-    const L = baseLayout({ showlegend: false, margin: { l: 10, r: 10, t: 10, b: 10 }, violingap: .3,
-      shapes: [{ type: 'line', xref: 'paper', x0: 0, x1: 1, y0: .429, y1: .429, line: { color: css('--ink-3'), dash: 'dot', width: 1.2 } }] });
-    L.yaxis.title.text = 'Balanced accuracy'; L.yaxis.range = [0, 1.05];
-    plot('ablation-plot', [['2D', '2D chromatogram (RT × m/z)', css('--accent')], ['1D-mz', 'RT removed (sum spectrum tiled)', css('--BCO')]].map(([k, n, c]) => ({
-      type: 'violin', y: A[k], name: n, box: { visible: true }, meanline: { visible: true },
-      points: 'all', pointpos: 0, jitter: .4, line: { color: c }, marker: { color: c, size: 4, opacity: .5 },
-      fillcolor: c + '40', hoverinfo: 'y', spanmode: 'hard',
-    })), L);
-  }
-
-  // ── 06 saliency ──────────────────────────────────────────────────────────
-  const S = D.saliency;
-  $('sal-ba').textContent = fmt(mean(S.fold_ba));
-  let salSpecies = 2, salView = '3d';
-  function drawSaliencyMain() {
-    const ex = S.examples[salSpecies];
-    const sal = decode(ex.saliency);
-    const smax = Math.max(...sal.flat());
-    const saln = sal.map(r => r.map(v => v / smax));
-    const name = SP_NAME[SP[salSpecies]];
-    const blues = [[0, isDark() ? '#3a4152' : '#dfe5ee'], [0.25, '#c6dbef'], [0.5, '#6baed6'], [0.75, '#2171b5'], [1, '#08306b']];
-    if (salView === '3d') {
-      // as figs/saliency-3d.png: keep the top 20% of non-zero peaks, saliency^0.6 for colour
-      const z = decode(ex.chroma);
-      const nz = z.flat().filter(v => v > 0).sort((a, b) => a - b);
-      const thr = nz[Math.floor(nz.length * .8)] || 0;
-      const zt = z.map(r => r.map(v => v < thr ? 0 : v));
-      const salg = saln.map(r => r.map(v => Math.pow(v, .6)));
-      const scene = ax => ({ title: { text: ax, font: { size: 11, color: css('--ink-2') } }, gridcolor: css('--line'),
-        backgroundcolor: 'rgba(0,0,0,0)', showbackground: false, tickfont: { size: 10, color: css('--ink-2') } });
-      plot('sal-main', [{
-        type: 'surface', x: S.grid_mz, y: S.grid_rt, z: zt, surfacecolor: salg, cmin: 0, cmax: 1,
-        colorscale: blues, showscale: true,
-        colorbar: { title: { text: 'Saliency', side: 'right' }, tickvals: [0, 1], ticktext: ['low', 'high'], thickness: 10, len: .6, outlinewidth: 0 },
-        contours: { z: { show: false } }, lighting: { ambient: .9, diffuse: .3, specular: .05 },
-        hovertemplate: 'RT %{y:.1f} min<br>m/z %{x}<br>√I %{z:.2f}<br>saliency %{surfacecolor:.2f}<extra></extra>',
-      }], baseLayout({ margin: { l: 0, r: 0, t: 0, b: 0 },
-        scene: { xaxis: scene('m/z'), yaxis: scene('RT (min)'), zaxis: Object.assign(scene('√ intensity'), { showticklabels: false }),
-                 camera: { eye: { x: 1.55, y: -1.45, z: 0.95 } }, aspectratio: { x: 1.1, y: 1.4, z: .55 } } }));
-      $('sal-caption').textContent = `${name}: height is the first ${name} sample's chromatogram; colour is the species' mean gradient saliency. Drag to rotate, scroll to zoom.`;
-    } else {
-      const L = baseLayout({ margin: { l: 10, r: 10, t: 10, b: 10 } });
-      L.xaxis.title.text = 'm/z'; L.yaxis.title.text = 'Retention time (min)';
-      plot('sal-main', [{
-        type: 'heatmap', x: S.grid_mz, y: S.grid_rt, z: saln, colorscale: blues, zmin: 0, zmax: 1,
-        colorbar: { title: { text: 'Saliency', side: 'right' }, tickvals: [0, 1], ticktext: ['low', 'high'], thickness: 10, outlinewidth: 0 },
-        hovertemplate: 'RT %{y:.1f} min<br>m/z %{x}<br>saliency %{z:.2f}<extra></extra>',
-      }], L);
-      $('sal-caption').textContent = `${name}: mean gradient saliency over held-out ${name} samples (RT × m/z, normalised to its maximum).`;
-    }
-  }
-  segmented($('sal-species'), SP.map((s, i) => [i, SP_NAME[s]]), k => { salSpecies = +k; drawSaliencyMain(); }, 2);
-  document.querySelectorAll('#sal-view button').forEach(b => b.onclick = () => {
-    document.querySelectorAll('#sal-view button').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
-    salView = b.dataset.view; drawSaliencyMain();
-  });
-
-  function pairRange(C) {
-    const v = []; for (let i = 0; i < 4; i++) for (let j = i + 1; j < 4; j++) v.push(C[i][j]);
-    return [Math.min(...v), Math.max(...v)];
-  }
-  function drawProfiles() {
-    const bands = [[18, 22], [40, 44]].map(([a, b]) => ({ type: 'rect', x0: a, x1: b, yref: 'paper', y0: 0, y1: 1,
-      fillcolor: css('--accent'), opacity: .07, line: { width: 0 } }));
-    const L = baseLayout({ shapes: bands, margin: { l: 10, r: 10, t: 30, b: 10 } });
-    L.xaxis.title.text = 'Retention time (min)'; L.yaxis.title.text = 'Normalised saliency';
-    plot('rt-profile', SP.map((s, c) => ({ type: 'scatter', mode: 'lines', name: SP_NAME[s], x: S.rt, y: S.rt_profile[c],
-      line: { color: spColour(s), width: 1.6 }, hovertemplate: `${SP_NAME[s]} · %{x:.1f} min: %{y:.2f}<extra></extra>` })), L);
-    const [rl, rh] = pairRange(S.rt_corr), [ml, mh] = pairRange(S.mz_corr);
-    $('rt-caption').textContent = `Shaded: 18–22 and 40–44 min. Pairwise correlation between species ${fmt(rl, 2)}–${fmt(rh, 2)}: RT is where species differ. Click legend entries to toggle.`;
-    const L2 = baseLayout({ margin: { l: 10, r: 10, t: 30, b: 10 } });
-    L2.xaxis.title.text = 'm/z'; L2.yaxis.title.text = 'Normalised saliency';
-    plot('mz-profile', SP.map((s, c) => ({ type: 'scatter', mode: 'lines', name: SP_NAME[s], x: S.mz, y: S.mz_profile[c],
-      line: { color: spColour(s), width: 1.2 }, opacity: .85, hovertemplate: `${SP_NAME[s]} · m/z %{x}: %{y:.2f}<extra></extra>` })), L2);
-    $('mz-caption').textContent = `Pairwise correlation ${fmt(ml, 3)}–${fmt(mh, 3)}: every species relies on the same ions. The difference lies in when they elute.`;
-  }
-  function drawShares() {
-    const W = Object.keys(S.window_share).sort((a, b) => parseFloat(a) - parseFloat(b));
-    const L = baseLayout({ barmode: 'group', bargap: .25, margin: { l: 10, r: 10, t: 30, b: 10 } });
-    L.xaxis.title.text = 'RT window (min)'; L.yaxis.title.text = 'Share of RT saliency'; L.yaxis.tickformat = '.0%';
-    plot('share-plot', SP.map((s, c) => ({ type: 'bar', name: SP_NAME[s], x: W, y: W.map(w => S.window_share[w][c]),
-      marker: { color: spColour(s) }, hovertemplate: `${SP_NAME[s]} · %{x} min: %{y:.1%}<extra></extra>` })), L);
-  }
-
-  // ── render all ───────────────────────────────────────────────────────────
-  function drawAll() {
-    drawHeroTrace(); drawComposition(); drawExample(); drawChips(); drawResults(); drawTable();
-    drawPretraining(); drawAblation(); drawSaliencyMain(); drawProfiles(); drawShares();
-  }
-  drawAll();
-
-  $('theme-btn').onclick = () => {
-    const next = isDark() ? 'light' : 'dark';
-    root.dataset.theme = next;
-    try { localStorage.setItem('theme', next); } catch (e) {}
-    drawAll();
-  };
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', drawAll);
-})();
-</script>
+<div class="tooltip" id="tooltip" role="status" aria-live="polite"></div>
+<script src="assets/app.js"></script>
 </body>
 </html>
