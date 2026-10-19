@@ -1,0 +1,18 @@
+{
+  "name": "gains",
+  "runs": [],
+  "produced_by": "scripts/export_ledger.py",
+  "label": "Gains in balanced accuracy (percentage points)",
+  "source": {
+    "path": "results/fish_oil/main_table.csv",
+    "hash": "sha256:971299f68d096bfbd45fd69af5c185fdbf81524395baa397357b60abba19f678"
+  },
+  "metrics": {
+    "pretrain-vs-scratch": {
+      "points": 25.140151515151523
+    },
+    "pretrain-vs-best-baseline": {
+      "points": 15.598484848484851
+    }
+  }
+}

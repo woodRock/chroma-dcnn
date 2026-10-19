@@ -1,0 +1,34 @@
+# What each paper artifact is built from. Outputs land in ~/overleaf/chroma-dcnn/generated/.
+# Results come from scripts/export_ledger.py. Keys: \res{chroma-pretrain/balanced-accuracy/mean},
+# \res{main-table/svm-chromapca/abs-r}, \res{gains/pretrain-vs-scratch/points}.
+
+[artifacts.results]
+kind = "macros"
+output = "generated/results.tex"
+results = ["*"]                    # every result in ledger/results/
+
+# Table 1 (tab:main). Caption, label and \arraystretch stay in TAI_template.tex.
+[artifacts.table_main]
+kind = "table"
+output = "generated/table_main.tex"
+script = "artifacts/table_main.py"
+results = ["*"]
+colspec = "rlllcc"
+math = true                        # cells as $0.854 \pm 0.101$, as the paper typed them
+bold = "max"                       # the best balanced accuracy
+p_style = "sci"                    # or "threshold": p below 0.001 as <0.001
+
+[format.default]
+decimals = 3
+
+[format."p-bonf"]                  # table column
+sci = true
+decimals = 1
+
+[format."main-table/*/p-bonf"]
+sci = true
+decimals = 1
+
+[format."main-table/*/p-raw"]
+sci = true
+decimals = 1
