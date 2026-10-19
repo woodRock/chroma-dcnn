@@ -32,3 +32,48 @@ decimals = 1
 [format."main-table/*/p-raw"]
 sci = true
 decimals = 1
+
+# How the paper prints each number (checked by `taura check`: adopt-mismatch).
+[format."gains/*/points"]          # percentage points: +25.1
+decimals = 1
+
+[format."main-table/all/abs-r-min"]   # "effect sizes between 0.68 and 1.00"
+decimals = 2
+
+[format."main-table/all/abs-r-max"]
+decimals = 2
+
+[format."ablation/1d-vs-2d/p"]
+sci = true
+decimals = 1
+
+[format."chroma-pretrain/balanced-accuracy/mean"]   # 0.854; the summary rounds it: \res{...@2} = 0.85
+variants = [2]
+
+[format."svm-chromapca/balanced-accuracy/mean"]
+variants = [2]
+
+[format."settings-pretrain/pretraining.lr"]         # 10^{-3}
+sci = "power"
+decimals = 0
+
+[format."settings-pretrain/pretraining.weight_decay"]
+sci = "power"
+decimals = 0
+
+[format."settings-pretrain/pretraining.n_iterations"]
+thousands = true
+
+[format."settings-finetune/finetuning.lr"]
+sci = "power"
+decimals = 0
+
+[format."settings-finetune/finetuning.weight_decay"]  # 0.1
+decimals = 1
+
+[format."settings-finetune/finetuning.grad_clip"]     # 1.0
+decimals = 1
+
+[format."settings-finetune/finetuning.val_fraction"]  # 20\%
+percent = true
+decimals = 0
