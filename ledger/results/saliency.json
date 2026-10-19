@@ -1,0 +1,26 @@
+{
+  "name": "saliency",
+  "runs": [],
+  "produced_by": "scripts/export_ledger.py",
+  "label": "Gradient saliency (seed 0, 5 folds)",
+  "source": {
+    "path": "results/fish_oil/saliency_mean.npz",
+    "hash": "sha256:92c942ca63e9a5edf9c00af754ce4134a9bf10059ee4ef51317ef8edd19f2a40"
+  },
+  "metrics": {
+    "fold-balanced-accuracy": {
+      "mean": 0.8871212121212121,
+      "n": 5
+    },
+    "mz-profile-corr": {
+      "min": 0.9964080644442622,
+      "max": 0.9993119394475816,
+      "n": 6
+    },
+    "rt-profile-corr": {
+      "min": 0.7382578239924448,
+      "max": 0.8840955000166296,
+      "n": 6
+    }
+  }
+}

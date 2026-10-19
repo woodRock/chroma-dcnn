@@ -208,12 +208,8 @@ def ablation() -> dict:
 
 def gains(conds: dict[str, dict], table: dict) -> dict:
     """Percentage-point gains of pretrained ChromaDCNN that the text quotes."""
-    ba = {
-        n: c["metrics"]["balanced-accuracy"]["mean"]
-        for n, c in conds.items()
-        if not n.startswith("ablation")
-    }
-    best_baseline = max((n for n in ba if not n.startswith("chroma")), key=ba.get)
+    ba = {n: c["metrics"]["balanced-accuracy"]["mean"] for n, c in conds.items()}
+    best_baseline = max((n for n in ba if not n.startswith(("chroma", "ablation"))), key=ba.get)
 
     def pp(a: str, b: str) -> float:
         return 100 * (ba[a] - ba[b])
@@ -224,6 +220,65 @@ def gains(conds: dict[str, dict], table: dict) -> dict:
         "metrics": {
             "pretrain-vs-scratch": {"points": pp("chroma-pretrain", "chroma-scratch")},
             "pretrain-vs-best-baseline": {"points": pp("chroma-pretrain", best_baseline)},
+            # the RT ablation: what removing the RT axis costs (and the signed change 1D - 2D)
+            "ablation-rt-drop": {"points": pp("ablation-2d", "ablation-1d-mz")},
+            "ablation-1d-vs-2d": {"points": pp("ablation-1d-mz", "ablation-2d")},
+            # what the chroma-PCA representation gains over the sum spectrum
+            "plsda-chromapca-vs-sum": {"points": pp("plsda-chromapca", "plsda-sum")},
+            "svm-chromapca-vs-sum": {"points": pp("svm-chromapca", "svm-sum")},
+        },
+    }
+
+
+def scratch_comparisons(conds: dict[str, dict], table: dict) -> dict:
+    """From-scratch ChromaDCNN against every baseline: two-sided Mann-Whitney U, Bonferroni over the
+    same number of comparisons as Table 1 (script 12: the conditions minus one)."""
+    from scipy.stats import mannwhitneyu
+
+    n_comparisons = table["metrics"]["all"]["conditions"] - 1
+    scratch = np.asarray(conds["chroma-scratch"]["metrics"]["balanced-accuracy"]["values"])
+    metrics = {}
+    for name, c in conds.items():
+        if name.startswith(("chroma", "ablation")):
+            continue
+        other = np.asarray(c["metrics"]["balanced-accuracy"]["values"])
+        u, p = mannwhitneyu(scratch, other, alternative="two-sided")
+        metrics[f"scratch-vs-{name}"] = {
+            "u": float(u),
+            "p-raw": float(p),
+            "p-bonf": float(min(1.0, p * n_comparisons)),
+            "abs-r": float(abs(1 - 2 * u / (scratch.size * other.size))),
+        }
+    return {
+        "label": "From-scratch ChromaDCNN against each baseline (Mann-Whitney U, Bonferroni)",
+        "metrics": metrics,
+        "source": conds["chroma-scratch"]["source"],
+    }
+
+
+def saliency() -> dict:
+    """The seed-0 saliency models (scripts/11_saliency.py): their accuracy, and how similar the
+    species' per-m/z and per-RT saliency profiles are (pairwise Pearson r)."""
+    path = RES / "saliency_mean.npz"
+    z = np.load(path)
+    sal = z["saliency"]  # [species, RT, m/z]
+    by_mz, by_rt = sal.sum(axis=1), sal.sum(axis=2)
+    pairs = [(a, b) for a in range(len(sal)) for b in range(a + 1, len(sal))]
+
+    def corr(profiles: np.ndarray) -> dict:
+        r = [float(np.corrcoef(profiles[a], profiles[b])[0, 1]) for a, b in pairs]
+        return {"min": min(r), "max": max(r), "n": len(r)}
+
+    return {
+        "label": "Gradient saliency (seed 0, 5 folds)",
+        "source": _source(path),
+        "metrics": {
+            "fold-balanced-accuracy": {
+                "mean": float(z["fold_balanced_accuracy"].mean()),
+                "n": int(z["fold_balanced_accuracy"].size),
+            },
+            "mz-profile-corr": corr(by_mz),
+            "rt-profile-corr": corr(by_rt),
         },
     }
 
@@ -238,6 +293,8 @@ def results() -> dict[str, dict]:
         "comparisons": comparisons(),
         "ablation": ablation(),
         "gains": gains(conds, table),
+        "scratch-comparisons": scratch_comparisons(conds, table),
+        "saliency": saliency(),
     }
     return {
         name: {"name": name, "runs": [], "produced_by": "scripts/export_ledger.py", **r}

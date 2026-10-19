@@ -13,6 +13,18 @@
     },
     "pretrain-vs-best-baseline": {
       "points": 15.598484848484851
+    },
+    "ablation-rt-drop": {
+      "points": 19.689393939393934
+    },
+    "ablation-1d-vs-2d": {
+      "points": -19.689393939393934
+    },
+    "plsda-chromapca-vs-sum": {
+      "points": 26.24242424242426
+    },
+    "svm-chromapca-vs-sum": {
+      "points": 20.52272727272727
     }
   }
 }

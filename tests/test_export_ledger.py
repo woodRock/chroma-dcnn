@@ -39,6 +39,24 @@ def test_results(ex):
     assert round(gains["pretrain-vs-scratch"]["points"], 1) == 25.1
     assert round(gains["pretrain-vs-best-baseline"]["points"], 1) == 15.6
     assert out["ablation"]["metrics"]["1d-vs-2d"]["abs-r"] == 0.617
+    assert round(gains["ablation-rt-drop"]["points"], 1) == 19.7
+    assert round(gains["ablation-1d-vs-2d"]["points"], 1) == -19.7
+    # 26.24: the paper's 26.3 came from subtracting the rounded table values
+    assert round(gains["plsda-chromapca-vs-sum"]["points"], 1) == 26.2
+    assert round(gains["svm-chromapca-vs-sum"]["points"], 1) == 20.5
+    sc = out["scratch-comparisons"]["metrics"]
+    assert len(sc) == 12
+    assert [
+        round(sc[f"scratch-vs-{b}"]["p-bonf"], 2)
+        for b in ("svm-chromapca", "rf-sum", "plsda-chromapca")
+    ] == [0.15, 0.16, 0.44]
+    sal = out["saliency"]["metrics"]
+    assert round(sal["fold-balanced-accuracy"]["mean"], 3) == 0.887
+    assert sal["mz-profile-corr"]["min"] >= 0.99 and sal["mz-profile-corr"]["n"] == 6
+    assert (round(sal["rt-profile-corr"]["min"], 2), round(sal["rt-profile-corr"]["max"], 2)) == (
+        0.74,
+        0.88,
+    )
     assert out["comparisons"]["metrics"]["scratch-vs-pretrain"]["abs-r"] == 0.7992
 
 
