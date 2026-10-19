@@ -10,6 +10,7 @@ key = "settings-finetune/finetuning.epochs"
 reason = "'cosine annealing over at most 200 epochs' is the fine-tuning epoch setting."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.007c91a107]
 file = "TAI_template.tex"
@@ -20,6 +21,7 @@ key = ""
 reason = "The 2 in the squared L2 norm (||.||_2^2) of the loss formula."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.00fe17555a]
 file = "TAI_template.tex"
@@ -30,6 +32,7 @@ key = ""
 reason = "The 1 is a value in the SVM C grid, and there are no candidates."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.01ef76e64d]
 file = "TAI_template.tex"
@@ -40,6 +43,7 @@ key = ""
 reason = "44 is the upper bound of the '40--44-minute band', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.02884c53eb]
 file = "TAI_template.tex"
@@ -50,6 +54,7 @@ key = ""
 reason = "18 is the lower bound of the 'band at 18--22 minutes', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.0368e1b076]
 file = "TAI_template.tex"
@@ -60,6 +65,7 @@ key = ""
 reason = "Lower bound of the '40--44-minute band' retention-time region."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.039da7522b]
 file = "TAI_template.tex"
@@ -70,6 +76,7 @@ key = "gains/ablation-rt-drop/points"
 reason = "The sentence says collapsing the RT axis 'lowers the network's accuracy by 19.7 points', a positive drop."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.06faa934d6]
 file = "TAI_template.tex"
@@ -80,6 +87,7 @@ key = ""
 reason = "Upper bound of the width range Uniform(1, 15). No settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.0a493da191]
 file = "TAI_template.tex"
@@ -90,6 +98,7 @@ key = ""
 reason = "'about 82 samples' is the approximate size of the full training fold, which describes the data."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.0a94252fa5]
 file = "TAI_template.tex"
@@ -100,6 +109,7 @@ key = ""
 reason = "'normalised to a maximum of 1' describes how the plot is scaled."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.0aa5909696]
 file = "TAI_template.tex"
@@ -110,6 +120,7 @@ key = ""
 reason = "200,000 is the input size (200 bins × 1000 m/z) worked out from settings, not an experimental result."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.0ae5208fb4]
 file = "TAI_template.tex"
@@ -120,6 +131,7 @@ key = ""
 reason = "70 eV is the standard EI ionisation energy used to filter the spectra."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.0d748d6a51]
 file = "TAI_template.tex"
@@ -130,6 +142,7 @@ key = "gains/pretrain-vs-best-baseline/points"
 reason = "Points above the best of the twelve classical baselines."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.0e29f004cd]
 file = "TAI_template.tex"
@@ -140,6 +153,7 @@ key = ""
 reason = "Lower bound of K ~ Uniform{5,...,30}. A generator hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.0fce0b6092]
 file = "TAI_template.tex"
@@ -150,6 +164,7 @@ key = ""
 reason = "Journal volume placeholder 'Vol. 00'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.1046330aeb]
 file = "TAI_template.tex"
@@ -160,6 +175,7 @@ key = ""
 reason = "Summation index start (t=1) in the loss formula."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.113cb9cb24]
 file = "TAI_template.tex"
@@ -170,6 +186,7 @@ key = ""
 reason = "'103 samples' is the size of the dataset."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.12aaf6b33b]
 file = "TAI_template.tex"
@@ -180,6 +197,7 @@ key = ""
 reason = "The -1 is the unit exponent in min^{-1}."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.150e7a6dda]
 file = "TAI_template.tex"
@@ -190,6 +208,7 @@ key = ""
 reason = "Exponent of the fine-tuning learning rate 10^{-3}, a hyperparameter."
 by = "claude"
 decided = "2026-10-19T23:16:16+13:00"
+result_hash = ""
 
 [decisions.1582268ee7]
 file = "TAI_template.tex"
@@ -200,6 +219,7 @@ key = ""
 reason = "'100,000 synthetic overlapping peaks' describes another paper (GCMSFormer)."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.1656cb5825]
 file = "TAI_template.tex"
@@ -210,6 +230,7 @@ key = "gains/plsda-chromapca-vs-sum/points"
 reason = "This is the PLS-DA gain of chroma-PCA over the sum spectrum; the typed 26.3 and the rendered 26.2 differ by rounding."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.172a1c057f]
 file = "TAI_template.tex"
@@ -220,6 +241,7 @@ key = ""
 reason = "40 is the lower bound of the '40--44-minute band', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.1c118b0628]
 file = "TAI_template.tex"
@@ -230,6 +252,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "Caption states the synthetic chromatograms span '200 RT bins', which is the pretraining n_bins setting."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.1c40a9efc5]
 file = "TAI_template.tex"
@@ -240,6 +263,7 @@ key = ""
 reason = "'below 0.40 on every representation' is a rounded upper bound across all representations, not the max-projection mean alone."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.1ce4eec30a]
 file = "TAI_template.tex"
@@ -250,6 +274,7 @@ key = "settings-finetune/finetuning.grad_clip"
 reason = "'gradient clipping at 1.0' in the Fine-Tuning section is the fine-tuning grad_clip setting."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.1db6aaf2da]
 file = "TAI_template.tex"
@@ -260,6 +285,7 @@ key = ""
 reason = "'30 s of vortex mixing' is a lab protocol duration."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.1e4bdb0d42]
 file = "TAI_template.tex"
@@ -270,6 +296,7 @@ key = ""
 reason = "Fine-tuning batch size 16 is a hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.1fefe578fb]
 file = "TAI_template.tex"
@@ -280,6 +307,7 @@ key = ""
 reason = "Day of the submission date 'May 28, 2026'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.2128974915]
 file = "TAI_template.tex"
@@ -290,6 +318,7 @@ key = "ablation-1d-mz/balanced-accuracy/mean"
 reason = "Accuracy after the RT axis is collapsed (the 1D-mz ablation)."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.23491c370e]
 file = "TAI_template.tex"
@@ -300,6 +329,7 @@ key = ""
 reason = "A constant inside the loss formula's notation, not a value."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.23eb997df4]
 file = "TAI_template.tex"
@@ -310,6 +340,7 @@ key = "main-table/all/abs-r-min"
 reason = "Lower bound of effect sizes 'against every other method' is the Table 1 minimum |r| (0.684)."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.265bd3a0aa]
 file = "TAI_template.tex"
@@ -320,6 +351,7 @@ key = ""
 reason = "The 96% accuracy is quoted from Adutwum et al., so the |r| candidate matches by coincidence."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.272d962b67]
 file = "TAI_template.tex"
@@ -330,6 +362,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "The 1000-bin integer m/z grid is the preprocessing constant MZ_MAX."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.283388c2dc]
 file = "TAI_template.tex"
@@ -340,6 +373,7 @@ key = "gains/pretrain-vs-best-baseline/points"
 reason = "The sentence says '15.6 points above the best of twelve classical baselines', which is the pretrain-vs-best-baseline gain."
 by = "claude"
 decided = "2026-10-19T23:18:08+13:00"
+result_hash = ""
 
 [decisions.284488b87a]
 file = "TAI_template.tex"
@@ -350,6 +384,7 @@ key = ""
 reason = "The MLP's L2 penalty of 10^-3 is a baseline hyperparameter; the ChromaDCNN lr and p-value candidates match only by coincidence."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.28b76969ba]
 file = "TAI_template.tex"
@@ -360,6 +395,7 @@ key = ""
 reason = "The -1 is the unit exponent in min^{-1}."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.29b34332dc]
 file = "TAI_template.tex"
@@ -370,6 +406,7 @@ key = ""
 reason = "Exponent in (t-mu_k)^2, part of the Gaussian formula."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.2af528f072]
 file = "TAI_template.tex"
@@ -380,6 +417,7 @@ key = "scratch-comparisons/scratch-vs-svm-chromapca/p-bonf"
 reason = "This is the first of three Bonferroni p-values against the three best baselines; SVM chroma-PCA is the best of them."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.2b417ee3dd]
 file = "TAI_template.tex"
@@ -390,6 +428,7 @@ key = ""
 reason = "'For seed 0' names which seed was used."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.2bb0eb5e0e]
 file = "TAI_template.tex"
@@ -400,6 +439,7 @@ key = ""
 reason = "'About 24 scans' describes the data's scans per window, not a computed result."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.2db31fadcb]
 file = "TAI_template.tex"
@@ -410,6 +450,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "'copied into all 200 RT bins' states the number of RT bins in the model input."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.2e619a838c]
 file = "TAI_template.tex"
@@ -420,6 +461,7 @@ key = ""
 reason = "'5 folds' in the caption is a protocol setting, and there is no settings- candidate for it."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.2e9f8bcbaa]
 file = "TAI_template.tex"
@@ -430,6 +472,7 @@ key = ""
 reason = "25,600 is the projected size (200 × 128) worked out from settings, not an experimental result."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.2f677dde19]
 file = "TAI_template.tex"
@@ -440,6 +483,7 @@ key = ""
 reason = "Oven ramp target of 220°C is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.2f7f7d07dc]
 file = "TAI_template.tex"
@@ -450,6 +494,7 @@ key = ""
 reason = "344 m/z channels describes the raw data dimensions."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.2f9448ad72]
 file = "TAI_template.tex"
@@ -460,6 +505,7 @@ key = ""
 reason = "Postcode in 'Nelson 7010'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.30431d83a1]
 file = "TAI_template.tex"
@@ -470,6 +516,7 @@ key = ""
 reason = "Kernel size k = 7 is a hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.31775d6b64]
 file = "TAI_template.tex"
@@ -480,6 +527,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "The 200 equal RT windows are the model's n_bins setting."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.319fcaccae]
 file = "TAI_template.tex"
@@ -490,6 +538,7 @@ key = "settings-finetune/finetuning.val_fraction"
 reason = "'Holds out a stratified 20% of each training fold for early stopping' is the fine-tuning val_fraction of 0.2."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.3279eecd8c]
 file = "TAI_template.tex"
@@ -500,6 +549,7 @@ key = ""
 reason = "37 is the upper bound of '33--37 minutes', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.34126c03f3]
 file = "TAI_template.tex"
@@ -510,6 +560,7 @@ key = ""
 reason = "'The 50 scores per method' is a count of folds from the protocol (10 seeds x 5 folds), and there is no settings- candidate for it."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.34682505c1]
 file = "TAI_template.tex"
@@ -520,6 +571,7 @@ key = ""
 reason = "'10 repeats' is a cross-validation setting with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.35cba6274b]
 file = "TAI_template.tex"
@@ -530,6 +582,7 @@ key = "svm-chromapca/balanced-accuracy/mean"
 reason = "Upper end of the 'three best baselines' range; SVM on chroma-PCA is the best classical baseline at 0.698."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.36d6a6d01d]
 file = "TAI_template.tex"
@@ -540,6 +593,7 @@ key = "svm-chromapca/balanced-accuracy/std"
 reason = "SD paired with the SVM on chroma-PCA mean 0.698."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.370032f241]
 file = "TAI_template.tex"
@@ -550,6 +604,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "'1000 after our preprocessing' is the number of m/z bins, which the preprocessing constant MZ_MAX sets."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.377e48797d]
 file = "TAI_template.tex"
@@ -560,6 +615,7 @@ key = ""
 reason = "Part of the fatty acid name 'DHA, 22:6n-3', which is chemical notation."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.37c5ab49d4]
 file = "TAI_template.tex"
@@ -570,6 +626,7 @@ key = ""
 reason = "'103 samples' is the size of the real dataset, which describes the data."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.380d0f394f]
 file = "TAI_template.tex"
@@ -580,6 +637,7 @@ key = ""
 reason = "Helium total flow of 81.7 is a GC method parameter."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.380fbe88a9]
 file = "TAI_template.tex"
@@ -590,6 +648,7 @@ key = ""
 reason = "Exponent of the weight decay 10^{-4}, a hyperparameter."
 by = "claude"
 decided = "2026-10-19T23:16:16+13:00"
+result_hash = ""
 
 [decisions.381f6b0726]
 file = "TAI_template.tex"
@@ -600,6 +659,7 @@ key = "ablation-2d/balanced-accuracy/mean"
 reason = "The 2D from-scratch arm of the RT ablation that 1D-mz is compared against."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.38730e8d32]
 file = "TAI_template.tex"
@@ -610,6 +670,7 @@ key = "chroma-pretrain/balanced-accuracy/std"
 reason = "Spread across folds and seeds after pretraining: the pretrained ChromaDCNN std."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.399cd3bcf1]
 file = "TAI_template.tex"
@@ -620,6 +681,7 @@ key = ""
 reason = "Upper bound of the observed m/z range of the fish data ('signal spans 50--543'). It describes the data."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.3b505a4656]
 file = "TAI_template.tex"
@@ -630,16 +692,18 @@ key = "main-table/all/abs-r-min"
 reason = "'effect sizes |r| >= 0.68' across all baselines is the minimum |r| in Table 1."
 by = "claude"
 decided = "2026-10-19T23:15:45+13:00"
+result_hash = ""
 
 [decisions.3b9a76f70c]
 file = "TAI_template.tex"
 literal = "3"
 context = "4--28-minute region contributes little (3--6\\%) in any species. The 40--44-minute"
-verdict = "unrecorded"
-key = ""
-reason = "3% is the lower bound of the computed saliency share for the 24--28-minute region across species; the candidates (p-values, a Table 1 rank) are unrelated."
+verdict = "result"
+key = "saliency/band-24-28min/min"
+reason = "3 is the low end of the 24--28-minute range (3--6%) \"in any species\"."
 by = "claude"
-decided = "2026-10-19T23:42:47+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.3bf08d4231]
 file = "TAI_template.tex"
@@ -650,6 +714,7 @@ key = ""
 reason = "Base of the fine-tuning learning rate 10^{-3}, a hyperparameter."
 by = "claude"
 decided = "2026-10-19T23:16:16+13:00"
+result_hash = ""
 
 [decisions.3c2a95abd0]
 file = "TAI_template.tex"
@@ -660,6 +725,7 @@ key = ""
 reason = "The constant in 1/(T-1), part of the loss formula."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.3cf4b32b92]
 file = "TAI_template.tex"
@@ -670,6 +736,7 @@ key = "chroma-pretrain/balanced-accuracy/std"
 reason = "The ± spread of the pretrained ChromaDCNN's balanced accuracy."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.3daf1b16cb]
 file = "TAI_template.tex"
@@ -680,6 +747,7 @@ key = ""
 reason = "'about 9,500 public reference spectra' is an approximate count describing the pretraining corpus, and there is no candidate for it."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.3df2c5cc09]
 file = "TAI_template.tex"
@@ -690,6 +758,7 @@ key = ""
 reason = "Final oven temperature of 320°C is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.3e78db9fa7]
 file = "TAI_template.tex"
@@ -700,6 +769,7 @@ key = ""
 reason = "Dilation 2 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.42269bdc25]
 file = "TAI_template.tex"
@@ -710,6 +780,7 @@ key = ""
 reason = "Tarakihi n=17 is a class sample count that describes the data."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.435c8f9949]
 file = "TAI_template.tex"
@@ -720,6 +791,7 @@ key = "ablation/1d-vs-2d/p"
 reason = "The p-value of the 1D-mz vs 2D ablation comparison (needs a scientific-notation [format] entry)."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.437bda8eba]
 file = "TAI_template.tex"
@@ -730,6 +802,7 @@ key = "gains/pretrain-vs-best-baseline/points"
 reason = "'exceeds all twelve classical baselines by at least 15.6 percentage points' is the gain of the pretrained model over the best baseline."
 by = "claude"
 decided = "2026-10-19T23:15:45+13:00"
+result_hash = ""
 
 [decisions.4419a71358]
 file = "TAI_template.tex"
@@ -740,6 +813,7 @@ key = ""
 reason = "Exponent of the learning rate 10^{-3}, a hyperparameter."
 by = "claude"
 decided = "2026-10-19T23:16:16+13:00"
+result_hash = ""
 
 [decisions.443464b349]
 file = "TAI_template.tex"
@@ -750,6 +824,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "'T = 200 RT bins' is the number of RT bins, which is model.n_bins."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.458444b9b0]
 file = "TAI_template.tex"
@@ -760,6 +835,7 @@ key = ""
 reason = "'in 2003' is the year of a PhD in the author biography."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.46614f063d]
 file = "TAI_template.tex"
@@ -770,6 +846,7 @@ key = "settings-pretrain/model.mz_max"
 reason = "Number of m/z columns in the synthetic '200 x 1000 matrix', which is the pretraining mz_max."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.4663a70a45]
 file = "TAI_template.tex"
@@ -780,6 +857,7 @@ key = "main-table/all/abs-r-max"
 reason = "Upper end of the effect-size range against every baseline, which is the maximum |r| in Table 1 (0.998 rounds to 1.00)."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.48029b856f]
 file = "TAI_template.tex"
@@ -790,6 +868,7 @@ key = ""
 reason = "50 is the lower bound of the observed m/z signal range, which describes the data."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.4812f115fc]
 file = "TAI_template.tex"
@@ -800,6 +879,7 @@ key = ""
 reason = "The MLP's hidden-layer size of 64 is a baseline hyperparameter that has no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.4a97a8720b]
 file = "TAI_template.tex"
@@ -810,6 +890,7 @@ key = ""
 reason = "'about 9,500 public reference mass spectra' is an approximate count describing the pretraining corpus, and there is no candidate for it."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.4b9ae02326]
 file = "TAI_template.tex"
@@ -820,6 +901,7 @@ key = ""
 reason = "'M'24' is the year of an IEEE membership grade in the author biography."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.4cc390a21e]
 file = "TAI_template.tex"
@@ -830,6 +912,7 @@ key = ""
 reason = "Ramp rate of 0.5°C/min is a GC method parameter; the accuracy candidates match only by coincidence."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.4e47d668ba]
 file = "TAI_template.tex"
@@ -840,6 +923,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "The sum spectrum's 1000-dimensional vector comes from the m/z grid size (MZ_MAX)."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.4f3c1fcbb8]
 file = "TAI_template.tex"
@@ -850,6 +934,7 @@ key = ""
 reason = "256 is the concatenated feature size (2 × 128), worked out from the architecture."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.4f909e277e]
 file = "TAI_template.tex"
@@ -860,6 +945,7 @@ key = ""
 reason = "Linear velocity of 36.5 cm/s is a GC method parameter."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.4fa3d3df33]
 file = "TAI_template.tex"
@@ -870,6 +956,7 @@ key = ""
 reason = "'heated to 70°C' is a lab protocol temperature."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.50f3bafa8d]
 file = "TAI_template.tex"
@@ -880,6 +967,7 @@ key = ""
 reason = "The receptive field of 85 bins is worked out by hand from the architecture, not from an experiment."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.5208d08bee]
 file = "TAI_template.tex"
@@ -890,6 +978,7 @@ key = ""
 reason = "'10 random seeds' is an evaluation-protocol setting that has no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.52272adef5]
 file = "TAI_template.tex"
@@ -900,6 +989,7 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "Mean balanced accuracy of the pretrained ChromaDCNN."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.52e11f5fae]
 file = "TAI_template.tex"
@@ -910,6 +1000,7 @@ key = ""
 reason = "40% is the receptive field as a fraction of the RT axis; it only matches the MLP balanced accuracy by coincidence."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.55c8e4e227]
 file = "TAI_template.tex"
@@ -920,6 +1011,7 @@ key = ""
 reason = "Upper bound of K ~ Uniform{5,...,30}. A generator hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.5713aa9ad0]
 file = "TAI_template.tex"
@@ -930,6 +1022,7 @@ key = ""
 reason = "Early-stopping patience 20 is a hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.578f1e3af3]
 file = "TAI_template.tex"
@@ -940,6 +1033,7 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "0.854 is the balanced accuracy after pretraining on synthetic chromatograms, which is pretrained ChromaDCNN."
 by = "claude"
 decided = "2026-10-19T23:18:08+13:00"
+result_hash = ""
 
 [decisions.57db4f5a83]
 file = "TAI_template.tex"
@@ -950,6 +1044,7 @@ key = ""
 reason = "Exponent in sigma_k^2, part of the Gaussian formula."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.58409e2616]
 file = "TAI_template.tex"
@@ -960,6 +1055,7 @@ key = ""
 reason = "About 4,802 RT scans describes the size of the raw data, not a computed result."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.5a03d7ab55]
 file = "TAI_template.tex"
@@ -970,16 +1066,18 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "'to 0.854' is the balanced accuracy of the pretrained ChromaDCNN."
 by = "claude"
 decided = "2026-10-19T23:15:45+13:00"
+result_hash = ""
 
 [decisions.5a762ade1b]
 file = "TAI_template.tex"
 literal = "55\\%"
 context = "saliency is the most concentrated, with 55\\% of its RT saliency in the 40--44-minute"
-verdict = "unrecorded"
-key = ""
-reason = "55% is Tarakihi's computed share of RT saliency in the 40--44-minute band; the SVM max-projection macro-F1 mean matches only by coincidence."
+verdict = "result"
+key = "saliency/band-40-44min/tarakihi"
+reason = "\"Tarakihi's saliency... 55% of its RT saliency in the 40--44-minute band\" names Tarakihi specifically."
 by = "claude"
-decided = "2026-10-19T23:42:47+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.5b8f8a5781]
 file = "TAI_template.tex"
@@ -990,6 +1088,7 @@ key = ""
 reason = "24 is the lower bound of 'the 24--28-minute region', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.5ce1879baa]
 file = "TAI_template.tex"
@@ -1000,6 +1099,7 @@ key = "plsda-sum/balanced-accuracy/mean"
 reason = "The text names sum-spectrum PLS-DA explicitly."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.5db00f4360]
 file = "TAI_template.tex"
@@ -1010,6 +1110,7 @@ key = "ablation-2d/balanced-accuracy/std"
 reason = "The std of the 2D from-scratch arm in the RT ablation."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.5dbdf35de8]
 file = "TAI_template.tex"
@@ -1020,16 +1121,18 @@ key = ""
 reason = "Year in the running header 'Month 2026'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.5e0e97b99b]
 file = "TAI_template.tex"
 literal = "12"
 context = ", followed by a band at 18--22 minutes (12--14\\%). Gurnard also has saliency at 33"
-verdict = "unrecorded"
-key = ""
-reason = "12% is the lower share of RT saliency in the 18-22 minute band, a computed saliency share; all candidates are coincidental."
+verdict = "result"
+key = "saliency/band-18-22min/min"
+reason = "12 is the low end of the 18--22-minute band range (12--14%) across species."
 by = "claude"
-decided = "2026-10-19T23:42:41+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.5ed6ffe131]
 file = "TAI_template.tex"
@@ -1040,6 +1143,7 @@ key = "ablation-1d-mz/balanced-accuracy/std"
 reason = "The std of the 1D-mz ablation arm."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.5ee2047e81]
 file = "TAI_template.tex"
@@ -1050,6 +1154,7 @@ key = ""
 reason = "The MLP's hidden-layer size of 256 is a baseline hyperparameter that has no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.5f08ee055b]
 file = "TAI_template.tex"
@@ -1060,6 +1165,7 @@ key = "gains/ablation-rt-drop/points"
 reason = "The sentence says collapsing the RT axis 'lowers ... accuracy by 19.7 points', a positive drop."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.5fb31b4ecf]
 file = "TAI_template.tex"
@@ -1070,6 +1176,7 @@ key = ""
 reason = "'5-fold' is a cross-validation setting with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.606ba4f17e]
 file = "TAI_template.tex"
@@ -1080,6 +1187,7 @@ key = ""
 reason = "Snapper n=15 is a class sample count that describes the data."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.60dda2d2d3]
 file = "TAI_template.tex"
@@ -1090,6 +1198,7 @@ key = ""
 reason = "'All 14 methods' counts the compared methods; it describes the study design."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.61dd37d153]
 file = "TAI_template.tex"
@@ -1100,6 +1209,7 @@ key = "settings-pretrain/pretraining.weight_decay"
 reason = "The sentence states the AdamW weight decay used for pretraining."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.63c292f8ce]
 file = "TAI_template.tex"
@@ -1110,6 +1220,7 @@ key = ""
 reason = "'n = 50 test folds' in the caption is a protocol count, and there is no settings- candidate for it."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.680b4f6ca3]
 file = "TAI_template.tex"
@@ -1120,6 +1231,7 @@ key = "gains/svm-chromapca-vs-sum/points"
 reason = "This is the SVM gain of full-matrix features over the sum spectrum."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.697c3a2878]
 file = "TAI_template.tex"
@@ -1130,6 +1242,7 @@ key = ""
 reason = "Gurnard n=14 is a class sample count that describes the data."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.6bc194fa3a]
 file = "TAI_template.tex"
@@ -1140,6 +1253,7 @@ key = ""
 reason = "28 is the upper bound of 'the 24--28-minute region', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.6e5d754907]
 file = "TAI_template.tex"
@@ -1150,6 +1264,7 @@ key = ""
 reason = "The 1 is a constant in the rank-biserial formula |1 - 2U/(n1 n2)|."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.6f5a83a2ee]
 file = "TAI_template.tex"
@@ -1160,6 +1275,7 @@ key = ""
 reason = "Ramp rate of 10°C/min is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.6f648f0daa]
 file = "TAI_template.tex"
@@ -1170,6 +1286,7 @@ key = ""
 reason = "Oven start temperature of 90°C is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.749d711146]
 file = "TAI_template.tex"
@@ -1180,6 +1297,7 @@ key = "saliency/rt-profile-corr/min"
 reason = "0.74 is the lower end of the pairwise RT saliency profile correlations."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.765d9ae241]
 file = "TAI_template.tex"
@@ -1190,6 +1308,7 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "Balanced accuracy reached by the proposed pretrained method, rounded."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.7663d74d53]
 file = "TAI_template.tex"
@@ -1200,6 +1319,7 @@ key = ""
 reason = "'103 GC-MS samples' is a sample count that describes the dataset."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.76c725115c]
 file = "TAI_template.tex"
@@ -1210,6 +1330,7 @@ key = ""
 reason = "The -1 is the unit exponent in cm s^{-1}."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.76dbf879b5]
 file = "TAI_template.tex"
@@ -1220,6 +1341,7 @@ key = ""
 reason = "Ramp rate of 100°C/min is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.76e09bdf73]
 file = "TAI_template.tex"
@@ -1230,6 +1352,7 @@ key = "saliency/fold-balanced-accuracy/mean"
 reason = "The sentence reports the 'mean fold balanced accuracy for these models' in the saliency analysis."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.78704e25f1]
 file = "TAI_template.tex"
@@ -1240,6 +1363,7 @@ key = ""
 reason = "'all 14 methods' counts the compared methods; it is not a computed result."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.78942093f1]
 file = "TAI_template.tex"
@@ -1250,6 +1374,7 @@ key = ""
 reason = "Base of the learning rate 10^{-3}, a hyperparameter."
 by = "claude"
 decided = "2026-10-19T23:16:16+13:00"
+result_hash = ""
 
 [decisions.789ded8b49]
 file = "TAI_template.tex"
@@ -1260,6 +1385,7 @@ key = ""
 reason = "Upper limit T-1 of the sum in the loss formula."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.78bd65a8d0]
 file = "TAI_template.tex"
@@ -1270,16 +1396,18 @@ key = ""
 reason = "Size of the pretraining corpus after filtering ('About 9,500 spectra remained'). It is a count that describes the data."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.7905b81686]
 file = "TAI_template.tex"
 literal = "55\\%"
 context = "s the largest share of RT saliency (30--55\\%; highest for Tarakihi, lowest for Gurna"
-verdict = "unrecorded"
-key = ""
-reason = "55% is the largest share of RT saliency in the 40-44 minute band (Tarakihi), a computed saliency share that is not in the ledger."
+verdict = "result"
+key = "saliency/band-40-44min/max"
+reason = "55 is the high end of the cross-species range (30--55%) for the 40--44-minute band, so it is the band maximum (Tarakihi)."
 by = "claude"
-decided = "2026-10-19T23:42:41+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.792e3e5da2]
 file = "TAI_template.tex"
@@ -1290,6 +1418,7 @@ key = ""
 reason = "-1 is the unit exponent in mg mL^-1."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.79d0c79953]
 file = "TAI_template.tex"
@@ -1300,6 +1429,7 @@ key = ""
 reason = "The inner 5-fold CV for PLS-DA is a baseline setting that has no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.7a49d870f3]
 file = "TAI_template.tex"
@@ -1310,6 +1440,7 @@ key = ""
 reason = "'F'20' is the year of an IEEE Fellow grade in the author biography."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.7af243a1c7]
 file = "TAI_template.tex"
@@ -1320,6 +1451,7 @@ key = ""
 reason = "Base of the weight decay 10^{-4}, a hyperparameter."
 by = "claude"
 decided = "2026-10-19T23:16:16+13:00"
+result_hash = ""
 
 [decisions.7b983e09ef]
 file = "TAI_template.tex"
@@ -1330,6 +1462,7 @@ key = ""
 reason = "'SM'21' is the year of an IEEE membership grade in the author biography."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.7c2b688097]
 file = "TAI_template.tex"
@@ -1340,6 +1473,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "'Over the 200 RT bins' refers to the n_bins setting."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.7c4576792b]
 file = "TAI_template.tex"
@@ -1347,9 +1481,10 @@ literal = "3.37 \\times 10^{-4}"
 context = "on one GPU and reaches a final MSE of $3.37 \\times 10^{-4}$."
 verdict = "unrecorded"
 key = ""
-reason = "The 'final MSE' is a computed pretraining loss, and no result records it."
+reason = "\"final MSE of 3.37e-4\" is a computed pretraining result, and no candidate records it."
 by = "claude"
-decided = "2026-10-19T23:42:41+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.7cadda3143]
 file = "TAI_template.tex"
@@ -1360,6 +1495,7 @@ key = ""
 reason = "'the 5-fold protocol' names the CV protocol, and there is no settings- candidate for it."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.7ce48590a6]
 file = "TAI_template.tex"
@@ -1370,6 +1506,7 @@ key = ""
 reason = "'the same 103 samples' is the dataset's sample count."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.7d11606bca]
 file = "TAI_template.tex"
@@ -1380,6 +1517,7 @@ key = ""
 reason = "-3 is the exponent of the chosen L2 penalty 10^-3."
 by = "claude"
 decided = "2026-10-19T23:17:02+13:00"
+result_hash = ""
 
 [decisions.7ddf699b15]
 file = "TAI_template.tex"
@@ -1390,6 +1528,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "The 1000 in the 200 x 1000 matrix is the m/z grid size (MZ_MAX)."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.8085541ced]
 file = "TAI_template.tex"
@@ -1400,6 +1539,7 @@ key = ""
 reason = "Lower bound of the elution-centre range Uniform(0, 200)."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.809e438b14]
 file = "TAI_template.tex"
@@ -1410,6 +1550,7 @@ key = ""
 reason = "'2.5 mL of 10:1 methanol:HCl' is a lab reagent volume."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.8270439efb]
 file = "TAI_template.tex"
@@ -1420,6 +1561,7 @@ key = "scratch-comparisons/scratch-vs-plsda-chromapca/p-bonf"
 reason = "This is the Bonferroni p against PLS-DA chroma-PCA, the third of the best baselines."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.8391c4fe1a]
 file = "TAI_template.tex"
@@ -1430,6 +1572,7 @@ key = ""
 reason = "The 15 is the upper bound of the PLS-DA latent-variable search range."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.869f3fc30c]
 file = "TAI_template.tex"
@@ -1440,6 +1583,7 @@ key = ""
 reason = "Pretraining batch size ('batch of 16'), a hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.88cce33c8a]
 file = "TAI_template.tex"
@@ -1450,6 +1594,7 @@ key = "settings-finetune/model.cnn_channels"
 reason = "Each bin is projected to 128 dimensions, the model's embedding/channel width."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.88f069a259]
 file = "TAI_template.tex"
@@ -1460,6 +1605,7 @@ key = ""
 reason = "'103 samples' is the size of the dataset."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.89dfafa5b6]
 file = "TAI_template.tex"
@@ -1470,6 +1616,7 @@ key = "settings-finetune/model.cnn_channels"
 reason = "'d = 128' is the embedding width of the spectral projection, model.cnn_channels."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.8a1c7e6a95]
 file = "TAI_template.tex"
@@ -1480,6 +1627,7 @@ key = ""
 reason = "The 'around 30%' misdescription rate is quoted from Pardo2016, so the candidates match only by coincidence."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.8b0b3e73c1]
 file = "TAI_template.tex"
@@ -1490,6 +1638,7 @@ key = "settings-pretrain/model.mz_max"
 reason = "The pretraining model's linear head 'maps each output back to 1000 m/z values', which is the pretraining mz_max."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.8b8ab04424]
 file = "TAI_template.tex"
@@ -1500,6 +1649,7 @@ key = ""
 reason = "Upper bound of the '40--44-minute band' retention-time region."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.8e83facee5]
 file = "TAI_template.tex"
@@ -1510,6 +1660,7 @@ key = ""
 reason = "Dilation 1 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.8f43747555]
 file = "TAI_template.tex"
@@ -1520,6 +1671,7 @@ key = ""
 reason = "'for 10 min' is a lab protocol heating time."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.8fb17ea265]
 file = "TAI_template.tex"
@@ -1530,6 +1682,7 @@ key = ""
 reason = "1 in '10:1 methanol:HCl' is part of a reagent ratio."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.9012705435]
 file = "TAI_template.tex"
@@ -1540,6 +1693,7 @@ key = ""
 reason = "200°C is an oven ramp temperature; it matches finetune epochs and n_bins only by coincidence."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.90809af9c5]
 file = "TAI_template.tex"
@@ -1550,6 +1704,7 @@ key = ""
 reason = "The 0.25 majority-class balanced accuracy follows from having four classes, not from an experiment."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.913d4a30c0]
 file = "TAI_template.tex"
@@ -1560,6 +1715,7 @@ key = "svm-chromapca/balanced-accuracy/mean"
 reason = "Balanced accuracy of the best conventional method (SVM on chroma-PCA, 0.698), rounded."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.9151221f9b]
 file = "TAI_template.tex"
@@ -1570,6 +1726,7 @@ key = ""
 reason = "999 is the upper bound of the m/z grid index range."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.937db742d0]
 file = "TAI_template.tex"
@@ -1580,6 +1737,7 @@ key = ""
 reason = "'about 66 samples' is an approximate training-set size describing the data split, not a computed result."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.95ef9d9dcf]
 file = "TAI_template.tex"
@@ -1590,6 +1748,7 @@ key = ""
 reason = "The 1 is the lower bound of the label set {1, ..., C}."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.9651909c9c]
 file = "TAI_template.tex"
@@ -1600,6 +1759,7 @@ key = ""
 reason = "The 2 is a constant in the receptive-field formula."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.9717bb3d34]
 file = "TAI_template.tex"
@@ -1610,6 +1770,7 @@ key = ""
 reason = "Upper bound of the 40--44-minute retention-time band; it names a region, not a measured value."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.976be464c9]
 file = "TAI_template.tex"
@@ -1620,6 +1781,7 @@ key = "main-table/all/abs-r-max"
 reason = "Upper bound of effect sizes against every other method is the Table 1 maximum |r| (0.998 rounds to 1.00)."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.99e6e74210]
 file = "TAI_template.tex"
@@ -1630,6 +1792,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "The 200 in the 200 x 1000 matrix is the number of RT bins (n_bins)."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.9ac16a1aa4]
 file = "TAI_template.tex"
@@ -1640,6 +1803,7 @@ key = ""
 reason = "'Blue Cod makes up 55% of the data' is a class proportion; it matches the macro-F1 candidate only by coincidence."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.9b52bc3d6a]
 file = "TAI_template.tex"
@@ -1650,6 +1814,7 @@ key = ""
 reason = "Upper bound of the centre range Uniform(0, 200) in the generator description. It is not stated as the model's n_bins setting."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.9b8c50599e]
 file = "TAI_template.tex"
@@ -1660,6 +1825,7 @@ key = ""
 reason = "The -1 is the unit exponent in min^{-1}."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.9d46e86fce]
 file = "TAI_template.tex"
@@ -1670,6 +1836,7 @@ key = ""
 reason = "Injection temperature of 250°C is an instrument setting, not a computed result."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.a0f22d54b8]
 file = "TAI_template.tex"
@@ -1680,6 +1847,7 @@ key = ""
 reason = "'4.5 mL of hexane' is a lab extraction volume."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.a1b52f150d]
 file = "TAI_template.tex"
@@ -1690,6 +1858,7 @@ key = ""
 reason = "The 0 is the clipping bound in the formula sqrt(max(x, 0))."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.a2de06d967]
 file = "TAI_template.tex"
@@ -1700,6 +1869,7 @@ key = ""
 reason = "33 is the lower bound of '33--37 minutes', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.a30277c438]
 file = "TAI_template.tex"
@@ -1710,6 +1880,7 @@ key = "svm-chromapca/balanced-accuracy/mean"
 reason = "Best baseline, named as an RBF-kernel SVM on PCA features of the full matrix."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.a4b58d9753]
 file = "TAI_template.tex"
@@ -1720,6 +1891,7 @@ key = ""
 reason = "Street number in '1365 Springs Road'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.a550ff394c]
 file = "TAI_template.tex"
@@ -1730,16 +1902,18 @@ key = ""
 reason = "The 1 in (k-1) is a constant in the formula."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.a58c6fa157]
 file = "TAI_template.tex"
 literal = "30"
 context = "holds the largest share of RT saliency (30--55\\%; highest for Tarakihi, lowest for"
-verdict = "unrecorded"
-key = ""
-reason = "30% is the smallest share of RT saliency in the 40-44 minute band (Gurnard), a computed saliency share; all candidates match only by coincidence."
+verdict = "result"
+key = "saliency/band-40-44min/min"
+reason = "30 is the low end of the cross-species range (30--55%) for the 40--44-minute band, so it is the band minimum (Gurnard)."
 by = "claude"
-decided = "2026-10-19T23:42:41+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.a5e1772b29]
 file = "TAI_template.tex"
@@ -1750,6 +1924,7 @@ key = ""
 reason = "Oven ramp target of 190°C is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.aa8b00e8e0]
 file = "TAI_template.tex"
@@ -1760,6 +1935,7 @@ key = ""
 reason = "The 98% accuracy is quoted from Adutwum et al., so the |r| candidate matches by coincidence."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.aa91895b21]
 file = "TAI_template.tex"
@@ -1770,6 +1946,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "'200 RT bins' is the model's number of RT bins (model.n_bins), not the number of epochs."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.aa9c7398bb]
 file = "TAI_template.tex"
@@ -1780,6 +1957,7 @@ key = ""
 reason = "The SVM's inner 3-fold CV is a baseline setting that has no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.ab20acd8be]
 file = "TAI_template.tex"
@@ -1790,6 +1968,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "The 1000-bin m/z grid is the MZ_MAX preprocessing constant, which every representation uses."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.ad0228252a]
 file = "TAI_template.tex"
@@ -1800,6 +1979,7 @@ key = ""
 reason = "The 50 PCA components are a baseline setting that has no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.ad27e76e49]
 file = "TAI_template.tex"
@@ -1810,6 +1990,7 @@ key = "settings-finetune/finetuning.weight_decay"
 reason = "The Fine-Tuning sentence states the AdamW weight decay of 0.1."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.ad3a2526dd]
 file = "TAI_template.tex"
@@ -1820,6 +2001,7 @@ key = ""
 reason = "Year of the submission date."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.ad944b6c1c]
 file = "TAI_template.tex"
@@ -1830,6 +2012,7 @@ key = ""
 reason = "'30 m length' is a GC column specification."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.ae0dea4a16]
 file = "TAI_template.tex"
@@ -1840,6 +2023,7 @@ key = ""
 reason = "'C = 4' is the number of species, which describes the data."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.af9654b13e]
 file = "TAI_template.tex"
@@ -1850,6 +2034,7 @@ key = ""
 reason = "Ion source and interface temperature of 230°C is an instrument setting."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.afad4ac4eb]
 file = "TAI_template.tex"
@@ -1860,6 +2045,7 @@ key = ""
 reason = "'0.25 mm internal diameter' is a GC column specification."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.b250d142c1]
 file = "TAI_template.tex"
@@ -1870,6 +2056,7 @@ key = ""
 reason = "Dilation 2 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.b2ab17c9ff]
 file = "TAI_template.tex"
@@ -1880,6 +2067,7 @@ key = "plsda-chromapca/balanced-accuracy/mean"
 reason = "Lower end of the 'three best baselines' range, which is PLS-DA on chroma-PCA at 0.692."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.b58407d97c]
 file = "TAI_template.tex"
@@ -1890,16 +2078,18 @@ key = "settings-pretrain/pretraining.n_iterations"
 reason = "'We pretrain for 20,000 steps' states the pretraining iteration count."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.b72983594e]
 file = "TAI_template.tex"
 literal = "6\\%"
 context = "28-minute region contributes little (3--6\\%) in any species. The 40--44-minute band"
-verdict = "unrecorded"
-key = ""
-reason = "6% is the upper bound of the computed saliency share for the 24--28-minute region; the candidates (p-values, effect sizes, a rank) match only by coincidence."
+verdict = "result"
+key = "saliency/band-24-28min/max"
+reason = "6 is the high end of the 24--28-minute range (3--6%) \"in any species\"."
 by = "claude"
-decided = "2026-10-19T23:42:47+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.b917d9b063]
 file = "TAI_template.tex"
@@ -1910,6 +2100,7 @@ key = ""
 reason = "'10 seeds' in the caption is a protocol setting, and there is no settings- candidate for it."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.b989dcb000]
 file = "TAI_template.tex"
@@ -1920,6 +2111,7 @@ key = ""
 reason = "The 1 is a constant in the receptive-field formula."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.b9d6dd6c4a]
 file = "TAI_template.tex"
@@ -1930,6 +2122,7 @@ key = "gains/ablation-1d-vs-2d/points"
 reason = "This is the signed '-19.7 points' change from 2D to 1D-mz in the ablation."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.bac1bb4c66]
 file = "TAI_template.tex"
@@ -1940,6 +2133,7 @@ key = ""
 reason = "10 is the base of the L2 penalty 10^-3, a hyperparameter."
 by = "claude"
 decided = "2026-10-19T23:17:02+13:00"
+result_hash = ""
 
 [decisions.bae17acb56]
 file = "TAI_template.tex"
@@ -1950,6 +2144,7 @@ key = ""
 reason = "Blue Cod n=57 is a class sample count that describes the data."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.c16d1c29ca]
 file = "TAI_template.tex"
@@ -1960,6 +2155,7 @@ key = "gains/pretrain-vs-scratch/points"
 reason = "Percentage-point gain of the pretrained network over the same network trained from scratch."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.c1aca6df01]
 file = "TAI_template.tex"
@@ -1967,9 +2163,10 @@ literal = "13"
 context = "and cosine annealing. This takes about 13 minutes on one GPU and reaches a final"
 verdict = "unrecorded"
 key = ""
-reason = "'About 13 minutes on one GPU' is a measured pretraining time, and no result records it."
+reason = "\"about 13 minutes on one GPU\" is the measured pretraining time, and no candidate records it."
 by = "claude"
-decided = "2026-10-19T23:42:41+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.c1c612c7dc]
 file = "TAI_template.tex"
@@ -1980,6 +2177,7 @@ key = ""
 reason = "Lower bound of the width range Uniform(1, 15). No settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.c35b962f84]
 file = "TAI_template.tex"
@@ -1990,6 +2188,7 @@ key = ""
 reason = "Dilation 4 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.c3e0aabac5]
 file = "TAI_template.tex"
@@ -2000,6 +2199,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "'0.603 ± 0.176 from scratch' is ChromaDCNN trained from scratch."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.c4159ab1dd]
 file = "TAI_template.tex"
@@ -2010,6 +2210,7 @@ key = ""
 reason = "Lower bound of the 40--44-minute retention-time band; it names a region, not a measured value."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.c792f8fc94]
 file = "TAI_template.tex"
@@ -2020,6 +2221,7 @@ key = "gains/pretrain-vs-best-baseline/points"
 reason = "'+15.6 points' gain of pretrained over the best classical baseline."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.c7cb84be52]
 file = "TAI_template.tex"
@@ -2030,6 +2232,7 @@ key = ""
 reason = "Journal issue placeholder 'No. 0'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.c8f86e484d]
 file = "TAI_template.tex"
@@ -2040,6 +2243,7 @@ key = ""
 reason = "Total run time of 45 min is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.c9b8952420]
 file = "TAI_template.tex"
@@ -2050,6 +2254,7 @@ key = ""
 reason = "50 is the lower bound of the m/z range in a description of the data."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.cd684c729f]
 file = "TAI_template.tex"
@@ -2060,6 +2265,7 @@ key = "svm-chromapca/balanced-accuracy/mean"
 reason = "Best classical baseline, 'an SVM on chroma-PCA features', at 0.698."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.cdb46a9d99]
 file = "TAI_template.tex"
@@ -2070,6 +2276,7 @@ key = ""
 reason = "Dilation 1 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.cdbaf0999a]
 file = "TAI_template.tex"
@@ -2080,6 +2287,7 @@ key = ""
 reason = "10 in '10:1 methanol:HCl' is part of a reagent ratio."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.ceb543cbf2]
 file = "TAI_template.tex"
@@ -2090,6 +2298,7 @@ key = ""
 reason = "The 10 is a value in the SVM C grid, and there are no candidates."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.cef26d1a40]
 file = "TAI_template.tex"
@@ -2100,6 +2309,7 @@ key = "gains/plsda-chromapca-vs-sum/points"
 reason = "This is the PLS-DA gain of full-matrix features over the sum spectrum; the typed 26.3 and the rendered 26.2 differ by rounding."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.d10f2dfc1f]
 file = "TAI_template.tex"
@@ -2110,6 +2320,7 @@ key = "saliency/mz-profile-corr/min"
 reason = "'r >= 0.99' is the lower bound of the pairwise m/z saliency profile correlations."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.d25a46805d]
 file = "TAI_template.tex"
@@ -2120,6 +2331,7 @@ key = ""
 reason = "Part of the fatty acid name '22:6n-3' (the n-3 omega position), which is chemical notation."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.d34809f8db]
 file = "TAI_template.tex"
@@ -2130,6 +2342,7 @@ key = ""
 reason = "'55% of samples are Blue Cod' describes the class balance of the data; the SVM macro-F1 candidate matches only by coincidence."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.d41cf33c4a]
 file = "TAI_template.tex"
@@ -2140,6 +2353,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "The 200 in the '200 x 1000' matrix is the number of RT bins, which is model.n_bins, not the number of epochs."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.d55d478358]
 file = "TAI_template.tex"
@@ -2150,6 +2364,7 @@ key = ""
 reason = "'approximately 5 mg mL^-1' is a lab preparation concentration."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.d60936ea60]
 file = "TAI_template.tex"
@@ -2160,6 +2375,7 @@ key = "saliency/rt-profile-corr/max"
 reason = "0.88 is the upper end of the pairwise RT saliency profile correlations."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.d67042749e]
 file = "TAI_template.tex"
@@ -2170,6 +2386,7 @@ key = ""
 reason = "1.15 is the LaTeX \\arraystretch layout value."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.d679f61beb]
 file = "TAI_template.tex"
@@ -2180,6 +2397,7 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "Pretrained ChromaDCNN 'reaches 0.854' balanced accuracy."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.d731fa71ec]
 file = "TAI_template.tex"
@@ -2190,6 +2408,7 @@ key = ""
 reason = "Dilation 4 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.d758b91161]
 file = "TAI_template.tex"
@@ -2200,6 +2419,7 @@ key = ""
 reason = "Column film thickness of 0.25 µm is an instrument specification."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.d92a05b9be]
 file = "TAI_template.tex"
@@ -2210,6 +2430,7 @@ key = ""
 reason = "543 is the upper bound of the m/z range in a description of the data."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.da5ba6c561]
 file = "TAI_template.tex"
@@ -2220,16 +2441,18 @@ key = "settings-finetune/finetuning.lr"
 reason = "The Fine-Tuning sentence states the AdamW learning rate used for fine-tuning."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.db92bd7ad2]
 file = "TAI_template.tex"
 literal = "14\\%"
 context = "llowed by a band at 18--22 minutes (12--14\\%). Gurnard also has saliency at 33--37 m"
-verdict = "unrecorded"
-key = ""
-reason = "14% is the upper share of RT saliency in the 18-22 minute band, a computed saliency share; all candidates are coincidental."
+verdict = "result"
+key = "saliency/band-18-22min/max"
+reason = "14 is the high end of the 18--22-minute band range (12--14%) across species."
 by = "claude"
-decided = "2026-10-19T23:42:41+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.dc11a03e72]
 file = "TAI_template.tex"
@@ -2240,6 +2463,7 @@ key = "scratch-comparisons/scratch-vs-rf-sum/p-bonf"
 reason = "the sentence compares from scratch with the three best baselines (Table 1 ranks 2-4): SVM chroma-PCA, RF sum spectrum, PLS-DA chroma-PCA; RF here is the sum-spectrum one"
 by = "claude"
 decided = "2026-10-19T23:43:02+13:00"
+result_hash = ""
 
 [decisions.dc632aaa6e]
 file = "TAI_template.tex"
@@ -2250,6 +2474,7 @@ key = ""
 reason = "22 is the upper bound of the 'band at 18--22 minutes', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
 
 [decisions.dc6aa778aa]
 file = "TAI_template.tex"
@@ -2260,6 +2485,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "Number of RT rows in the synthetic '200 x 1000 matrix', which is the pretraining n_bins."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.dc94f99d5e]
 file = "TAI_template.tex"
@@ -2270,6 +2496,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "Accuracy of 'the same network trained from scratch', which is ChromaDCNN from scratch, not the ablation entry."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.de5b92036f]
 file = "TAI_template.tex"
@@ -2280,6 +2507,7 @@ key = ""
 reason = "200,000 is the flattened size (200 x 1000), a value derived from the settings, not a recorded result."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.e2ac979aad]
 file = "TAI_template.tex"
@@ -2290,6 +2518,7 @@ key = "main-table/all/abs-r-min"
 reason = "Lower end of the effect-size range against every baseline, which is the minimum |r| in Table 1."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
+result_hash = ""
 
 [decisions.e4d1c7ec14]
 file = "TAI_template.tex"
@@ -2300,6 +2529,7 @@ key = "gains/pretrain-vs-scratch/points"
 reason = "'+25.1 percentage points' gain of pretrained over from-scratch."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.e4d4d87848]
 file = "TAI_template.tex"
@@ -2310,6 +2540,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "'Pretraining raises balanced accuracy from 0.603' is the score of ChromaDCNN trained from scratch."
 by = "claude"
 decided = "2026-10-19T23:15:45+13:00"
+result_hash = ""
 
 [decisions.e5b1964cc8]
 file = "TAI_template.tex"
@@ -2320,6 +2551,7 @@ key = ""
 reason = "The stratified 5-fold CV is an evaluation-protocol setting that has no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.e6a5bd2c4e]
 file = "TAI_template.tex"
@@ -2330,6 +2562,7 @@ key = ""
 reason = "0 is the lower bound of the m/z grid index range."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.e721930add]
 file = "TAI_template.tex"
@@ -2340,6 +2573,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "'M = 1000 m/z bins' is the m/z range that the preprocessing constant MZ_MAX sets."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.e884151b0f]
 file = "TAI_template.tex"
@@ -2350,6 +2584,7 @@ key = ""
 reason = "Ramp rate of 2°C/min is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.e949a205e7]
 file = "TAI_template.tex"
@@ -2360,6 +2595,7 @@ key = ""
 reason = "The 4 min hold time is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.e957ebafd6]
 file = "TAI_template.tex"
@@ -2370,6 +2606,7 @@ key = ""
 reason = "The -1 is the unit exponent in min^{-1}."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.e95e99c0a7]
 file = "TAI_template.tex"
@@ -2380,6 +2617,7 @@ key = ""
 reason = "55% is Blue Cod's share of the dataset, so the SVM macro-F1 candidate matches only by coincidence."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.e9bd53778a]
 file = "TAI_template.tex"
@@ -2390,6 +2628,7 @@ key = ""
 reason = "Summation index start (k=1) in the synthetic chromatogram equation."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.ea0f22faee]
 file = "TAI_template.tex"
@@ -2400,6 +2639,7 @@ key = ""
 reason = "'0.5 mL portion' is a lab preparation volume, so the score candidates are coincidences."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
 
 [decisions.eb35c07a28]
 file = "TAI_template.tex"
@@ -2410,6 +2650,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "Mean accuracy of the network 'trained from scratch'."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.ec95608ab7]
 file = "TAI_template.tex"
@@ -2420,6 +2661,7 @@ key = ""
 reason = "The constant 2 in 2*sigma_k^2, part of the Gaussian formula."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.ed22d514ae]
 file = "TAI_template.tex"
@@ -2430,6 +2672,7 @@ key = ""
 reason = "Kernel size 7 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.edf0d8460e]
 file = "TAI_template.tex"
@@ -2440,16 +2683,18 @@ key = ""
 reason = "The 1 is the lower bound of the PLS-DA latent-variable search range."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.ee3f254a60]
 file = "TAI_template.tex"
 literal = "13\\%"
 context = "rd also has saliency at 33--37 minutes (13\\%), while the 24--28-minute region contri"
-verdict = "unrecorded"
-key = ""
-reason = "13% is Gurnard's computed share of RT saliency in the 33--37-minute band; none of the candidates (stds, a Table 1 rank) is that value."
+verdict = "result"
+key = "saliency/band-33-37min/gurnard"
+reason = "\"Gurnard also has saliency at 33--37 minutes (13%)\" names Gurnard and the 33--37-minute band."
 by = "claude"
-decided = "2026-10-19T23:42:47+13:00"
+decided = "2026-10-19T23:56:02+13:00"
+result_hash = ""
 
 [decisions.ee612efe44]
 file = "TAI_template.tex"
@@ -2460,6 +2705,7 @@ key = "gains/svm-chromapca-vs-sum/points"
 reason = "This is the SVM gain of chroma-PCA over the sum spectrum."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
+result_hash = ""
 
 [decisions.ee7d388e4b]
 file = "TAI_template.tex"
@@ -2470,6 +2716,7 @@ key = "main-table/chroma-scratch/abs-r"
 reason = "|r| of from-scratch ChromaDCNN against pretrained, as reported in Table 1."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.ef4e601202]
 file = "TAI_template.tex"
@@ -2480,6 +2727,7 @@ key = ""
 reason = "Postcode in 'Lincoln 7674'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.f10f1f0432]
 file = "TAI_template.tex"
@@ -2490,6 +2738,7 @@ key = "ablation/1d-vs-2d/abs-r"
 reason = "Effect size |r| for the 1D-mz vs 2D ablation comparison."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.f19d7e76b2]
 file = "TAI_template.tex"
@@ -2500,6 +2749,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "0.603 is the balanced accuracy before pretraining, so it is ChromaDCNN trained from scratch (the sentence is about pretraining, not the 2D ablation)."
 by = "claude"
 decided = "2026-10-19T23:18:08+13:00"
+result_hash = ""
 
 [decisions.f31c9fd8b0]
 file = "TAI_template.tex"
@@ -2510,6 +2760,7 @@ key = "chroma-scratch/balanced-accuracy/std"
 reason = "SD of ChromaDCNN from scratch."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.f89c6fc44e]
 file = "TAI_template.tex"
@@ -2520,6 +2771,7 @@ key = ""
 reason = "Postcode in 'Wellington 6012'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
 
 [decisions.fa390cec16]
 file = "TAI_template.tex"
@@ -2530,6 +2782,7 @@ key = "chroma-pretrain/balanced-accuracy/std"
 reason = "The ± SD of pretrained ChromaDCNN's 0.854."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.fad6dc6a72]
 file = "TAI_template.tex"
@@ -2540,6 +2793,7 @@ key = ""
 reason = "0.1 is a value in the SVM C grid; the dropout and weight-decay candidates belong to ChromaDCNN and match only by coincidence."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.fb91ea8b64]
 file = "TAI_template.tex"
@@ -2550,6 +2804,7 @@ key = ""
 reason = "Index offset t+1 in the loss formula."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.fcc432e707]
 file = "TAI_template.tex"
@@ -2560,6 +2815,7 @@ key = "main-table/svm-chromapca/abs-r"
 reason = "|r| of SVM on chroma-PCA against pretrained ChromaDCNN."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
+result_hash = ""
 
 [decisions.fd45432ef1]
 file = "TAI_template.tex"
@@ -2570,6 +2826,7 @@ key = "settings-finetune/model.mz_max"
 reason = "The caption describes the fish classifier's input of 1000 m/z values, which is model.mz_max in the finetune config."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.fd5a4bd347]
 file = "TAI_template.tex"
@@ -2580,6 +2837,7 @@ key = "chroma-scratch/balanced-accuracy/std"
 reason = "The sentence contrasts the from-scratch std with the pretrained std, so this is the ChromaDCNN from-scratch result."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
+result_hash = ""
 
 [decisions.fdc0efda47]
 file = "TAI_template.tex"
@@ -2590,6 +2848,7 @@ key = ""
 reason = "'50 test-fold scores' is 10 seeds x 5 folds, a count that describes the protocol."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
 
 [decisions.ff1d6db83a]
 file = "TAI_template.tex"
@@ -2600,6 +2859,7 @@ key = "settings-pretrain/pretraining.lr"
 reason = "'AdamW (learning rate 10^{-3})' in the pretraining description is the pretraining lr setting."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
 
 [decisions.ff91680911]
 file = "TAI_template.tex"
@@ -2610,3 +2870,4 @@ key = ""
 reason = "The 100 is a value in the SVM C grid, and there are no candidates."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""

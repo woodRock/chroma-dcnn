@@ -12,6 +12,7 @@ pretraining:
   weight_decay: 1.0e-4
   grad_clip: 1.0
   log_every: 500
+  seed: 0                  # synthetic batches and weights; set for reproducible reruns
 
 data:
   h5_path: data/pretraining/spectra.h5   # MoNA/MassBank EI-MS spectra (no fish oil)

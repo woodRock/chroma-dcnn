@@ -257,28 +257,40 @@ def scratch_comparisons(conds: dict[str, dict], table: dict) -> dict:
 
 
 def saliency() -> dict:
-    """The seed-0 saliency models (scripts/11_saliency.py): their accuracy, and how similar the
-    species' per-m/z and per-RT saliency profiles are (pairwise Pearson r)."""
-    path = RES / "saliency_mean.npz"
-    z = np.load(path)
-    sal = z["saliency"]  # [species, RT, m/z]
-    by_mz, by_rt = sal.sum(axis=1), sal.sum(axis=2)
-    pairs = [(a, b) for a in range(len(sal)) for b in range(a + 1, len(sal))]
-
-    def corr(profiles: np.ndarray) -> dict:
-        r = [float(np.corrcoef(profiles[a], profiles[b])[0, 1]) for a, b in pairs]
-        return {"min": min(r), "max": max(r), "n": len(r)}
-
+    """What scripts/11_saliency.py reports about the seed-0 saliency models
+    (saliency_summary.json): their fold accuracy, each RT band's share of every species' RT
+    saliency, and how similar the species' profiles are."""
+    path = RES / "saliency_summary.json"
+    d = json.loads(path.read_text())
+    metrics = {
+        "fold-balanced-accuracy": d["fold_balanced_accuracy"],
+        "rt-profile-corr": d["rt_profile_corr"],
+        "mz-profile-corr": d["mz_profile_corr"],
+    }
+    for band, share in d["band_share"].items():
+        metrics[f"band-{band}"] = share
     return {
         "label": "Gradient saliency (seed 0, 5 folds)",
         "source": _source(path),
+        "metrics": metrics,
+    }
+
+
+def pretraining() -> dict | None:
+    """Wall-clock time and final MSE of pretraining (scripts/03_pretrain_chroma.py), if recorded."""
+    path = ROOT / "results" / "pretrain_summary.json"
+    if not path.is_file():
+        return None
+    d = json.loads(path.read_text())
+    return {
+        "label": "Pretraining (next-frame prediction on synthetic chromatograms)",
+        "source": _source(path),
         "metrics": {
-            "fold-balanced-accuracy": {
-                "mean": float(z["fold_balanced_accuracy"].mean()),
-                "n": int(z["fold_balanced_accuracy"].size),
-            },
-            "mz-profile-corr": corr(by_mz),
-            "rt-profile-corr": corr(by_rt),
+            "wall-minutes": d["wall_minutes"],
+            "final-mse": d["final_mse"],
+            "best-mse": d["best_mse"],
+            "iterations": d["n_iterations"],
+            "spectra": d["n_spectra"],
         },
     }
 
@@ -295,6 +307,7 @@ def results() -> dict[str, dict]:
         "gains": gains(conds, table),
         "scratch-comparisons": scratch_comparisons(conds, table),
         "saliency": saliency(),
+        **({"pretraining": pre} if (pre := pretraining()) else {}),
     }
     return {
         name: {"name": name, "runs": [], "produced_by": "scripts/export_ledger.py", **r}

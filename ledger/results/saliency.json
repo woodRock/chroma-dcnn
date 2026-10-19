@@ -4,23 +4,55 @@
   "produced_by": "scripts/export_ledger.py",
   "label": "Gradient saliency (seed 0, 5 folds)",
   "source": {
-    "path": "results/fish_oil/saliency_mean.npz",
-    "hash": "sha256:92c942ca63e9a5edf9c00af754ce4134a9bf10059ee4ef51317ef8edd19f2a40"
+    "path": "results/fish_oil/saliency_summary.json",
+    "hash": "sha256:01b34cdc44e5895708208b69a08a61722f596de35ad735eab48c6421e6af42a6"
   },
   "metrics": {
     "fold-balanced-accuracy": {
       "mean": 0.8871212121212121,
       "n": 5
     },
-    "mz-profile-corr": {
-      "min": 0.9964080644442622,
-      "max": 0.9993119394475816,
+    "rt-profile-corr": {
+      "min": 0.7382578218230301,
+      "max": 0.8840955002711423,
       "n": 6
     },
-    "rt-profile-corr": {
-      "min": 0.7382578239924448,
-      "max": 0.8840955000166296,
+    "mz-profile-corr": {
+      "min": 0.9964080643784816,
+      "max": 0.9993119394968005,
       "n": 6
+    },
+    "band-18-22min": {
+      "snapper": 0.1322602480649948,
+      "gurnard": 0.11825943738222122,
+      "tarakihi": 0.1210654228925705,
+      "blue-cod": 0.13756899535655975,
+      "min": 0.11825943738222122,
+      "max": 0.13756899535655975
+    },
+    "band-24-28min": {
+      "snapper": 0.05068865418434143,
+      "gurnard": 0.06385055184364319,
+      "tarakihi": 0.03317350894212723,
+      "blue-cod": 0.035657260566949844,
+      "min": 0.03317350894212723,
+      "max": 0.06385055184364319
+    },
+    "band-33-37min": {
+      "snapper": 0.06672301143407822,
+      "gurnard": 0.12560155987739563,
+      "tarakihi": 0.06000081077218056,
+      "blue-cod": 0.03992411121726036,
+      "min": 0.03992411121726036,
+      "max": 0.12560155987739563
+    },
+    "band-40-44min": {
+      "snapper": 0.406188040971756,
+      "gurnard": 0.30283069610595703,
+      "tarakihi": 0.553186297416687,
+      "blue-cod": 0.4585171341896057,
+      "min": 0.30283069610595703,
+      "max": 0.553186297416687
     }
   }
 }

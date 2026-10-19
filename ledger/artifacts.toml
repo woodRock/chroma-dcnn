@@ -73,6 +73,17 @@ round = "down"
 [format."saliency/rt-profile-corr/*"]
 decimals = 2
 
+[format."saliency/band-*/*"]          # shares of RT saliency: 55\%
+percent = true
+decimals = 0
+
+[format."pretraining/wall-minutes"]   # "about 13 minutes"
+decimals = 0
+
+[format."pretraining/final-mse"]      # 3.37 \times 10^{-4}
+sci = true
+decimals = 2
+
 [format."scratch-comparisons/*/p-bonf"]
 decimals = 2
 

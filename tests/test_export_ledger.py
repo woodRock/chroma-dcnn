@@ -51,6 +51,9 @@ def test_results(ex):
         for b in ("svm-chromapca", "rf-sum", "plsda-chromapca")
     ] == [0.15, 0.16, 0.44]
     sal = out["saliency"]["metrics"]
+    b = sal["band-40-44min"]
+    assert (round(100 * b["min"]), round(100 * b["max"])) == (30, 55) and b["min"] == b["gurnard"]
+    assert round(100 * sal["band-33-37min"]["gurnard"]) == 13
     assert round(sal["fold-balanced-accuracy"]["mean"], 3) == 0.887
     assert sal["mz-profile-corr"]["min"] >= 0.99 and sal["mz-profile-corr"]["n"] == 6
     assert (round(sal["rt-profile-corr"]["min"], 2), round(sal["rt-profile-corr"]["max"], 2)) == (
