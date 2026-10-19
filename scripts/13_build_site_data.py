@@ -1,18 +1,23 @@
 """
 Export the fish oil results to docs/data.js for the project website (GitHub Pages).
 
-Reads only committed outputs (results/fish_oil/*, data/fish_oil/*); no training.
+Reads only committed outputs (results/fish_oil/*, data/fish_oil/*, and ledger/results/*, the numbers
+the paper prints); no training.
 
 Usage:
   python scripts/13_build_site_data.py
 
-Output → docs/data.js  (window.SITE_DATA = {...})
+Output → docs/data.js  (window.SITE_DATA = {...}), and the numbers in docs/index.html's prose filled
+in place: <data data-key="k">…</data> elements, data-count-key="k" counters and the page
+description. A key the script doesn't produce stops it, so no number on the site is typed by hand.
 """
 
 from __future__ import annotations
 
 import csv
+import html
 import json
+import re
 from collections import Counter
 from pathlib import Path
 
@@ -21,6 +26,11 @@ import numpy as np
 RESULTS = Path('results/fish_oil')
 DATA    = Path('data/fish_oil')
 OUT     = Path('docs/data.js')
+HTML    = Path('docs/index.html')
+LEDGER  = Path('ledger/results')       # scripts/export_ledger.py: what the paper prints
+DESCRIPTION = ('A 1D dilated CNN pretrained on synthetic GC-MS chromatograms identifies four NZ '
+               'fish species with {pretrain_ba} balanced accuracy, +{gain_best_pp} pp over the '
+               'best classical baseline.')
 
 SPECIES = ['SNA', 'GUR', 'TAR', 'BCO']
 RT_LO, RT_HI = 5.0, 45.0
@@ -72,6 +82,62 @@ def methods() -> list[dict]:
     return table
 
 
+def numbers(y: np.ndarray) -> dict[str, str]:
+    """Every number in the page's prose, as printed, from the ledger the paper uses and the data."""
+    def metrics(name: str) -> dict:
+        return json.loads((LEDGER / f'{name}.json').read_text())['metrics']
+
+    pre = metrics('chroma-pretrain')['balanced-accuracy']
+    scr = metrics('chroma-scratch')['balanced-accuracy']
+    gains, abl = metrics('gains'), metrics('ablation')['1d-vs-2d']
+    mant, exp = f'{abl["p"]:.1e}'.split('e')
+    return {
+        'pretrain_ba': f'{pre["mean"]:.3f}', 'pretrain_sd': f'{pre["std"]:.3f}',
+        'folds_n': str(pre['n']),
+        'scratch_ba': f'{scr["mean"]:.3f}', 'scratch_sd': f'{scr["std"]:.3f}',
+        'best_baseline_ba': f'{metrics("svm-chromapca")["balanced-accuracy"]["mean"]:.3f}',
+        'plsda_sum_ba': f'{metrics("plsda-sum")["balanced-accuracy"]["mean"]:.3f}',
+        'gain_best_pp': f'{gains["pretrain-vs-best-baseline"]["points"]:.1f}',
+        'gain_scratch_pp': f'{gains["pretrain-vs-scratch"]["points"]:.1f}',
+        'gain_scratch_points': f'{round(gains["pretrain-vs-scratch"]["points"])}',
+        'ablation_2d_ba': f'{metrics("ablation-2d")["balanced-accuracy"]["mean"]:.3f}',
+        'ablation_p_mantissa': mant, 'ablation_p_exponent': str(int(exp)).replace('-', '−'),
+        'ablation_abs_r': f'{abl["abs-r"]:.2f}',
+        'spectra': str(metrics('pretraining')['spectra']),
+        'spectra_text': f'{metrics("pretraining")["spectra"]:,}',
+        'n_samples': str(len(y)), 'n_bco': str(int(np.sum(y == SPECIES.index('BCO')))),
+    }
+
+
+DATA_RE = re.compile(r'(<data\b[^>]*\bdata-key="([^"]+)"[^>]*>)(.*?)(</data>)', re.S)
+COUNT_RE = re.compile(r'(<(\w+)\b[^>]*\bdata-count-key="([^"]+)"[^>]*>)([^<]*)(</\2>)')
+
+
+def fill_html(page: str, nums: dict[str, str]) -> str:
+    """The page with its numbers filled in: <data data-key> text, counters (data-count and the
+    text shown without JavaScript) and the og:description. An unknown key is an error."""
+    keys = {m.group(2) for m in DATA_RE.finditer(page)}
+    keys |= {m.group(3) for m in COUNT_RE.finditer(page)}
+    missing = sorted(keys - set(nums))
+    if missing:
+        raise KeyError(f'{HTML} uses numbers this script does not produce: {missing}')
+    page = DATA_RE.sub(
+        lambda m: m.group(1) + html.escape(nums[m.group(2)], quote=False) + m.group(4), page)
+
+    def count(m: re.Match) -> str:
+        tag, v = m.group(1), nums[m.group(3)]
+        tag = re.sub(r'data-count="[^"]*"', f'data-count="{v}"', tag)
+        prefix = re.search(r'data-prefix="([^"]*)"', tag)
+        # as the page's count-up prints it
+        shown = f'{int(v):,}' if re.search(r'data-dec="0"', tag) else v
+        return tag + (prefix.group(1) if prefix else '') + shown + m.group(5)
+
+    page = COUNT_RE.sub(count, page)
+    desc = html.escape(DESCRIPTION.format(**nums))
+    return re.sub(r'(<meta property="og:description" content=")[^"]*"',
+                  lambda m: m.group(1) + desc + '"', page)
+
+
 def main() -> None:
     def lines(name: str) -> list[str]:
         return [s.strip() for s in (DATA / name).read_text().splitlines() if s.strip()]
@@ -115,6 +181,7 @@ def main() -> None:
                         for (s, p), n in sorted(composition.items())],
         'individuals': [{'species': s, 'individual': g, 'n': n}
                         for (s, g), n in sorted(individuals.items())],
+        'numbers': numbers(y),
         'methods': methods(),
         'ablation': {k: r3(v['balanced_accuracy']) for k, v in ablation.items()},
         'saliency': {
@@ -134,6 +201,12 @@ def main() -> None:
     OUT.write_text('// Generated by scripts/13_build_site_data.py — do not edit by hand.\n'
                    'window.SITE_DATA = ' + json.dumps(site, separators=(',', ':')) + ';\n')
     print(f'Wrote {OUT} ({OUT.stat().st_size / 1e3:.0f} kB)')
+    page = HTML.read_text()
+    filled = fill_html(page, site['numbers'])
+    if filled != page:
+        HTML.write_text(filled)
+    n = len(DATA_RE.findall(filled)) + len(COUNT_RE.findall(filled))
+    print(f'Filled {n} numbers in {HTML}')
 
 
 if __name__ == '__main__':
