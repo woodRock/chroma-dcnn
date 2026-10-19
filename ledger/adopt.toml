@@ -10,7 +10,7 @@ key = "settings-finetune/finetuning.epochs"
 reason = "'cosine annealing over at most 200 epochs' is the fine-tuning epoch setting."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
-result_hash = ""
+result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
 [decisions.007c91a107]
 file = "TAI_template.tex"
@@ -76,7 +76,7 @@ key = "gains/ablation-rt-drop/points"
 reason = "The sentence says collapsing the RT axis 'lowers the network's accuracy by 19.7 points', a positive drop."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.06faa934d6]
 file = "TAI_template.tex"
@@ -142,7 +142,7 @@ key = "gains/pretrain-vs-best-baseline/points"
 reason = "Points above the best of the twelve classical baselines."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.0e29f004cd]
 file = "TAI_template.tex"
@@ -221,17 +221,6 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
-[decisions.1656cb5825]
-file = "TAI_template.tex"
-literal = "26.3"
-context = "D chromatogram beat the sum spectrum by 26.3 and 20.5 points (Table~\\ref{tab:main})."
-verdict = "result"
-key = "gains/plsda-chromapca-vs-sum/points"
-reason = "This is the PLS-DA gain of chroma-PCA over the sum spectrum; the typed 26.3 and the rendered 26.2 differ by rounding."
-by = "claude"
-decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
-
 [decisions.172a1c057f]
 file = "TAI_template.tex"
 literal = "40"
@@ -252,7 +241,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "Caption states the synthetic chromatograms span '200 RT bins', which is the pretraining n_bins setting."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.1c40a9efc5]
 file = "TAI_template.tex"
@@ -274,7 +263,7 @@ key = "settings-finetune/finetuning.grad_clip"
 reason = "'gradient clipping at 1.0' in the Fine-Tuning section is the fine-tuning grad_clip setting."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
-result_hash = ""
+result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
 [decisions.1db6aaf2da]
 file = "TAI_template.tex"
@@ -318,7 +307,7 @@ key = "ablation-1d-mz/balanced-accuracy/mean"
 reason = "Accuracy after the RT axis is collapsed (the 1D-mz ablation)."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:a5ce25a59bae5e204d8134361eb9eecdda9627a1eacc3b1ce4cb11745931aaaf"
 
 [decisions.23491c370e]
 file = "TAI_template.tex"
@@ -340,7 +329,7 @@ key = "main-table/all/abs-r-min"
 reason = "Lower bound of effect sizes 'against every other method' is the Table 1 minimum |r| (0.684)."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
 
 [decisions.265bd3a0aa]
 file = "TAI_template.tex"
@@ -362,7 +351,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "The 1000-bin integer m/z grid is the preprocessing constant MZ_MAX."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
-result_hash = ""
+result_hash = "sha256:c22964a527572071426e35661ecf99dab16be8aa1ab0cecdc24aec18daedcff5"
 
 [decisions.283388c2dc]
 file = "TAI_template.tex"
@@ -373,7 +362,7 @@ key = "gains/pretrain-vs-best-baseline/points"
 reason = "The sentence says '15.6 points above the best of twelve classical baselines', which is the pretrain-vs-best-baseline gain."
 by = "claude"
 decided = "2026-10-19T23:18:08+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.284488b87a]
 file = "TAI_template.tex"
@@ -417,7 +406,7 @@ key = "scratch-comparisons/scratch-vs-svm-chromapca/p-bonf"
 reason = "This is the first of three Bonferroni p-values against the three best baselines; SVM chroma-PCA is the best of them."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:bedc53f7d95d207c882361156c1853b3edbc04d870f228ec3826034603166d37"
 
 [decisions.2b417ee3dd]
 file = "TAI_template.tex"
@@ -450,7 +439,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "'copied into all 200 RT bins' states the number of RT bins in the model input."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.2e619a838c]
 file = "TAI_template.tex"
@@ -527,7 +516,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "The 200 equal RT windows are the model's n_bins setting."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.319fcaccae]
 file = "TAI_template.tex"
@@ -538,7 +527,7 @@ key = "settings-finetune/finetuning.val_fraction"
 reason = "'Holds out a stratified 20% of each training fold for early stopping' is the fine-tuning val_fraction of 0.2."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
-result_hash = ""
+result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
 [decisions.3279eecd8c]
 file = "TAI_template.tex"
@@ -582,7 +571,7 @@ key = "svm-chromapca/balanced-accuracy/mean"
 reason = "Upper end of the 'three best baselines' range; SVM on chroma-PCA is the best classical baseline at 0.698."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:b3ca72f8f9cbb557ead8d456141d233e0bd6b849bd0e9e610794c996bf3800cd"
 
 [decisions.36d6a6d01d]
 file = "TAI_template.tex"
@@ -593,7 +582,7 @@ key = "svm-chromapca/balanced-accuracy/std"
 reason = "SD paired with the SVM on chroma-PCA mean 0.698."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:b3ca72f8f9cbb557ead8d456141d233e0bd6b849bd0e9e610794c996bf3800cd"
 
 [decisions.370032f241]
 file = "TAI_template.tex"
@@ -604,7 +593,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "'1000 after our preprocessing' is the number of m/z bins, which the preprocessing constant MZ_MAX sets."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
-result_hash = ""
+result_hash = "sha256:c22964a527572071426e35661ecf99dab16be8aa1ab0cecdc24aec18daedcff5"
 
 [decisions.377e48797d]
 file = "TAI_template.tex"
@@ -659,7 +648,7 @@ key = "ablation-2d/balanced-accuracy/mean"
 reason = "The 2D from-scratch arm of the RT ablation that 1D-mz is compared against."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:8d1c24747d6c71465b8652ca3e1695127127389cbcec098032a51f873f066cb4"
 
 [decisions.38730e8d32]
 file = "TAI_template.tex"
@@ -670,7 +659,7 @@ key = "chroma-pretrain/balanced-accuracy/std"
 reason = "Spread across folds and seeds after pretraining: the pretrained ChromaDCNN std."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
 
 [decisions.399cd3bcf1]
 file = "TAI_template.tex"
@@ -692,7 +681,7 @@ key = "main-table/all/abs-r-min"
 reason = "'effect sizes |r| >= 0.68' across all baselines is the minimum |r| in Table 1."
 by = "claude"
 decided = "2026-10-19T23:15:45+13:00"
-result_hash = ""
+result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
 
 [decisions.3b9a76f70c]
 file = "TAI_template.tex"
@@ -703,7 +692,7 @@ key = "saliency/band-24-28min/min"
 reason = "3 is the low end of the 24--28-minute range (3--6%) \"in any species\"."
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.3bf08d4231]
 file = "TAI_template.tex"
@@ -736,7 +725,7 @@ key = "chroma-pretrain/balanced-accuracy/std"
 reason = "The ± spread of the pretrained ChromaDCNN's balanced accuracy."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
 
 [decisions.3daf1b16cb]
 file = "TAI_template.tex"
@@ -791,7 +780,7 @@ key = "ablation/1d-vs-2d/p"
 reason = "The p-value of the 1D-mz vs 2D ablation comparison (needs a scientific-notation [format] entry)."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:f0c40d8113a15fb9c5d571a3e0421e78d109012d194692d94ea0e70fce8df765"
 
 [decisions.437bda8eba]
 file = "TAI_template.tex"
@@ -802,7 +791,7 @@ key = "gains/pretrain-vs-best-baseline/points"
 reason = "'exceeds all twelve classical baselines by at least 15.6 percentage points' is the gain of the pretrained model over the best baseline."
 by = "claude"
 decided = "2026-10-19T23:15:45+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.4419a71358]
 file = "TAI_template.tex"
@@ -824,7 +813,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "'T = 200 RT bins' is the number of RT bins, which is model.n_bins."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.458444b9b0]
 file = "TAI_template.tex"
@@ -846,7 +835,7 @@ key = "settings-pretrain/model.mz_max"
 reason = "Number of m/z columns in the synthetic '200 x 1000 matrix', which is the pretraining mz_max."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.4663a70a45]
 file = "TAI_template.tex"
@@ -857,7 +846,7 @@ key = "main-table/all/abs-r-max"
 reason = "Upper end of the effect-size range against every baseline, which is the maximum |r| in Table 1 (0.998 rounds to 1.00)."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
 
 [decisions.48029b856f]
 file = "TAI_template.tex"
@@ -923,7 +912,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "The sum spectrum's 1000-dimensional vector comes from the m/z grid size (MZ_MAX)."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
-result_hash = ""
+result_hash = "sha256:c22964a527572071426e35661ecf99dab16be8aa1ab0cecdc24aec18daedcff5"
 
 [decisions.4f3c1fcbb8]
 file = "TAI_template.tex"
@@ -989,7 +978,7 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "Mean balanced accuracy of the pretrained ChromaDCNN."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
 
 [decisions.52e11f5fae]
 file = "TAI_template.tex"
@@ -1033,7 +1022,7 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "0.854 is the balanced accuracy after pretraining on synthetic chromatograms, which is pretrained ChromaDCNN."
 by = "claude"
 decided = "2026-10-19T23:18:08+13:00"
-result_hash = ""
+result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
 
 [decisions.57db4f5a83]
 file = "TAI_template.tex"
@@ -1066,7 +1055,7 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "'to 0.854' is the balanced accuracy of the pretrained ChromaDCNN."
 by = "claude"
 decided = "2026-10-19T23:15:45+13:00"
-result_hash = ""
+result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
 
 [decisions.5a762ade1b]
 file = "TAI_template.tex"
@@ -1077,7 +1066,7 @@ key = "saliency/band-40-44min/tarakihi"
 reason = "\"Tarakihi's saliency... 55% of its RT saliency in the 40--44-minute band\" names Tarakihi specifically."
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.5b8f8a5781]
 file = "TAI_template.tex"
@@ -1099,7 +1088,7 @@ key = "plsda-sum/balanced-accuracy/mean"
 reason = "The text names sum-spectrum PLS-DA explicitly."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:2fc96a996bd6450547034525497ebc33af26a603fa0647ba22d7a064a1a5e51d"
 
 [decisions.5db00f4360]
 file = "TAI_template.tex"
@@ -1110,7 +1099,7 @@ key = "ablation-2d/balanced-accuracy/std"
 reason = "The std of the 2D from-scratch arm in the RT ablation."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:8d1c24747d6c71465b8652ca3e1695127127389cbcec098032a51f873f066cb4"
 
 [decisions.5dbdf35de8]
 file = "TAI_template.tex"
@@ -1132,7 +1121,7 @@ key = "saliency/band-18-22min/min"
 reason = "12 is the low end of the 18--22-minute band range (12--14%) across species."
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.5ed6ffe131]
 file = "TAI_template.tex"
@@ -1143,7 +1132,7 @@ key = "ablation-1d-mz/balanced-accuracy/std"
 reason = "The std of the 1D-mz ablation arm."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:a5ce25a59bae5e204d8134361eb9eecdda9627a1eacc3b1ce4cb11745931aaaf"
 
 [decisions.5ee2047e81]
 file = "TAI_template.tex"
@@ -1165,7 +1154,7 @@ key = "gains/ablation-rt-drop/points"
 reason = "The sentence says collapsing the RT axis 'lowers ... accuracy by 19.7 points', a positive drop."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.5fb31b4ecf]
 file = "TAI_template.tex"
@@ -1209,7 +1198,7 @@ key = "settings-pretrain/pretraining.weight_decay"
 reason = "The sentence states the AdamW weight decay used for pretraining."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.63c292f8ce]
 file = "TAI_template.tex"
@@ -1231,7 +1220,7 @@ key = "gains/svm-chromapca-vs-sum/points"
 reason = "This is the SVM gain of full-matrix features over the sum spectrum."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.697c3a2878]
 file = "TAI_template.tex"
@@ -1297,7 +1286,7 @@ key = "saliency/rt-profile-corr/min"
 reason = "0.74 is the lower end of the pairwise RT saliency profile correlations."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.765d9ae241]
 file = "TAI_template.tex"
@@ -1308,7 +1297,7 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "Balanced accuracy reached by the proposed pretrained method, rounded."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
 
 [decisions.7663d74d53]
 file = "TAI_template.tex"
@@ -1352,7 +1341,7 @@ key = "saliency/fold-balanced-accuracy/mean"
 reason = "The sentence reports the 'mean fold balanced accuracy for these models' in the saliency analysis."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.78704e25f1]
 file = "TAI_template.tex"
@@ -1407,7 +1396,7 @@ key = "saliency/band-40-44min/max"
 reason = "55 is the high end of the cross-species range (30--55%) for the 40--44-minute band, so it is the band maximum (Tarakihi)."
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.792e3e5da2]
 file = "TAI_template.tex"
@@ -1473,7 +1462,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "'Over the 200 RT bins' refers to the n_bins setting."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.7c4576792b]
 file = "TAI_template.tex"
@@ -1528,7 +1517,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "The 1000 in the 200 x 1000 matrix is the m/z grid size (MZ_MAX)."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
-result_hash = ""
+result_hash = "sha256:c22964a527572071426e35661ecf99dab16be8aa1ab0cecdc24aec18daedcff5"
 
 [decisions.8085541ced]
 file = "TAI_template.tex"
@@ -1561,7 +1550,7 @@ key = "scratch-comparisons/scratch-vs-plsda-chromapca/p-bonf"
 reason = "This is the Bonferroni p against PLS-DA chroma-PCA, the third of the best baselines."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:bedc53f7d95d207c882361156c1853b3edbc04d870f228ec3826034603166d37"
 
 [decisions.8391c4fe1a]
 file = "TAI_template.tex"
@@ -1594,7 +1583,7 @@ key = "settings-finetune/model.cnn_channels"
 reason = "Each bin is projected to 128 dimensions, the model's embedding/channel width."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
-result_hash = ""
+result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
 [decisions.88f069a259]
 file = "TAI_template.tex"
@@ -1616,7 +1605,7 @@ key = "settings-finetune/model.cnn_channels"
 reason = "'d = 128' is the embedding width of the spectral projection, model.cnn_channels."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
-result_hash = ""
+result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
 [decisions.8a1c7e6a95]
 file = "TAI_template.tex"
@@ -1638,7 +1627,7 @@ key = "settings-pretrain/model.mz_max"
 reason = "The pretraining model's linear head 'maps each output back to 1000 m/z values', which is the pretraining mz_max."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.8b8ab04424]
 file = "TAI_template.tex"
@@ -1715,7 +1704,7 @@ key = "svm-chromapca/balanced-accuracy/mean"
 reason = "Balanced accuracy of the best conventional method (SVM on chroma-PCA, 0.698), rounded."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:b3ca72f8f9cbb557ead8d456141d233e0bd6b849bd0e9e610794c996bf3800cd"
 
 [decisions.9151221f9b]
 file = "TAI_template.tex"
@@ -1781,7 +1770,7 @@ key = "main-table/all/abs-r-max"
 reason = "Upper bound of effect sizes against every other method is the Table 1 maximum |r| (0.998 rounds to 1.00)."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
 
 [decisions.99e6e74210]
 file = "TAI_template.tex"
@@ -1792,7 +1781,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "The 200 in the 200 x 1000 matrix is the number of RT bins (n_bins)."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.9ac16a1aa4]
 file = "TAI_template.tex"
@@ -1880,7 +1869,7 @@ key = "svm-chromapca/balanced-accuracy/mean"
 reason = "Best baseline, named as an RBF-kernel SVM on PCA features of the full matrix."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:b3ca72f8f9cbb557ead8d456141d233e0bd6b849bd0e9e610794c996bf3800cd"
 
 [decisions.a4b58d9753]
 file = "TAI_template.tex"
@@ -1913,7 +1902,7 @@ key = "saliency/band-40-44min/min"
 reason = "30 is the low end of the cross-species range (30--55%) for the 40--44-minute band, so it is the band minimum (Gurnard)."
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.a5e1772b29]
 file = "TAI_template.tex"
@@ -1946,7 +1935,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "'200 RT bins' is the model's number of RT bins (model.n_bins), not the number of epochs."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.aa9c7398bb]
 file = "TAI_template.tex"
@@ -1968,7 +1957,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "The 1000-bin m/z grid is the MZ_MAX preprocessing constant, which every representation uses."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
-result_hash = ""
+result_hash = "sha256:c22964a527572071426e35661ecf99dab16be8aa1ab0cecdc24aec18daedcff5"
 
 [decisions.ad0228252a]
 file = "TAI_template.tex"
@@ -1990,7 +1979,7 @@ key = "settings-finetune/finetuning.weight_decay"
 reason = "The Fine-Tuning sentence states the AdamW weight decay of 0.1."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
-result_hash = ""
+result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
 [decisions.ad3a2526dd]
 file = "TAI_template.tex"
@@ -2067,7 +2056,7 @@ key = "plsda-chromapca/balanced-accuracy/mean"
 reason = "Lower end of the 'three best baselines' range, which is PLS-DA on chroma-PCA at 0.692."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:57a9f3313b82926b065757ca990863b57eb6352da95d5ea61e658e2d2d4d7df3"
 
 [decisions.b58407d97c]
 file = "TAI_template.tex"
@@ -2078,7 +2067,7 @@ key = "settings-pretrain/pretraining.n_iterations"
 reason = "'We pretrain for 20,000 steps' states the pretraining iteration count."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.b72983594e]
 file = "TAI_template.tex"
@@ -2089,7 +2078,7 @@ key = "saliency/band-24-28min/max"
 reason = "6 is the high end of the 24--28-minute range (3--6%) \"in any species\"."
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.b917d9b063]
 file = "TAI_template.tex"
@@ -2122,7 +2111,7 @@ key = "gains/ablation-1d-vs-2d/points"
 reason = "This is the signed '-19.7 points' change from 2D to 1D-mz in the ablation."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.bac1bb4c66]
 file = "TAI_template.tex"
@@ -2155,7 +2144,7 @@ key = "gains/pretrain-vs-scratch/points"
 reason = "Percentage-point gain of the pretrained network over the same network trained from scratch."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.c1aca6df01]
 file = "TAI_template.tex"
@@ -2199,7 +2188,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "'0.603 ± 0.176 from scratch' is ChromaDCNN trained from scratch."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
 [decisions.c4159ab1dd]
 file = "TAI_template.tex"
@@ -2221,7 +2210,7 @@ key = "gains/pretrain-vs-best-baseline/points"
 reason = "'+15.6 points' gain of pretrained over the best classical baseline."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.c7cb84be52]
 file = "TAI_template.tex"
@@ -2265,7 +2254,7 @@ key = "svm-chromapca/balanced-accuracy/mean"
 reason = "Best classical baseline, 'an SVM on chroma-PCA features', at 0.698."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:b3ca72f8f9cbb557ead8d456141d233e0bd6b849bd0e9e610794c996bf3800cd"
 
 [decisions.cdb46a9d99]
 file = "TAI_template.tex"
@@ -2300,17 +2289,6 @@ by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
-[decisions.cef26d1a40]
-file = "TAI_template.tex"
-literal = "26.3"
-context = "matrix raise PLS-DA and SVM accuracy by 26.3 and 20.5 points over the sum spectrum ("
-verdict = "result"
-key = "gains/plsda-chromapca-vs-sum/points"
-reason = "This is the PLS-DA gain of full-matrix features over the sum spectrum; the typed 26.3 and the rendered 26.2 differ by rounding."
-by = "claude"
-decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
-
 [decisions.d10f2dfc1f]
 file = "TAI_template.tex"
 literal = "0.99"
@@ -2320,7 +2298,7 @@ key = "saliency/mz-profile-corr/min"
 reason = "'r >= 0.99' is the lower bound of the pairwise m/z saliency profile correlations."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.d25a46805d]
 file = "TAI_template.tex"
@@ -2353,7 +2331,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "The 200 in the '200 x 1000' matrix is the number of RT bins, which is model.n_bins, not the number of epochs."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.d55d478358]
 file = "TAI_template.tex"
@@ -2375,7 +2353,7 @@ key = "saliency/rt-profile-corr/max"
 reason = "0.88 is the upper end of the pairwise RT saliency profile correlations."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.d67042749e]
 file = "TAI_template.tex"
@@ -2397,7 +2375,7 @@ key = "chroma-pretrain/balanced-accuracy/mean"
 reason = "Pretrained ChromaDCNN 'reaches 0.854' balanced accuracy."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
 
 [decisions.d731fa71ec]
 file = "TAI_template.tex"
@@ -2441,7 +2419,7 @@ key = "settings-finetune/finetuning.lr"
 reason = "The Fine-Tuning sentence states the AdamW learning rate used for fine-tuning."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
-result_hash = ""
+result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
 [decisions.db92bd7ad2]
 file = "TAI_template.tex"
@@ -2452,7 +2430,7 @@ key = "saliency/band-18-22min/max"
 reason = "14 is the high end of the 18--22-minute band range (12--14%) across species."
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.dc11a03e72]
 file = "TAI_template.tex"
@@ -2463,7 +2441,7 @@ key = "scratch-comparisons/scratch-vs-rf-sum/p-bonf"
 reason = "the sentence compares from scratch with the three best baselines (Table 1 ranks 2-4): SVM chroma-PCA, RF sum spectrum, PLS-DA chroma-PCA; RF here is the sum-spectrum one"
 by = "claude"
 decided = "2026-10-19T23:43:02+13:00"
-result_hash = ""
+result_hash = "sha256:bedc53f7d95d207c882361156c1853b3edbc04d870f228ec3826034603166d37"
 
 [decisions.dc632aaa6e]
 file = "TAI_template.tex"
@@ -2485,7 +2463,7 @@ key = "settings-pretrain/model.n_bins"
 reason = "Number of RT rows in the synthetic '200 x 1000 matrix', which is the pretraining n_bins."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.dc94f99d5e]
 file = "TAI_template.tex"
@@ -2496,7 +2474,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "Accuracy of 'the same network trained from scratch', which is ChromaDCNN from scratch, not the ablation entry."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
 [decisions.de5b92036f]
 file = "TAI_template.tex"
@@ -2518,7 +2496,7 @@ key = "main-table/all/abs-r-min"
 reason = "Lower end of the effect-size range against every baseline, which is the minimum |r| in Table 1."
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
-result_hash = ""
+result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
 
 [decisions.e4d1c7ec14]
 file = "TAI_template.tex"
@@ -2529,7 +2507,7 @@ key = "gains/pretrain-vs-scratch/points"
 reason = "'+25.1 percentage points' gain of pretrained over from-scratch."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.e4d4d87848]
 file = "TAI_template.tex"
@@ -2540,7 +2518,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "'Pretraining raises balanced accuracy from 0.603' is the score of ChromaDCNN trained from scratch."
 by = "claude"
 decided = "2026-10-19T23:15:45+13:00"
-result_hash = ""
+result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
 [decisions.e5b1964cc8]
 file = "TAI_template.tex"
@@ -2573,7 +2551,7 @@ key = "settings-preprocess/MZ_MAX"
 reason = "'M = 1000 m/z bins' is the m/z range that the preprocessing constant MZ_MAX sets."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
-result_hash = ""
+result_hash = "sha256:c22964a527572071426e35661ecf99dab16be8aa1ab0cecdc24aec18daedcff5"
 
 [decisions.e884151b0f]
 file = "TAI_template.tex"
@@ -2650,7 +2628,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "Mean accuracy of the network 'trained from scratch'."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
 [decisions.ec95608ab7]
 file = "TAI_template.tex"
@@ -2694,7 +2672,7 @@ key = "saliency/band-33-37min/gurnard"
 reason = "\"Gurnard also has saliency at 33--37 minutes (13%)\" names Gurnard and the 33--37-minute band."
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
-result_hash = ""
+result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
 [decisions.ee612efe44]
 file = "TAI_template.tex"
@@ -2705,7 +2683,7 @@ key = "gains/svm-chromapca-vs-sum/points"
 reason = "This is the SVM gain of chroma-PCA over the sum spectrum."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
-result_hash = ""
+result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
 
 [decisions.ee7d388e4b]
 file = "TAI_template.tex"
@@ -2716,7 +2694,7 @@ key = "main-table/chroma-scratch/abs-r"
 reason = "|r| of from-scratch ChromaDCNN against pretrained, as reported in Table 1."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
 
 [decisions.ef4e601202]
 file = "TAI_template.tex"
@@ -2738,7 +2716,7 @@ key = "ablation/1d-vs-2d/abs-r"
 reason = "Effect size |r| for the 1D-mz vs 2D ablation comparison."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:f0c40d8113a15fb9c5d571a3e0421e78d109012d194692d94ea0e70fce8df765"
 
 [decisions.f19d7e76b2]
 file = "TAI_template.tex"
@@ -2749,7 +2727,7 @@ key = "chroma-scratch/balanced-accuracy/mean"
 reason = "0.603 is the balanced accuracy before pretraining, so it is ChromaDCNN trained from scratch (the sentence is about pretraining, not the 2D ablation)."
 by = "claude"
 decided = "2026-10-19T23:18:08+13:00"
-result_hash = ""
+result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
 [decisions.f31c9fd8b0]
 file = "TAI_template.tex"
@@ -2760,7 +2738,7 @@ key = "chroma-scratch/balanced-accuracy/std"
 reason = "SD of ChromaDCNN from scratch."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
 [decisions.f89c6fc44e]
 file = "TAI_template.tex"
@@ -2782,7 +2760,7 @@ key = "chroma-pretrain/balanced-accuracy/std"
 reason = "The ± SD of pretrained ChromaDCNN's 0.854."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
 
 [decisions.fad6dc6a72]
 file = "TAI_template.tex"
@@ -2815,7 +2793,7 @@ key = "main-table/svm-chromapca/abs-r"
 reason = "|r| of SVM on chroma-PCA against pretrained ChromaDCNN."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
-result_hash = ""
+result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
 
 [decisions.fd45432ef1]
 file = "TAI_template.tex"
@@ -2826,7 +2804,7 @@ key = "settings-finetune/model.mz_max"
 reason = "The caption describes the fish classifier's input of 1000 m/z values, which is model.mz_max in the finetune config."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
-result_hash = ""
+result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
 [decisions.fd5a4bd347]
 file = "TAI_template.tex"
@@ -2837,7 +2815,7 @@ key = "chroma-scratch/balanced-accuracy/std"
 reason = "The sentence contrasts the from-scratch std with the pretrained std, so this is the ChromaDCNN from-scratch result."
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
-result_hash = ""
+result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
 [decisions.fdc0efda47]
 file = "TAI_template.tex"
@@ -2859,7 +2837,7 @@ key = "settings-pretrain/pretraining.lr"
 reason = "'AdamW (learning rate 10^{-3})' in the pretraining description is the pretraining lr setting."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
+result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
 [decisions.ff91680911]
 file = "TAI_template.tex"
