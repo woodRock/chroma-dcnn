@@ -37,7 +37,9 @@ def test_make_batch_is_reproducible(spectra):
 def test_pretrain_saves_transferable_checkpoint(pretrain_cfg, spectra):
     path = pretrain_chroma(pretrain_cfg, spectra, torch.device("cpu"))
     ckpt = torch.load(path, weights_only=False)
-    assert set(ckpt) == {"spec_proj_state", "cnn_state", "config", "n_iterations", "final_loss"}
+    assert set(ckpt) == {"spec_proj_state", "cnn_state", "config", "n_iterations", "final_loss",
+                         "last_loss", "seed"}
+    assert np.isfinite(ckpt["last_loss"]) and ckpt["last_loss"] >= ckpt["final_loss"]
     assert ckpt["n_iterations"] == 3
     assert ckpt["spec_proj_state"]["weight"].shape == (pretrain_cfg["model"]["cnn_channels"],
                                                        MZ_MAX)

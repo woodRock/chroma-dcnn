@@ -1,0 +1,84 @@
+{
+  "name": "scratch-comparisons",
+  "runs": [],
+  "produced_by": "scripts/export_ledger.py",
+  "label": "From-scratch ChromaDCNN against each baseline (Mann-Whitney U, Bonferroni)",
+  "metrics": {
+    "scratch-vs-plsda-sum": {
+      "u": 2065.5,
+      "p-raw": 1.916322114376473e-08,
+      "p-bonf": 2.4912187486894147e-07,
+      "abs-r": 0.6524000000000001
+    },
+    "scratch-vs-rf-sum": {
+      "u": 813.0,
+      "p-raw": 0.0025914543374482724,
+      "p-bonf": 0.03368890638682754,
+      "abs-r": 0.3496
+    },
+    "scratch-vs-svm-sum": {
+      "u": 1900.0,
+      "p-raw": 7.432484330360039e-06,
+      "p-bonf": 9.66222962946805e-05,
+      "abs-r": 0.52
+    },
+    "scratch-vs-mlp-sum": {
+      "u": 2192.0,
+      "p-raw": 8.159440987690599e-11,
+      "p-bonf": 1.0607273283997778e-09,
+      "abs-r": 0.7536
+    },
+    "scratch-vs-plsda-maxproj": {
+      "u": 1949.5,
+      "p-raw": 1.43874456015383e-06,
+      "p-bonf": 1.870367928199979e-05,
+      "abs-r": 0.5596000000000001
+    },
+    "scratch-vs-rf-maxproj": {
+      "u": 2214.5,
+      "p-raw": 2.9514179141351304e-11,
+      "p-bonf": 3.8368432883756693e-10,
+      "abs-r": 0.7716000000000001
+    },
+    "scratch-vs-svm-maxproj": {
+      "u": 1675.5,
+      "p-raw": 0.0033694585329869455,
+      "p-bonf": 0.04380296092883029,
+      "abs-r": 0.34040000000000004
+    },
+    "scratch-vs-mlp-maxproj": {
+      "u": 2140.0,
+      "p-raw": 8.390501246816292e-10,
+      "p-bonf": 1.090765162086118e-08,
+      "abs-r": 0.712
+    },
+    "scratch-vs-plsda-chromapca": {
+      "u": 822.5,
+      "p-raw": 0.0032231344047390473,
+      "p-bonf": 0.04190074726160761,
+      "abs-r": 0.34199999999999997
+    },
+    "scratch-vs-rf-chromapca": {
+      "u": 1696.5,
+      "p-raw": 0.002084094214760244,
+      "p-bonf": 0.027093224791883176,
+      "abs-r": 0.35719999999999996
+    },
+    "scratch-vs-svm-chromapca": {
+      "u": 794.5,
+      "p-raw": 0.0016902606993515136,
+      "p-bonf": 0.02197338909156968,
+      "abs-r": 0.36439999999999995
+    },
+    "scratch-vs-mlp-chromapca": {
+      "u": 2095.0,
+      "p-raw": 5.603449321318001e-09,
+      "p-bonf": 7.284484117713401e-08,
+      "abs-r": 0.6759999999999999
+    }
+  },
+  "source": {
+    "path": "results/fish_oil/chroma_results.json",
+    "hash": "sha256:027838d22a69d08060a37eacfe4daa5dad0dda4f19fa843ab298dc2e6d37829f"
+  }
+}

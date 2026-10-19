@@ -16,12 +16,17 @@ Outputs → figs/
   saliency-heatmaps.png   per-species RT × m/z heatmaps
   saliency-1d.png         RT and m/z marginal profiles
   saliency-3d.png         saliency overlaid on a real chromatogram surface
-and results/fish_oil/saliency_mean.npz (per-species mean saliency, [4, 200, 1000]).
+and results/fish_oil/saliency_mean.npz (per-species mean saliency, [4, 200, 1000]) and
+results/fish_oil/saliency_summary.json (what the paper reports: fold accuracy, each RT band's share
+of every species' RT saliency, and how similar the species' RT and m/z profiles are).
+
+  python scripts/11_saliency.py --summary-only   # recompute the summary from saliency_mean.npz
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
@@ -225,6 +230,45 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
     plt.close(fig)
 
 
+RT_MIN = np.linspace(5, 45, 200)  # retention time (min) of each RT bin, as in the figures
+BANDS = [(18, 22), (24, 28), (33, 37), (40, 44)]  # the RT bands the paper discusses (min)
+SPECIES_KEY = {0: 'snapper', 1: 'gurnard', 2: 'tarakihi', 3: 'blue-cod'}
+
+
+def saliency_summary(sal_mean: np.ndarray, fold_ba: np.ndarray) -> dict:
+    """The numbers the paper quotes about saliency.
+
+    A species' RT profile is its saliency averaged over m/z, on RT_MIN; a band's share is the
+    fraction of that profile inside the band. Profile similarity is the Pearson r between every
+    pair of species, for the RT profiles and for the m/z profiles (saliency averaged over RT).
+    """
+    rt = sal_mean.mean(axis=2)
+    mz = sal_mean.mean(axis=1)
+    bands = {}
+    for lo, hi in BANDS:
+        inside = (RT_MIN >= lo) & (RT_MIN <= hi)
+        share = {SPECIES_KEY[c]: float(rt[c][inside].sum() / rt[c].sum()) for c in range(len(rt))}
+        bands[f'{lo}-{hi}min'] = share | {'min': min(share.values()), 'max': max(share.values())}
+    pairs = [(a, b) for a in range(len(rt)) for b in range(a + 1, len(rt))]
+
+    def corr(profiles: np.ndarray) -> dict:
+        r = [float(np.corrcoef(profiles[a], profiles[b])[0, 1]) for a, b in pairs]
+        return {'min': min(r), 'max': max(r), 'n': len(r)}
+
+    return {
+        'fold_balanced_accuracy': {'mean': float(np.mean(fold_ba)), 'n': int(len(fold_ba))},
+        'rt_profile_corr': corr(rt),
+        'mz_profile_corr': corr(mz),
+        'band_share': bands,
+    }
+
+
+def write_summary(sal_mean: np.ndarray, fold_ba: np.ndarray) -> None:
+    out = RESULTS_DIR / 'saliency_summary.json'
+    out.write_text(json.dumps(saliency_summary(sal_mean, fold_ba), indent=2) + '\n')
+    print(f'Summary saved → {out}')
+
+
 def main(seed: int, device: str | None) -> None:
     sal_mean, chromas, y, fold_ba = compute_saliency(seed, device)
     print(f'Mean test BA over folds: {np.mean(fold_ba):.3f}')
@@ -232,6 +276,7 @@ def main(seed: int, device: str | None) -> None:
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(RESULTS_DIR / 'saliency_mean.npz', saliency=sal_mean,
                         fold_balanced_accuracy=np.array(fold_ba))
+    write_summary(sal_mean, np.array(fold_ba))
 
     FIGS_DIR.mkdir(exist_ok=True)
     plot_heatmaps(sal_mean, FIGS_DIR / 'saliency-heatmaps.png')
@@ -244,5 +289,11 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser(description='Saliency figures for pretrained ChromaDCNN')
     ap.add_argument('--seed', type=int, default=0)
     ap.add_argument('--device', type=str, default=None, help='Force device: cuda, mps, cpu')
+    ap.add_argument('--summary-only', action='store_true',
+                    help='recompute saliency_summary.json from saliency_mean.npz (no training)')
     args = ap.parse_args()
-    main(args.seed, args.device)
+    if args.summary_only:
+        z = np.load(RESULTS_DIR / 'saliency_mean.npz')
+        write_summary(z['saliency'], z['fold_balanced_accuracy'])
+    else:
+        main(args.seed, args.device)

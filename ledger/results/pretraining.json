@@ -1,0 +1,17 @@
+{
+  "name": "pretraining",
+  "runs": [],
+  "produced_by": "scripts/export_ledger.py",
+  "label": "Pretraining (next-frame prediction on synthetic chromatograms)",
+  "source": {
+    "path": "results/pretrain_summary.json",
+    "hash": "sha256:6ec76841c9a12c88aa1113d205a39b0e1584d43f9f3432fbe87d8d698da0b10b"
+  },
+  "metrics": {
+    "wall-minutes": 7.8428964281842735,
+    "final-mse": 0.00033113060239702463,
+    "best-mse": 0.000329832690913463,
+    "iterations": 20000,
+    "spectra": 9553
+  }
+}

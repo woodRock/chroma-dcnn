@@ -1,0 +1,17 @@
+{
+  "name": "ablation",
+  "runs": [],
+  "produced_by": "scripts/export_ledger.py",
+  "label": "Ablation: 1D-mz against 2D (from scratch)",
+  "source": {
+    "path": "results/fish_oil/ablation_1d_vs_2d_summary.md",
+    "hash": "sha256:8d738f19c4525f849e2e7ee0f40420bcd2f5ded9b7c52b23acf0a093acfad88f"
+  },
+  "metrics": {
+    "1d-vs-2d": {
+      "delta": -0.203,
+      "p": 1.99e-07,
+      "abs-r": 0.603
+    }
+  }
+}

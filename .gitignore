@@ -31,6 +31,8 @@ checkpoints/
 # Fish oil results are the paper's source of truth and are committed.
 results/*
 !results/fish_oil/
+# the pretraining time and loss the paper quotes
+!results/pretrain_summary.json
 
 # ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/
@@ -68,3 +70,6 @@ coverage.xml
 htmlcov/
 .pytest_cache/
 .ruff_cache/
+
+# taura build staging
+.taura/

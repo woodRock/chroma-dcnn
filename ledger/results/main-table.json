@@ -1,0 +1,99 @@
+{
+  "name": "main-table",
+  "runs": [],
+  "produced_by": "scripts/export_ledger.py",
+  "label": "Table 1: rank, |r| and Bonferroni p against the best method",
+  "metrics": {
+    "chroma-pretrain": {
+      "rank": 1
+    },
+    "svm-chromapca": {
+      "rank": 2,
+      "abs-r": 0.7416,
+      "p-raw": 1.607946760870261e-10,
+      "p-bonf": 2.0903307891313393e-09
+    },
+    "rf-sum": {
+      "rank": 3,
+      "abs-r": 0.7123999999999999,
+      "p-raw": 8.096498764632927e-10,
+      "p-bonf": 1.0525448394022805e-08
+    },
+    "plsda-chromapca": {
+      "rank": 4,
+      "abs-r": 0.7616,
+      "p-raw": 5.168705807239636e-11,
+      "p-bonf": 6.719317549411527e-10
+    },
+    "chroma-scratch": {
+      "rank": 5,
+      "abs-r": 0.8779999999999999,
+      "p-raw": 3.8511072470760325e-14,
+      "p-bonf": 5.006439421198842e-13
+    },
+    "svm-maxproj": {
+      "rank": 6,
+      "abs-r": 0.972,
+      "p-raw": 5.405345092380719e-17,
+      "p-bonf": 7.026948620094935e-16
+    },
+    "rf-chromapca": {
+      "rank": 7,
+      "abs-r": 0.9812000000000001,
+      "p-raw": 2.6995412510412842e-17,
+      "p-bonf": 3.5094036263536693e-16
+    },
+    "svm-sum": {
+      "rank": 8,
+      "abs-r": 0.996,
+      "p-raw": 8.951965686649836e-18,
+      "p-bonf": 1.1637555392644786e-16
+    },
+    "plsda-maxproj": {
+      "rank": 9,
+      "abs-r": 0.988,
+      "p-raw": 1.6900385039906574e-17,
+      "p-bonf": 2.1970500551878546e-16
+    },
+    "plsda-sum": {
+      "rank": 10,
+      "abs-r": 0.9944,
+      "p-raw": 1.0498007957146425e-17,
+      "p-bonf": 1.3647410344290353e-16
+    },
+    "mlp-maxproj": {
+      "rank": 11,
+      "abs-r": 0.9972000000000001,
+      "p-raw": 8.212052722831432e-18,
+      "p-bonf": 1.0675668539680862e-16
+    },
+    "rf-maxproj": {
+      "rank": 12,
+      "abs-r": 0.9987999999999999,
+      "p-raw": 7.375655080854262e-18,
+      "p-bonf": 9.58835160511054e-17
+    },
+    "mlp-chromapca": {
+      "rank": 13,
+      "abs-r": 0.9763999999999999,
+      "p-raw": 3.823372756464647e-17,
+      "p-bonf": 4.970384583404041e-16
+    },
+    "mlp-sum": {
+      "rank": 14,
+      "abs-r": 0.996,
+      "p-raw": 8.89585533132347e-18,
+      "p-bonf": 1.1564611930720512e-16
+    },
+    "all": {
+      "abs-r-min": 0.7123999999999999,
+      "abs-r-max": 0.9987999999999999,
+      "p-bonf-max": 1.0525448394022805e-08,
+      "conditions": 14
+    }
+  },
+  "source": {
+    "path": "results/fish_oil/main_table.csv",
+    "hash": "sha256:d00dd0845abf73c5945a3b411956d278847346e54c13a7ceecb4eaffa5271cf1"
+  }
+}

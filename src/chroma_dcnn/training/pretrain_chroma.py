@@ -13,7 +13,9 @@ Saves a checkpoint containing:
   cnn_state        — weights for ChromatogramCNN.cnn
   config           — ChromaPretrainConfig
   n_iterations     — total gradient steps taken
-  final_loss       — best loss seen
+  final_loss       — best loss seen (the lowest logged running mean)
+  last_loss        — the running mean MSE over the last logging window
+  seed             — pretraining.seed (None: unseeded)
 """
 
 from __future__ import annotations
@@ -110,9 +112,12 @@ def pretrain_chroma(
     n_compounds_range = tuple(cfg["data"].get("n_compounds_range", [5, 30]))
     sigma_range       = tuple(cfg["data"].get("sigma_range", [1.0, 15.0]))
 
+    seed  = pcfg.get("seed")  # None keeps the old unseeded behaviour
+    if seed is not None:
+        torch.manual_seed(seed)
     opt   = AdamW(model.parameters(), lr=lr, weight_decay=wd)
     sched = CosineAnnealingLR(opt, T_max=n_iterations, eta_min=lr * 0.01)
-    rng   = np.random.default_rng()
+    rng   = np.random.default_rng(seed)
 
     print("\nPretraining ChromaNextFramePredictor (iteration-based)")
     print(f"  EI-MS spectra : {len(spectra)}")
@@ -123,6 +128,7 @@ def pretrain_chroma(
     print(f"  Device        : {device}\n")
 
     best_loss   = float("inf")
+    last_loss   = float("nan")
     running_loss = 0.0
     running_n    = 0
 
@@ -147,6 +153,7 @@ def pretrain_chroma(
 
         if it % log_every == 0 or it == n_iterations:
             avg = running_loss / running_n
+            last_loss = avg
             if avg < best_loss:
                 best_loss = avg
             print(f"  iter {it:>6d}/{n_iterations}  loss={avg:.6f}  best={best_loss:.6f}")
@@ -162,6 +169,8 @@ def pretrain_chroma(
         "config":          config,
         "n_iterations":    n_iterations,
         "final_loss":      best_loss,
+        "last_loss":       last_loss,
+        "seed":            seed,
     }, ckpt_path)
 
     print(f"\nCheckpoint saved → {ckpt_path}  (best loss={best_loss:.6f})")

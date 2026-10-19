@@ -1,0 +1,133 @@
+# What each paper artifact is built from. Outputs land in ~/overleaf/chroma-dcnn/generated/.
+# Results come from scripts/export_ledger.py. Keys: \res{chroma-pretrain/balanced-accuracy/mean},
+# \res{main-table/svm-chromapca/abs-r}, \res{gains/pretrain-vs-scratch/points}.
+
+[artifacts.results]
+kind = "macros"
+output = "generated/results.tex"
+results = ["*"]                    # every result in ledger/results/
+
+# Table 1 (tab:main). Caption, label and \arraystretch stay in TAI_template.tex.
+[artifacts.table_main]
+kind = "table"
+output = "generated/table_main.tex"
+script = "artifacts/table_main.py"
+results = ["*"]
+colspec = "rlllcc"
+math = true                        # cells as $0.854 \pm 0.101$, as the paper typed them
+bold = "max"                       # the best balanced accuracy
+p_style = "sci"                    # or "threshold": p below 0.001 as <0.001
+
+[format.default]
+decimals = 3
+
+[format."p-bonf"]                  # table column
+sci = true
+decimals = 1
+
+[format."main-table/*/p-bonf"]
+sci = true
+decimals = 1
+
+[format."main-table/*/p-raw"]
+sci = true
+decimals = 1
+
+# Figures, copied from figs/ (compared by content).
+[artifacts.gc_ms]
+kind = "figure"
+output = "generated/gc-ms.png"
+source = "figs/gc-ms.png"
+made_by = "figs/generate_gcms_3d.py"
+
+[artifacts.architecture]
+kind = "figure"
+output = "generated/architecture.pdf"
+source = "figs/architecture_cnn.pdf"
+made_by = "figs/plot_architecture.py"
+
+[artifacts.synthetic_dataset]
+kind = "figure"
+output = "generated/synthetic-dataset.png"
+source = "figs/synthetic-dataset.png"
+# no script in the repo makes it
+
+[artifacts.saliency_3d]
+kind = "figure"
+output = "generated/saliency-3d.png"
+source = "figs/saliency-3d.png"
+made_by = "scripts/11_saliency.py"
+
+[artifacts.saliency_1d]
+kind = "figure"
+output = "generated/saliency-1d.png"
+source = "figs/saliency-1d.png"
+made_by = "scripts/11_saliency.py"
+# 3a9da65 changed only the 3D figure's labels and title (fig. 4); the 1D marginals are unaffected
+checked_against = "sha256:e8a9217afefc0fa112d3ec3fa31a5ce09cf0dcbc257bfeafe518db993173cd64"
+
+[format."saliency/mz-profile-corr/min"]   # "r >= 0.99": a lower bound, rounded down
+decimals = 2
+round = "down"
+
+[format."saliency/rt-profile-corr/*"]
+decimals = 2
+
+[format."saliency/band-*/*"]          # shares of RT saliency: 55\%
+percent = true
+decimals = 0
+
+[format."pretraining/wall-minutes"]   # "about 13 minutes"
+decimals = 0
+
+[format."pretraining/final-mse"]      # 3.37 \times 10^{-4}
+sci = true
+decimals = 2
+
+[format."scratch-comparisons/*/p-bonf"]
+decimals = 2
+
+# How the paper prints each number (checked by `taura check`: adopt-mismatch).
+[format."gains/*/points"]          # percentage points: +25.1
+decimals = 1
+
+[format."main-table/all/abs-r-min"]   # "effect sizes between 0.68 and 1.00"
+decimals = 2
+
+[format."main-table/all/abs-r-max"]
+decimals = 2
+
+[format."ablation/1d-vs-2d/p"]
+sci = true
+decimals = 1
+
+[format."chroma-pretrain/balanced-accuracy/mean"]   # 0.854; the summary rounds it: \res{...@2} = 0.85
+variants = [2]
+
+[format."svm-chromapca/balanced-accuracy/mean"]
+variants = [2]
+
+[format."settings-pretrain/pretraining.lr"]         # 10^{-3}
+sci = "power"
+decimals = 0
+
+[format."settings-pretrain/pretraining.weight_decay"]
+sci = "power"
+decimals = 0
+
+[format."settings-pretrain/pretraining.n_iterations"]
+thousands = true
+
+[format."settings-finetune/finetuning.lr"]
+sci = "power"
+decimals = 0
+
+[format."settings-finetune/finetuning.weight_decay"]  # 0.1
+decimals = 1
+
+[format."settings-finetune/finetuning.grad_clip"]     # 1.0
+decimals = 1
+
+[format."settings-finetune/finetuning.val_fraction"]  # 20\%
+percent = true
+decimals = 0
