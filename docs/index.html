@@ -6,7 +6,7 @@
 <title>ChromaDCNN</title>
 <meta name="description" content="Identifying New Zealand fish species from GC-MS lipid profiles with a self-supervised dilated CNN. Interactive results, architecture, ablation and saliency.">
 <meta property="og:title" content="ChromaDCNN — telling fish apart by the shape of their lipids">
-<meta property="og:description" content="A 1D dilated CNN pretrained on synthetic GC-MS chromatograms identifies four NZ fish species with 0.854 balanced accuracy, +15.6 pp over the best classical baseline.">
+<meta property="og:description" content="A 1D dilated CNN pretrained on synthetic GC-MS chromatograms identifies four NZ fish species with 0.857 balanced accuracy, +15.9 pp over the best classical baseline.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 26 C7 26 8 10 11 10 S14 26 17 26 20 4 22 4 25 26 30 26' fill='none' stroke='%232a78d6' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,10 +83,10 @@
       </figure>
     </div>
     <div class="stats" id="stats">
-      <div class="stat reveal"><div class="v num" data-count="0.854" data-dec="3">0.000</div><div class="k">balanced accuracy, pretrained ChromaDCNN (± 0.101 over 50 folds)</div></div>
-      <div class="stat reveal"><div class="v num"><span data-count="15.6" data-dec="1" data-prefix="+">+0.0</span><small>pp</small></div><div class="k">over the best classical baseline (SVM on chroma-PCA, 0.698)</div></div>
-      <div class="stat reveal"><div class="v num"><span data-count="25.1" data-dec="1" data-prefix="+">+0.0</span><small>pp</small></div><div class="k">from synthetic pretraining (same network from scratch: 0.603)</div></div>
-      <div class="stat reveal"><div class="v num" data-count="9553" data-dec="0">0</div><div class="k">public reference spectra behind pretraining. No fish data involved.</div></div>
+      <div class="stat reveal"><div class="v num" data-count="0.857" data-count-key="pretrain_ba" data-dec="3">0.857</div><div class="k">balanced accuracy, pretrained ChromaDCNN (± <data data-key="pretrain_sd">0.094</data> over <data data-key="folds_n">50</data> folds)</div></div>
+      <div class="stat reveal"><div class="v num"><span data-count="15.9" data-count-key="gain_best_pp" data-dec="1" data-prefix="+">+15.9</span><small>pp</small></div><div class="k">over the best classical baseline (SVM on chroma-PCA, <data data-key="best_baseline_ba">0.698</data>)</div></div>
+      <div class="stat reveal"><div class="v num"><span data-count="25.1" data-count-key="gain_scratch_pp" data-dec="1" data-prefix="+">+25.1</span><small>pp</small></div><div class="k">from synthetic pretraining (same network from scratch: <data data-key="scratch_ba">0.605</data>)</div></div>
+      <div class="stat reveal"><div class="v num" data-count="9553" data-count-key="spectra" data-dec="0">9,553</div><div class="k">public reference spectra behind pretraining. No fish data involved.</div></div>
     </div>
   </div>
 </header>
@@ -96,7 +96,7 @@
 <section class="chapter" id="data">
   <div class="chapter-head reveal">
     <div class="kicker">01 — DATA</div>
-    <h2>103 chromatograms, four species, six body parts</h2>
+    <h2><data data-key="n_samples">103</data> chromatograms, four species, six body parts</h2>
     <p class="intro">Lipids were extracted from six body parts of Snapper, Gurnard, Tarakihi and Blue Cod and run on coupled
       gas chromatography–mass spectrometry. Each run becomes a 200 × 1000 matrix: 200 retention-time bins from 5 to 45 minutes,
       each holding a mass spectrum. Every bin is square-root transformed and scaled to unit length, so the model sees the
@@ -140,7 +140,7 @@
     <div class="step">
       <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M4 36c6 0 7-18 10-18s4 18 7 18 4-26 6-26 4 26 7 26 3-8 6-8" fill="none" stroke="var(--GUR)" stroke-width="2.5" stroke-linecap="round"/></svg>
       <h4>Synthesise</h4>
-      <p>9,553 electron-ionisation spectra from MoNA and MassBank are mixed into synthetic chromatograms: 5–30 compounds per run,
+      <p><data data-key="spectra_text">9,553</data> electron-ionisation spectra from MoNA and MassBank are mixed into synthetic chromatograms: 5–30 compounds per run,
         each eluting as a Gaussian peak of random position and width.</p>
     </div>
     <div class="step">
@@ -235,8 +235,8 @@
 <section class="chapter" id="pretraining">
   <div class="chapter-head reveal">
     <div class="kicker">04 — PRETRAINING</div>
-    <h2>Synthetic pretraining adds 25 points</h2>
-    <p class="intro">The same network trained from random initialisation reaches only 0.603. Both conditions use identical
+    <h2>Synthetic pretraining adds <data data-key="gain_scratch_points">25</data> points</h2>
+    <p class="intro">The same network trained from random initialisation reaches only <data data-key="scratch_ba">0.605</data>. Both conditions use identical
       seeds and folds, so every fold can be compared directly.</p>
   </div>
   <div class="grid-2">
@@ -253,7 +253,7 @@
       <div class="card-head"><h3>Distribution over 50 folds</h3></div>
       <div class="chart" id="pretrain-dist"></div>
       <div class="kpis" id="pretrain-kpis"></div>
-      <p class="caption">From scratch is also far less stable: SD 0.176 against 0.101 pretrained.</p>
+      <p class="caption">From scratch is also far less stable: SD <data data-key="scratch_sd">0.146</data> against <data data-key="pretrain_sd">0.094</data> pretrained.</p>
     </div>
   </div>
 </section>
@@ -279,7 +279,7 @@
         <div class="xlab"><span><i>m/z</i> 50</span><span>450</span></div>
       </div>
       <div class="kpis" style="grid-template-columns:1fr 1fr">
-        <div class="kpi"><div class="v num" id="abl-acc">0.603</div><div class="k" id="abl-acc-k">balanced accuracy, 2D input (from scratch)</div></div>
+        <div class="kpi"><div class="v num" id="abl-acc"><data data-key="ablation_2d_ba">0.594</data></div><div class="k" id="abl-acc-k">balanced accuracy, 2D input (from scratch)</div></div>
         <div class="kpi"><div class="v num" id="abl-delta">—</div><div class="k">change when RT is removed</div></div>
       </div>
     </div>
@@ -288,8 +288,8 @@
       <div class="chart" id="ablation-chart"></div>
       <div class="legend" id="ablation-legend"></div>
       <div class="callout"><p>Without RT, ChromaDCNN falls to the level of classical models on the summed spectrum
-        (PLS-DA: 0.429, dashed). Its advantage comes from <strong>when</strong> compounds elute, not just <strong>which</strong> ions appear.
-        Mann–Whitney p = 1.0 × 10<sup>−7</sup>, |r| = 0.62.</p></div>
+        (PLS-DA: <data data-key="plsda_sum_ba">0.429</data>, dashed). Its advantage comes from <strong>when</strong> compounds elute, not just <strong>which</strong> ions appear.
+        Mann–Whitney p = <data data-key="ablation_p_mantissa">2.0</data> × 10<sup><data data-key="ablation_p_exponent">−7</data></sup>, |r| = <data data-key="ablation_abs_r">0.60</data>.</p></div>
     </div>
   </div>
 </section>
@@ -353,14 +353,14 @@
     <h2>What these results do and don't show</h2>
   </div>
   <div class="limits reveal">
-    <div class="limit"><h4>Few individuals</h4><p>The 103 samples come from six fish: one each of Snapper, Gurnard and Tarakihi, and three Blue Cod.
+    <div class="limit"><h4>Few individuals</h4><p>The <data data-key="n_samples">103</data> samples come from six fish: one each of Snapper, Gurnard and Tarakihi, and three Blue Cod.
       Cross-validation is stratified by species, so body parts of the same fish fall on both sides of a split. The accuracies measure
       generalisation across body parts and replicates, not to new individuals.</p></div>
     <div class="limit"><h4>Approximately causal pretraining</h4><p>The convolutions only look backwards in retention time, but batch-normalisation
       statistics are computed over the whole sequence during training, so the next-frame objective is approximately rather than strictly autoregressive.</p></div>
     <div class="limit"><h4>Saliency is one seed</h4><p>The saliency maps use seed 0 only and show where the gradient is large, which is not the same
       as a causal attribution to specific compounds.</p></div>
-    <div class="limit"><h4>Class imbalance</h4><p>Blue Cod makes up 57 of 103 samples. All results are balanced accuracy, and training uses a
+    <div class="limit"><h4>Class imbalance</h4><p>Blue Cod makes up <data data-key="n_bco">57</data> of <data data-key="n_samples">103</data> samples. All results are balanced accuracy, and training uses a
       class-weighted loss.</p></div>
     <div class="limit"><h4>Not a universal win</h4><p>On public urine (MTBLS71) and rice (MTBLS288) datasets, classical sum-spectrum baselines beat
       the 2D CNN. There the retention-time axis is dominated by a nuisance variable rather than the target class. The advantage shown here
