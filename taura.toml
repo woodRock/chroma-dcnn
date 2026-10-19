@@ -1,0 +1,13 @@
+# taura (github.com/woodRock/taura): where this repo's settings (hyperparameters) live, so the paper
+# can quote them as \res{settings-<name>/...} and typed ones are checked against the code.
+# The paper is ~/overleaf/chroma-dcnn (found by name).
+
+[settings.pretrain]
+path = "configs/pretrain.yaml"
+
+[settings.finetune]
+path = "configs/finetune.yaml"
+
+[settings.preprocess]
+path = "src/chroma_dcnn/data/preprocess.py"
+names = ["MZ_MAX"]
