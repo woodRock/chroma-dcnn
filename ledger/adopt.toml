@@ -12,17 +12,6 @@ by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
 result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
-[decisions.007c91a107]
-file = "TAI_template.tex"
-literal = "2"
-context = "{:t})_t - X^\\text{syn}_{t+1} \\right\\|_2^2."
-verdict = "not-a-result"
-key = ""
-reason = "The 2 in the squared L2 norm (||.||_2^2) of the loss formula."
-by = "claude"
-decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
-
 [decisions.00fe17555a]
 file = "TAI_template.tex"
 literal = "1"
@@ -45,28 +34,6 @@ by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
-[decisions.02884c53eb]
-file = "TAI_template.tex"
-literal = "18"
-context = "est for Gurnard), followed by a band at 18--22 minutes (12--14\\%). Gurnard also ha"
-verdict = "not-a-result"
-key = ""
-reason = "18 is the lower bound of the 'band at 18--22 minutes', a retention-time range."
-by = "claude"
-decided = "2026-10-19T23:30:39+13:00"
-result_hash = ""
-
-[decisions.0368e1b076]
-file = "TAI_template.tex"
-literal = "40"
-context = "ed, with 55\\% of its RT saliency in the 40--44-minute band, but with one Tarakihi"
-verdict = "not-a-result"
-key = ""
-reason = "Lower bound of the '40--44-minute band' retention-time region."
-by = "claude"
-decided = "2026-10-19T23:30:50+13:00"
-result_hash = ""
-
 [decisions.039da7522b]
 file = "TAI_template.tex"
 literal = "19.7"
@@ -87,6 +54,17 @@ key = ""
 reason = "Upper bound of the width range Uniform(1, 15). No settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
+
+[decisions.0789dc67ec]
+file = "TAI_template.tex"
+literal = "40"
+context = "ed, with 55\\% of its RT saliency in the 40--44-minute band, but with one Tarakihi"
+verdict = "not-a-result"
+key = ""
+reason = "Lower bound of the '40--44-minute band' retention-time region."
+by = "claude"
+decided = "2026-10-19T23:30:50+13:00"
 result_hash = ""
 
 [decisions.0a493da191]
@@ -166,17 +144,6 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
-[decisions.1046330aeb]
-file = "TAI_template.tex"
-literal = "1"
-context = "hcal{L}_\\text{pre}(\\theta) = \\frac{1}{T-1}\\sum_{t=1}^{T-1} \\left\\| f_\\theta(X^\\te"
-verdict = "not-a-result"
-key = ""
-reason = "Summation index start (t=1) in the loss formula."
-by = "claude"
-decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
-
 [decisions.113cb9cb24]
 file = "TAI_template.tex"
 literal = "103"
@@ -188,15 +155,15 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
-[decisions.12aaf6b33b]
+[decisions.11daf0ffce]
 file = "TAI_template.tex"
-literal = "-1"
-context = "hen to 220$^\\circ$C at 2$^\\circ$C~min$^{-1}$, and finally to 320$^\\circ$C at 100$^"
+literal = "37"
+context = "14\\%). Gurnard also has saliency at 33--37 minutes (13\\%), while the 24--28-minute"
 verdict = "not-a-result"
 key = ""
-reason = "The -1 is the unit exponent in min^{-1}."
+reason = "37 is the upper bound of '33--37 minutes', a retention-time range."
 by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
+decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
 [decisions.150e7a6dda]
@@ -219,17 +186,6 @@ key = ""
 reason = "'100,000 synthetic overlapping peaks' describes another paper (GCMSFormer)."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
-result_hash = ""
-
-[decisions.172a1c057f]
-file = "TAI_template.tex"
-literal = "40"
-context = "In all four species, the 40--44-minute band holds the largest share"
-verdict = "not-a-result"
-key = ""
-reason = "40 is the lower bound of the '40--44-minute band', a retention-time range."
-by = "claude"
-decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
 [decisions.1c118b0628]
@@ -264,6 +220,17 @@ reason = "'gradient clipping at 1.0' in the Fine-Tuning section is the fine-tuni
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
 result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
+
+[decisions.1d49d626f1]
+file = "TAI_template.tex"
+literal = "36.5"
+context = "elium (total flow 81.7, linear velocity 36.5~cm~s$^{-1}$)."
+verdict = "not-a-result"
+key = ""
+reason = "Linear velocity of 36.5 cm/s is a GC method parameter."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.1db6aaf2da]
 file = "TAI_template.tex"
@@ -309,15 +276,15 @@ by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
 result_hash = "sha256:a5ce25a59bae5e204d8134361eb9eecdda9627a1eacc3b1ce4cb11745931aaaf"
 
-[decisions.23491c370e]
+[decisions.22e1efc0c4]
 file = "TAI_template.tex"
-literal = "1"
-context = "(X^\\text{syn}_{:t})_t - X^\\text{syn}_{t+1} \\right\\|_2^2."
+literal = "24"
+context = "ncy at 33--37 minutes (13\\%), while the 24--28-minute region contributes little (3"
 verdict = "not-a-result"
 key = ""
-reason = "A constant inside the loss formula's notation, not a value."
+reason = "24 is the lower bound of 'the 24--28-minute region', a retention-time range."
 by = "claude"
-decided = "2026-10-19T23:29:27+13:00"
+decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
 [decisions.23eb997df4]
@@ -330,6 +297,17 @@ reason = "Lower bound of effect sizes 'against every other method' is the Table 
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
 result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
+
+[decisions.2633effe70]
+file = "TAI_template.tex"
+literal = "0"
+context = "o the same 1000-bin integer $m/z$ grid (0--999) used for the fish data, whose obs"
+verdict = "not-a-result"
+key = ""
+reason = "0 is the lower bound of the m/z grid index range."
+by = "claude"
+decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
 
 [decisions.265bd3a0aa]
 file = "TAI_template.tex"
@@ -463,17 +441,6 @@ by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
-[decisions.2f677dde19]
-file = "TAI_template.tex"
-literal = "220"
-context = "c$C at 0.5$^\\circ$C~min$^{-1}$, then to 220$^\\circ$C at 2$^\\circ$C~min$^{-1}$, and"
-verdict = "not-a-result"
-key = ""
-reason = "Oven ramp target of 220°C is part of the GC method."
-by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
-result_hash = ""
-
 [decisions.2f7f7d07dc]
 file = "TAI_template.tex"
 literal = "344"
@@ -528,17 +495,6 @@ reason = "'Holds out a stratified 20% of each training fold for early stopping' 
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
-
-[decisions.3279eecd8c]
-file = "TAI_template.tex"
-literal = "37"
-context = "14\\%). Gurnard also has saliency at 33--37 minutes (13\\%), while the 24--28-minute"
-verdict = "not-a-result"
-key = ""
-reason = "37 is the upper bound of '33--37 minutes', a retention-time range."
-by = "claude"
-decided = "2026-10-19T23:30:39+13:00"
-result_hash = ""
 
 [decisions.34126c03f3]
 file = "TAI_template.tex"
@@ -595,17 +551,6 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = "sha256:c22964a527572071426e35661ecf99dab16be8aa1ab0cecdc24aec18daedcff5"
 
-[decisions.377e48797d]
-file = "TAI_template.tex"
-literal = "22"
-context = "assigned to docosahexaenoic acid (DHA, 22:6n-3), one of the most abundant fatty a"
-verdict = "not-a-result"
-key = ""
-reason = "Part of the fatty acid name 'DHA, 22:6n-3', which is chemical notation."
-by = "claude"
-decided = "2026-10-19T23:30:50+13:00"
-result_hash = ""
-
 [decisions.37c5ab49d4]
 file = "TAI_template.tex"
 literal = "103"
@@ -615,17 +560,6 @@ key = ""
 reason = "'103 samples' is the size of the real dataset, which describes the data."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
-result_hash = ""
-
-[decisions.380d0f394f]
-file = "TAI_template.tex"
-literal = "81.7"
-context = "The carrier gas was helium (total flow 81.7, linear velocity 36.5~cm~s$^{-1}$)."
-verdict = "not-a-result"
-key = ""
-reason = "Helium total flow of 81.7 is a GC method parameter."
-by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
 [decisions.380fbe88a9]
@@ -672,6 +606,17 @@ by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
+[decisions.3ac57cc45d]
+file = "TAI_template.tex"
+literal = "4"
+context = "$C at 100$^\\circ$C~min$^{-1}$, held for 4~min to elute sterols and other less-vol"
+verdict = "not-a-result"
+key = ""
+reason = "The 4 min hold time is part of the GC method."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
 [decisions.3b505a4656]
 file = "TAI_template.tex"
 literal = "0.68"
@@ -705,17 +650,6 @@ by = "claude"
 decided = "2026-10-19T23:16:16+13:00"
 result_hash = ""
 
-[decisions.3c2a95abd0]
-file = "TAI_template.tex"
-literal = "1"
-context = "\\mathcal{L}_\\text{pre}(\\theta) = \\frac{1}{T-1}\\sum_{t=1}^{T-1} \\left\\| f_\\theta("
-verdict = "not-a-result"
-key = ""
-reason = "The constant in 1/(T-1), part of the loss formula."
-by = "claude"
-decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
-
 [decisions.3cf4b32b92]
 file = "TAI_template.tex"
 literal = "0.101"
@@ -738,17 +672,6 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
-[decisions.3df2c5cc09]
-file = "TAI_template.tex"
-literal = "320"
-context = "t 2$^\\circ$C~min$^{-1}$, and finally to 320$^\\circ$C at 100$^\\circ$C~min$^{-1}$, he"
-verdict = "not-a-result"
-key = ""
-reason = "Final oven temperature of 320°C is part of the GC method."
-by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
-result_hash = ""
-
 [decisions.3e78db9fa7]
 file = "TAI_template.tex"
 literal = "2"
@@ -769,6 +692,17 @@ key = ""
 reason = "Tarakihi n=17 is a class sample count that describes the data."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
+
+[decisions.42a9855c02]
+file = "TAI_template.tex"
+literal = "9"
+context = "se observed signal spans 50--543. About 9{,}500 spectra remained; we kept all of"
+verdict = "not-a-result"
+key = ""
+reason = "Size of the pretraining corpus after filtering ('About 9,500 spectra remained'). It is a count that describes the data."
+by = "claude"
+decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
 [decisions.435c8f9949]
@@ -848,24 +782,35 @@ by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
 result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
 
-[decisions.48029b856f]
+[decisions.471f304a47]
 file = "TAI_template.tex"
-literal = "50"
-context = "fish data, whose observed signal spans 50--543. About 9{,}500 spectra remained; w"
+literal = "1"
+context = "hcal{L}_\\text{pre}(\\theta) = \\frac{1}{T-1}\\sum_{t=1}^{T-1} \\left\\| f_\\theta(X^\\te"
 verdict = "not-a-result"
 key = ""
-reason = "50 is the lower bound of the observed m/z signal range, which describes the data."
+reason = "Summation index start (t=1) in the loss formula."
 by = "claude"
-decided = "2026-10-19T23:29:07+13:00"
+decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
-[decisions.4812f115fc]
+[decisions.48003e8978]
 file = "TAI_template.tex"
-literal = "64"
-context = "nd an MLP with hidden layers of 256 and 64 units, $L_2$ penalty $10^{-3}$, and ear"
+literal = "0.5"
+context = "c$C~min$^{-1}$, then to 200$^\\circ$C at 0.5$^\\circ$C~min$^{-1}$, then to 220$^\\circ"
 verdict = "not-a-result"
 key = ""
-reason = "The MLP's hidden-layer size of 64 is a baseline hyperparameter that has no settings- candidate."
+reason = "Ramp rate of 0.5°C/min is a GC method parameter; the accuracy candidates match only by coincidence."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
+[decisions.4a2a57ba1e]
+file = "TAI_template.tex"
+literal = "256"
+context = "orest; and an MLP with hidden layers of 256 and 64 units, $L_2$ penalty $10^{-3}$,"
+verdict = "not-a-result"
+key = ""
+reason = "The MLP's hidden-layer size of 256 is a baseline hyperparameter that has no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
@@ -892,15 +837,15 @@ by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
 result_hash = ""
 
-[decisions.4cc390a21e]
+[decisions.4e0c3076bb]
 file = "TAI_template.tex"
-literal = "0.5"
-context = "c$C~min$^{-1}$, then to 200$^\\circ$C at 0.5$^\\circ$C~min$^{-1}$, then to 220$^\\circ"
+literal = "1"
+context = "e}(\\theta) = \\frac{1}{T-1}\\sum_{t=1}^{T-1} \\left\\| f_\\theta(X^\\text{syn}_{:t})_t"
 verdict = "not-a-result"
 key = ""
-reason = "Ramp rate of 0.5°C/min is a GC method parameter; the accuracy candidates match only by coincidence."
+reason = "Index offset t+1 in the loss formula."
 by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
+decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
 [decisions.4e47d668ba]
@@ -925,17 +870,6 @@ by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
-[decisions.4f909e277e]
-file = "TAI_template.tex"
-literal = "36.5"
-context = "elium (total flow 81.7, linear velocity 36.5~cm~s$^{-1}$)."
-verdict = "not-a-result"
-key = ""
-reason = "Linear velocity of 36.5 cm/s is a GC method parameter."
-by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
-result_hash = ""
-
 [decisions.4fa3d3df33]
 file = "TAI_template.tex"
 literal = "70"
@@ -947,15 +881,15 @@ by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
-[decisions.50f3bafa8d]
+[decisions.50a9853bff]
 file = "TAI_template.tex"
-literal = "85"
-context = "s $1 + 2(k-1)\\sum_i \\text{dilation}_i = 85$ RT bins, about 40\\% of the RT axis."
+literal = "2"
+context = "{:t})_t - X^\\text{syn}_{t+1} \\right\\|_2^2."
 verdict = "not-a-result"
 key = ""
-reason = "The receptive field of 85 bins is worked out by hand from the architecture, not from an experiment."
+reason = "The 2 in the squared L2 norm (||.||_2^2) of the loss formula."
 by = "claude"
-decided = "2026-10-19T23:29:07+13:00"
+decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
 [decisions.5208d08bee]
@@ -989,6 +923,17 @@ key = ""
 reason = "40% is the receptive field as a fraction of the RT axis; it only matches the MLP balanced accuracy by coincidence."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
+
+[decisions.53521f192a]
+file = "TAI_template.tex"
+literal = "1"
+context = "tions. The classifiers are PLS-DA, with 1--15 latent variables chosen by inner 5-"
+verdict = "not-a-result"
+key = ""
+reason = "The 1 is the lower bound of the PLS-DA latent-variable search range."
+by = "claude"
+decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
 [decisions.55c8e4e227]
@@ -1068,17 +1013,6 @@ by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
 result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
-[decisions.5b8f8a5781]
-file = "TAI_template.tex"
-literal = "24"
-context = "ncy at 33--37 minutes (13\\%), while the 24--28-minute region contributes little (3"
-verdict = "not-a-result"
-key = ""
-reason = "24 is the lower bound of 'the 24--28-minute region', a retention-time range."
-by = "claude"
-decided = "2026-10-19T23:30:39+13:00"
-result_hash = ""
-
 [decisions.5ce1879baa]
 file = "TAI_template.tex"
 literal = "0.429"
@@ -1134,17 +1068,6 @@ by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
 result_hash = "sha256:a5ce25a59bae5e204d8134361eb9eecdda9627a1eacc3b1ce4cb11745931aaaf"
 
-[decisions.5ee2047e81]
-file = "TAI_template.tex"
-literal = "256"
-context = "orest; and an MLP with hidden layers of 256 and 64 units, $L_2$ penalty $10^{-3}$,"
-verdict = "not-a-result"
-key = ""
-reason = "The MLP's hidden-layer size of 256 is a baseline hyperparameter that has no settings- candidate."
-by = "claude"
-decided = "2026-10-19T23:30:19+13:00"
-result_hash = ""
-
 [decisions.5f08ee055b]
 file = "TAI_template.tex"
 literal = "19.7"
@@ -1165,6 +1088,17 @@ key = ""
 reason = "'5-fold' is a cross-validation setting with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
+
+[decisions.5ff9526b13]
+file = "TAI_template.tex"
+literal = "40"
+context = "tes little (3--6\\%) in any species. The 40--44-minute band contains the peak assig"
+verdict = "not-a-result"
+key = ""
+reason = "Lower bound of the 40--44-minute retention-time band; it names a region, not a measured value."
+by = "claude"
+decided = "2026-10-19T23:30:50+13:00"
 result_hash = ""
 
 [decisions.606ba4f17e]
@@ -1211,6 +1145,17 @@ by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
+[decisions.64174b5f87]
+file = "TAI_template.tex"
+literal = "10"
+context = "e was ramped from 90 to 190$^\\circ$C at 10$^\\circ$C~min$^{-1}$, then to 200$^\\circ"
+verdict = "not-a-result"
+key = ""
+reason = "Ramp rate of 10°C/min is part of the GC method."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
 [decisions.680b4f6ca3]
 file = "TAI_template.tex"
 literal = "20.5"
@@ -1221,6 +1166,17 @@ reason = "This is the SVM gain of full-matrix features over the sum spectrum."
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
 result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
+
+[decisions.6853e9552e]
+file = "TAI_template.tex"
+literal = "190"
+context = "oven temperature was ramped from 90 to 190$^\\circ$C at 10$^\\circ$C~min$^{-1}$, the"
+verdict = "not-a-result"
+key = ""
+reason = "Oven ramp target of 190°C is part of the GC method."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.697c3a2878]
 file = "TAI_template.tex"
@@ -1233,15 +1189,15 @@ by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
-[decisions.6bc194fa3a]
+[decisions.6dd9f10058]
 file = "TAI_template.tex"
-literal = "28"
-context = "at 33--37 minutes (13\\%), while the 24--28-minute region contributes little (3--6\\"
+literal = "30\\%"
+context = "n average misdescription rate of around 30\\% \\cite{Pardo2016}. Laboratories therefor"
 verdict = "not-a-result"
 key = ""
-reason = "28 is the upper bound of 'the 24--28-minute region', a retention-time range."
+reason = "30% is the average misdescription rate quoted from the cited review (Pardo2016), not a result of this paper."
 by = "claude"
-decided = "2026-10-19T23:30:39+13:00"
+decided = "2026-10-20T16:29:22+13:00"
 result_hash = ""
 
 [decisions.6e5d754907]
@@ -1255,24 +1211,24 @@ by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
-[decisions.6f5a83a2ee]
+[decisions.737d9deb33]
 file = "TAI_template.tex"
-literal = "10"
-context = "e was ramped from 90 to 190$^\\circ$C at 10$^\\circ$C~min$^{-1}$, then to 200$^\\circ"
+literal = "5"
+context = "1--15 latent variables chosen by inner 5-fold cross-validation (CV); an RBF-kern"
 verdict = "not-a-result"
 key = ""
-reason = "Ramp rate of 10°C/min is part of the GC method."
+reason = "The inner 5-fold CV for PLS-DA is a baseline setting that has no settings- candidate."
 by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
+decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
-[decisions.6f648f0daa]
+[decisions.74683f70f2]
 file = "TAI_template.tex"
-literal = "90"
-context = "The oven temperature was ramped from 90 to 190$^\\circ$C at 10$^\\circ$C~min$^{-1"
+literal = "100"
+context = "$^{-1}$, and finally to 320$^\\circ$C at 100$^\\circ$C~min$^{-1}$, held for 4~min to"
 verdict = "not-a-result"
 key = ""
-reason = "Oven start temperature of 90°C is part of the GC method."
+reason = "Ramp rate of 100°C/min is part of the GC method."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
@@ -1321,17 +1277,6 @@ by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
-[decisions.76dbf879b5]
-file = "TAI_template.tex"
-literal = "100"
-context = "$^{-1}$, and finally to 320$^\\circ$C at 100$^\\circ$C~min$^{-1}$, held for 4~min to"
-verdict = "not-a-result"
-key = ""
-reason = "Ramp rate of 100°C/min is part of the GC method."
-by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
-result_hash = ""
-
 [decisions.76e09bdf73]
 file = "TAI_template.tex"
 literal = "0.887"
@@ -1365,28 +1310,6 @@ by = "claude"
 decided = "2026-10-19T23:16:16+13:00"
 result_hash = ""
 
-[decisions.789ded8b49]
-file = "TAI_template.tex"
-literal = "1"
-context = "ext{pre}(\\theta) = \\frac{1}{T-1}\\sum_{t=1}^{T-1} \\left\\| f_\\theta(X^\\text{syn}_{:"
-verdict = "not-a-result"
-key = ""
-reason = "Upper limit T-1 of the sum in the loss formula."
-by = "claude"
-decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
-
-[decisions.78bd65a8d0]
-file = "TAI_template.tex"
-literal = "9"
-context = "se observed signal spans 50--543. About 9{,}500 spectra remained; we kept all of"
-verdict = "not-a-result"
-key = ""
-reason = "Size of the pretraining corpus after filtering ('About 9,500 spectra remained'). It is a count that describes the data."
-by = "claude"
-decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
-
 [decisions.7905b81686]
 file = "TAI_template.tex"
 literal = "55\\%"
@@ -1407,17 +1330,6 @@ key = ""
 reason = "-1 is the unit exponent in mg mL^-1."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
-result_hash = ""
-
-[decisions.79d0c79953]
-file = "TAI_template.tex"
-literal = "5"
-context = "1--15 latent variables chosen by inner 5-fold cross-validation (CV); an RBF-kern"
-verdict = "not-a-result"
-key = ""
-reason = "The inner 5-fold CV for PLS-DA is a baseline setting that has no settings- candidate."
-by = "claude"
-decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
 [decisions.7a49d870f3]
@@ -1541,6 +1453,17 @@ by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
+[decisions.81cc17eebf]
+file = "TAI_template.tex"
+literal = "5"
+context = "aliquots were diluted to approximately 5~mg~mL$^{-1}$ in chloroform; a 0.5~mL po"
+verdict = "not-a-result"
+key = ""
+reason = "'approximately 5 mg mL^-1' is a lab preparation concentration."
+by = "claude"
+decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
+
 [decisions.8270439efb]
 file = "TAI_template.tex"
 literal = "0.44"
@@ -1551,6 +1474,17 @@ reason = "This is the Bonferroni p against PLS-DA chroma-PCA, the third of the b
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
 result_hash = "sha256:bedc53f7d95d207c882361156c1853b3edbc04d870f228ec3826034603166d37"
+
+[decisions.8276ed024e]
+file = "TAI_template.tex"
+literal = "22"
+context = "assigned to docosahexaenoic acid (DHA, 22:6n-3), one of the most abundant fatty a"
+verdict = "not-a-result"
+key = ""
+reason = "Part of the fatty acid name 'DHA, 22:6n-3', which is chemical notation."
+by = "claude"
+decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
 
 [decisions.8391c4fe1a]
 file = "TAI_template.tex"
@@ -1607,6 +1541,17 @@ by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
 result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
+[decisions.89f1710b62]
+file = "TAI_template.tex"
+literal = "33"
+context = "12--14\\%). Gurnard also has saliency at 33--37 minutes (13\\%), while the 24--28-mi"
+verdict = "not-a-result"
+key = ""
+reason = "33 is the lower bound of '33--37 minutes', a retention-time range."
+by = "claude"
+decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
+
 [decisions.8a1c7e6a95]
 file = "TAI_template.tex"
 literal = "30\\%"
@@ -1628,6 +1573,17 @@ reason = "The pretraining model's linear head 'maps each output back to 1000 m/z
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
 result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
+
+[decisions.8b4d55e642]
+file = "TAI_template.tex"
+literal = "-1"
+context = "n to 200$^\\circ$C at 0.5$^\\circ$C~min$^{-1}$, then to 220$^\\circ$C at 2$^\\circ$C~m"
+verdict = "not-a-result"
+key = ""
+reason = "The -1 is the unit exponent in min^{-1}."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.8b8ab04424]
 file = "TAI_template.tex"
@@ -1673,17 +1629,6 @@ by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
-[decisions.9012705435]
-file = "TAI_template.tex"
-literal = "200"
-context = "rc$C at 10$^\\circ$C~min$^{-1}$, then to 200$^\\circ$C at 0.5$^\\circ$C~min$^{-1}$, th"
-verdict = "not-a-result"
-key = ""
-reason = "200°C is an oven ramp temperature; it matches finetune epochs and n_bins only by coincidence."
-by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
-result_hash = ""
-
 [decisions.90809af9c5]
 file = "TAI_template.tex"
 literal = "0.25"
@@ -1691,6 +1636,17 @@ context = "ays predicting the majority class gives 0.25. We compare methods with
 verdict = "not-a-result"
 key = ""
 reason = "The 0.25 majority-class balanced accuracy follows from having four classes, not from an experiment."
+by = "claude"
+decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
+
+[decisions.90b1db2427]
+file = "TAI_template.tex"
+literal = "18"
+context = "est for Gurnard), followed by a band at 18--22 minutes (12--14\\%). Gurnard also ha"
+verdict = "not-a-result"
+key = ""
+reason = "18 is the lower bound of the 'band at 18--22 minutes', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
@@ -1739,28 +1695,6 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
-[decisions.9651909c9c]
-file = "TAI_template.tex"
-literal = "2"
-context = "l addition. The receptive field is $1 + 2(k-1)\\sum_i \\text{dilation}_i = 85$ RT b"
-verdict = "not-a-result"
-key = ""
-reason = "The 2 is a constant in the receptive-field formula."
-by = "claude"
-decided = "2026-10-19T23:29:07+13:00"
-result_hash = ""
-
-[decisions.9717bb3d34]
-file = "TAI_template.tex"
-literal = "44"
-context = "little (3--6\\%) in any species. The 40--44-minute band contains the peak assigned"
-verdict = "not-a-result"
-key = ""
-reason = "Upper bound of the 40--44-minute retention-time band; it names a region, not a measured value."
-by = "claude"
-decided = "2026-10-19T23:30:50+13:00"
-result_hash = ""
-
 [decisions.976be464c9]
 file = "TAI_template.tex"
 literal = "1.00"
@@ -1782,6 +1716,17 @@ reason = "The 200 in the 200 x 1000 matrix is the number of RT bins (n_bins)."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
+
+[decisions.9a34d3cb1f]
+file = "TAI_template.tex"
+literal = "200"
+context = "rc$C at 10$^\\circ$C~min$^{-1}$, then to 200$^\\circ$C at 0.5$^\\circ$C~min$^{-1}$, th"
+verdict = "not-a-result"
+key = ""
+reason = "200°C is an oven ramp temperature; it matches finetune epochs and n_bins only by coincidence."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
 
 [decisions.9ac16a1aa4]
 file = "TAI_template.tex"
@@ -1805,7 +1750,18 @@ by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
-[decisions.9b8c50599e]
+[decisions.9d46e86fce]
+file = "TAI_template.tex"
+literal = "250"
+context = "Splitless injections were performed at 250$^\\circ$C. The carrier gas was helium (t"
+verdict = "not-a-result"
+key = ""
+reason = "Injection temperature of 250°C is an instrument setting, not a computed result."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
+[decisions.a0477bf326]
 file = "TAI_template.tex"
 literal = "-1"
 context = "90 to 190$^\\circ$C at 10$^\\circ$C~min$^{-1}$, then to 200$^\\circ$C at 0.5$^\\circ$C"
@@ -1816,15 +1772,15 @@ by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
-[decisions.9d46e86fce]
+[decisions.a0b379a62f]
 file = "TAI_template.tex"
-literal = "250"
-context = "Splitless injections were performed at 250$^\\circ$C. The carrier gas was helium (t"
+literal = "30"
+context = "tions used a Restek RTX-5Sil~MS column (30~m length, 0.25~mm internal diameter, 0."
 verdict = "not-a-result"
 key = ""
-reason = "Injection temperature of 250°C is an instrument setting, not a computed result."
+reason = "'30 m length' is a GC column specification."
 by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
+decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
 [decisions.a0f22d54b8]
@@ -1849,15 +1805,15 @@ by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
-[decisions.a2de06d967]
+[decisions.a1c355969a]
 file = "TAI_template.tex"
-literal = "33"
-context = "12--14\\%). Gurnard also has saliency at 33--37 minutes (13\\%), while the 24--28-mi"
+literal = "320"
+context = "t 2$^\\circ$C~min$^{-1}$, and finally to 320$^\\circ$C at 100$^\\circ$C~min$^{-1}$, he"
 verdict = "not-a-result"
 key = ""
-reason = "33 is the lower bound of '33--37 minutes', a retention-time range."
+reason = "Final oven temperature of 320°C is part of the GC method."
 by = "claude"
-decided = "2026-10-19T23:30:39+13:00"
+decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
 [decisions.a30277c438]
@@ -1904,15 +1860,15 @@ by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
 result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
-[decisions.a5e1772b29]
+[decisions.a86e67cbb7]
 file = "TAI_template.tex"
-literal = "190"
-context = "oven temperature was ramped from 90 to 190$^\\circ$C at 10$^\\circ$C~min$^{-1}$, the"
+literal = "28"
+context = "at 33--37 minutes (13\\%), while the 24--28-minute region contributes little (3--6\\"
 verdict = "not-a-result"
 key = ""
-reason = "Oven ramp target of 190°C is part of the GC method."
+reason = "28 is the upper bound of 'the 24--28-minute region', a retention-time range."
 by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
+decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
 [decisions.aa8b00e8e0]
@@ -1992,17 +1948,6 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
-[decisions.ad944b6c1c]
-file = "TAI_template.tex"
-literal = "30"
-context = "tions used a Restek RTX-5Sil~MS column (30~m length, 0.25~mm internal diameter, 0."
-verdict = "not-a-result"
-key = ""
-reason = "'30 m length' is a GC column specification."
-by = "claude"
-decided = "2026-10-19T23:29:43+13:00"
-result_hash = ""
-
 [decisions.ae0dea4a16]
 file = "TAI_template.tex"
 literal = "4"
@@ -2012,6 +1957,17 @@ key = ""
 reason = "'C = 4' is the number of species, which describes the data."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
+
+[decisions.ae2c4803d9]
+file = "TAI_template.tex"
+literal = "85"
+context = "s $1 + 2(k-1)\\sum_i \\text{dilation}_i = 85$ RT bins, about 40\\% of the RT axis."
+verdict = "not-a-result"
+key = ""
+reason = "The receptive field of 85 bins is worked out by hand from the architecture, not from an experiment."
+by = "claude"
+decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
 [decisions.af9654b13e]
@@ -2025,15 +1981,26 @@ by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
-[decisions.afad4ac4eb]
+[decisions.b0d3995dcb]
 file = "TAI_template.tex"
-literal = "0.25"
-context = "Restek RTX-5Sil~MS column (30~m length, 0.25~mm internal diameter, 0.25~$\\mu$m film"
+literal = "1"
+context = "(X^\\text{syn}_{:t})_t - X^\\text{syn}_{t+1} \\right\\|_2^2."
 verdict = "not-a-result"
 key = ""
-reason = "'0.25 mm internal diameter' is a GC column specification."
+reason = "A constant inside the loss formula's notation, not a value."
 by = "claude"
-decided = "2026-10-19T23:29:43+13:00"
+decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
+
+[decisions.b110416d0e]
+file = "TAI_template.tex"
+literal = "1"
+context = "idual addition. The receptive field is $1 + 2(k-1)\\sum_i \\text{dilation}_i = 85$"
+verdict = "not-a-result"
+key = ""
+reason = "The 1 is a constant in the receptive-field formula."
+by = "claude"
+decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
 [decisions.b250d142c1]
@@ -2089,17 +2056,6 @@ key = ""
 reason = "'10 seeds' in the caption is a protocol setting, and there is no settings- candidate for it."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
-result_hash = ""
-
-[decisions.b989dcb000]
-file = "TAI_template.tex"
-literal = "1"
-context = "idual addition. The receptive field is $1 + 2(k-1)\\sum_i \\text{dilation}_i = 85$"
-verdict = "not-a-result"
-key = ""
-reason = "The 1 is a constant in the receptive-field formula."
-by = "claude"
-decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
 [decisions.b9d6dd6c4a]
@@ -2168,6 +2124,17 @@ by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
+[decisions.c1d6fdfabb]
+file = "TAI_template.tex"
+literal = "1"
+context = "\\mathcal{L}_\\text{pre}(\\theta) = \\frac{1}{T-1}\\sum_{t=1}^{T-1} \\left\\| f_\\theta("
+verdict = "not-a-result"
+key = ""
+reason = "The constant in 1/(T-1), part of the loss formula."
+by = "claude"
+decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
+
 [decisions.c35b962f84]
 file = "TAI_template.tex"
 literal = "4"
@@ -2190,15 +2157,15 @@ by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
 result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
-[decisions.c4159ab1dd]
+[decisions.c6d6f88c2a]
 file = "TAI_template.tex"
 literal = "40"
-context = "tes little (3--6\\%) in any species. The 40--44-minute band contains the peak assig"
+context = "In all four species, the 40--44-minute band holds the largest share"
 verdict = "not-a-result"
 key = ""
-reason = "Lower bound of the 40--44-minute retention-time band; it names a region, not a measured value."
+reason = "40 is the lower bound of the '40--44-minute band', a retention-time range."
 by = "claude"
-decided = "2026-10-19T23:30:50+13:00"
+decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
 [decisions.c792f8fc94]
@@ -2234,6 +2201,17 @@ by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
+[decisions.c99b564daa]
+file = "TAI_template.tex"
+literal = "220"
+context = "c$C at 0.5$^\\circ$C~min$^{-1}$, then to 220$^\\circ$C at 2$^\\circ$C~min$^{-1}$, and"
+verdict = "not-a-result"
+key = ""
+reason = "Oven ramp target of 220°C is part of the GC method."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
 [decisions.c9b8952420]
 file = "TAI_template.tex"
 literal = "50"
@@ -2243,6 +2221,39 @@ key = ""
 reason = "50 is the lower bound of the m/z range in a description of the data."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
+[decisions.caaddf9742]
+file = "TAI_template.tex"
+literal = "90"
+context = "The oven temperature was ramped from 90 to 190$^\\circ$C at 10$^\\circ$C~min$^{-1"
+verdict = "not-a-result"
+key = ""
+reason = "Oven start temperature of 90°C is part of the GC method."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
+[decisions.cc6a36bc89]
+file = "TAI_template.tex"
+literal = "81.7"
+context = "The carrier gas was helium (total flow 81.7, linear velocity 36.5~cm~s$^{-1}$)."
+verdict = "not-a-result"
+key = ""
+reason = "Helium total flow of 81.7 is a GC method parameter."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
+[decisions.cc8ca9c22b]
+file = "TAI_template.tex"
+literal = "50"
+context = "fish data, whose observed signal spans 50--543. About 9{,}500 spectra remained; w"
+verdict = "not-a-result"
+key = ""
+reason = "50 is the lower bound of the observed m/z signal range, which describes the data."
+by = "claude"
+decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
 [decisions.cd684c729f]
@@ -2278,6 +2289,28 @@ by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
+[decisions.ce195052f1]
+file = "TAI_template.tex"
+literal = "64"
+context = "nd an MLP with hidden layers of 256 and 64 units, $L_2$ penalty $10^{-3}$, and ear"
+verdict = "not-a-result"
+key = ""
+reason = "The MLP's hidden-layer size of 64 is a baseline hyperparameter that has no settings- candidate."
+by = "claude"
+decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
+
+[decisions.ce3f2a6d3b]
+file = "TAI_template.tex"
+literal = "2"
+context = "c$C~min$^{-1}$, then to 220$^\\circ$C at 2$^\\circ$C~min$^{-1}$, and finally to 320"
+verdict = "not-a-result"
+key = ""
+reason = "Ramp rate of 2°C/min is part of the GC method."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
 [decisions.ceb543cbf2]
 file = "TAI_template.tex"
 literal = "10"
@@ -2287,6 +2320,17 @@ key = ""
 reason = "The 10 is a value in the SVM C grid, and there are no candidates."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
+
+[decisions.d0ac45794e]
+file = "TAI_template.tex"
+literal = "0.5"
+context = "imately 5~mg~mL$^{-1}$ in chloroform; a 0.5~mL portion of this dilution was added t"
+verdict = "not-a-result"
+key = ""
+reason = "'0.5 mL portion' is a lab preparation volume, so the score candidates are coincidences."
+by = "claude"
+decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
 [decisions.d10f2dfc1f]
@@ -2332,17 +2376,6 @@ reason = "The 200 in the '200 x 1000' matrix is the number of RT bins, which is 
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
-
-[decisions.d55d478358]
-file = "TAI_template.tex"
-literal = "5"
-context = "aliquots were diluted to approximately 5~mg~mL$^{-1}$ in chloroform; a 0.5~mL po"
-verdict = "not-a-result"
-key = ""
-reason = "'approximately 5 mg mL^-1' is a lab preparation concentration."
-by = "claude"
-decided = "2026-10-19T23:29:43+13:00"
-result_hash = ""
 
 [decisions.d60936ea60]
 file = "TAI_template.tex"
@@ -2399,6 +2432,17 @@ by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
+[decisions.d8e6939913]
+file = "TAI_template.tex"
+literal = "-1"
+context = "hen to 220$^\\circ$C at 2$^\\circ$C~min$^{-1}$, and finally to 320$^\\circ$C at 100$^"
+verdict = "not-a-result"
+key = ""
+reason = "The -1 is the unit exponent in min^{-1}."
+by = "claude"
+decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
 [decisions.d92a05b9be]
 file = "TAI_template.tex"
 literal = "543"
@@ -2443,17 +2487,6 @@ by = "claude"
 decided = "2026-10-19T23:43:02+13:00"
 result_hash = "sha256:bedc53f7d95d207c882361156c1853b3edbc04d870f228ec3826034603166d37"
 
-[decisions.dc632aaa6e]
-file = "TAI_template.tex"
-literal = "22"
-context = "for Gurnard), followed by a band at 18--22 minutes (12--14\\%). Gurnard also has sa"
-verdict = "not-a-result"
-key = ""
-reason = "22 is the upper bound of the 'band at 18--22 minutes', a retention-time range."
-by = "claude"
-decided = "2026-10-19T23:30:39+13:00"
-result_hash = ""
-
 [decisions.dc6aa778aa]
 file = "TAI_template.tex"
 literal = "200"
@@ -2485,6 +2518,17 @@ key = ""
 reason = "200,000 is the flattened size (200 x 1000), a value derived from the settings, not a recorded result."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
+
+[decisions.e165e1159d]
+file = "TAI_template.tex"
+literal = "1"
+context = "ext{pre}(\\theta) = \\frac{1}{T-1}\\sum_{t=1}^{T-1} \\left\\| f_\\theta(X^\\text{syn}_{:"
+verdict = "not-a-result"
+key = ""
+reason = "Upper limit T-1 of the sum in the loss formula."
+by = "claude"
+decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
 [decisions.e2ac979aad]
@@ -2531,17 +2575,6 @@ by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
-[decisions.e6a5bd2c4e]
-file = "TAI_template.tex"
-literal = "0"
-context = "o the same 1000-bin integer $m/z$ grid (0--999) used for the fish data, whose obs"
-verdict = "not-a-result"
-key = ""
-reason = "0 is the lower bound of the m/z grid index range."
-by = "claude"
-decided = "2026-10-19T23:29:07+13:00"
-result_hash = ""
-
 [decisions.e721930add]
 file = "TAI_template.tex"
 literal = "1000"
@@ -2553,37 +2586,15 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = "sha256:c22964a527572071426e35661ecf99dab16be8aa1ab0cecdc24aec18daedcff5"
 
-[decisions.e884151b0f]
+[decisions.e789964537]
 file = "TAI_template.tex"
-literal = "2"
-context = "c$C~min$^{-1}$, then to 220$^\\circ$C at 2$^\\circ$C~min$^{-1}$, and finally to 320"
+literal = "22"
+context = "for Gurnard), followed by a band at 18--22 minutes (12--14\\%). Gurnard also has sa"
 verdict = "not-a-result"
 key = ""
-reason = "Ramp rate of 2°C/min is part of the GC method."
+reason = "22 is the upper bound of the 'band at 18--22 minutes', a retention-time range."
 by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
-result_hash = ""
-
-[decisions.e949a205e7]
-file = "TAI_template.tex"
-literal = "4"
-context = "$C at 100$^\\circ$C~min$^{-1}$, held for 4~min to elute sterols and other less-vol"
-verdict = "not-a-result"
-key = ""
-reason = "The 4 min hold time is part of the GC method."
-by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
-result_hash = ""
-
-[decisions.e957ebafd6]
-file = "TAI_template.tex"
-literal = "-1"
-context = "n to 200$^\\circ$C at 0.5$^\\circ$C~min$^{-1}$, then to 220$^\\circ$C at 2$^\\circ$C~m"
-verdict = "not-a-result"
-key = ""
-reason = "The -1 is the unit exponent in min^{-1}."
-by = "claude"
-decided = "2026-10-19T23:29:59+13:00"
+decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
 [decisions.e95e99c0a7]
@@ -2606,17 +2617,6 @@ key = ""
 reason = "Summation index start (k=1) in the synthetic chromatogram equation."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
-result_hash = ""
-
-[decisions.ea0f22faee]
-file = "TAI_template.tex"
-literal = "0.5"
-context = "imately 5~mg~mL$^{-1}$ in chloroform; a 0.5~mL portion of this dilution was added t"
-verdict = "not-a-result"
-key = ""
-reason = "'0.5 mL portion' is a lab preparation volume, so the score candidates are coincidences."
-by = "claude"
-decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
 [decisions.eb35c07a28]
@@ -2650,17 +2650,6 @@ key = ""
 reason = "Kernel size 7 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
-result_hash = ""
-
-[decisions.edf0d8460e]
-file = "TAI_template.tex"
-literal = "1"
-context = "tions. The classifiers are PLS-DA, with 1--15 latent variables chosen by inner 5-"
-verdict = "not-a-result"
-key = ""
-reason = "The 1 is the lower bound of the PLS-DA latent-variable search range."
-by = "claude"
-decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
 [decisions.ee3f254a60]
@@ -2740,6 +2729,17 @@ by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
 result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
+[decisions.f65e6099fb]
+file = "TAI_template.tex"
+literal = "44"
+context = "little (3--6\\%) in any species. The 40--44-minute band contains the peak assigned"
+verdict = "not-a-result"
+key = ""
+reason = "Upper bound of the 40--44-minute retention-time band; it names a region, not a measured value."
+by = "claude"
+decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
+
 [decisions.f89c6fc44e]
 file = "TAI_template.tex"
 literal = "6012"
@@ -2749,6 +2749,17 @@ key = ""
 reason = "Postcode in 'Wellington 6012'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
+
+[decisions.fa36a09645]
+file = "TAI_template.tex"
+literal = "0.25"
+context = "Restek RTX-5Sil~MS column (30~m length, 0.25~mm internal diameter, 0.25~$\\mu$m film"
+verdict = "not-a-result"
+key = ""
+reason = "'0.25 mm internal diameter' is a GC column specification."
+by = "claude"
+decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
 [decisions.fa390cec16]
@@ -2773,15 +2784,15 @@ by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
-[decisions.fb91ea8b64]
+[decisions.fc73c61469]
 file = "TAI_template.tex"
-literal = "1"
-context = "e}(\\theta) = \\frac{1}{T-1}\\sum_{t=1}^{T-1} \\left\\| f_\\theta(X^\\text{syn}_{:t})_t"
+literal = "2"
+context = "l addition. The receptive field is $1 + 2(k-1)\\sum_i \\text{dilation}_i = 85$ RT b"
 verdict = "not-a-result"
 key = ""
-reason = "Index offset t+1 in the loss formula."
+reason = "The 2 is a constant in the receptive-field formula."
 by = "claude"
-decided = "2026-10-19T23:29:27+13:00"
+decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
 [decisions.fcc432e707]
