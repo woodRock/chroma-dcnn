@@ -683,6 +683,17 @@ by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
+[decisions.41416973c8]
+file = "TAI_template.tex"
+literal = "100{,}000"
+context = "hich trains a Transformer end-to-end on 100{,}000 simulated overlapping peaks and applies"
+verdict = "not-a-result"
+key = ""
+reason = "GCMSFormer's training-set size (Guo2024gcmsformer), a value from another paper, not a result of ours"
+by = ""
+decided = "2026-10-24T18:15:54+13:00"
+result_hash = ""
+
 [decisions.42269bdc25]
 file = "TAI_template.tex"
 literal = "17"
