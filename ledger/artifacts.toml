@@ -100,7 +100,8 @@ sci = true
 decimals = 2
 
 [format."scratch-comparisons/*/p-bonf"]
-decimals = 2
+sci = true
+decimals = 1
 
 # How the paper prints each number (checked by `taura check`: adopt-mismatch).
 [format."gains/*/points"]          # percentage points: +25.1

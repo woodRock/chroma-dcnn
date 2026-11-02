@@ -109,7 +109,7 @@ for i, (e, c) in enumerate(zip(elution, COLORS)):
     ax.fill_between(t, offset, offset + e, color=c, alpha=0.25)
 ax.set_xlim(0, N_BINS)
 ax.set_ylim(-0.3, (K - 1) * 1.25 + 1.6)
-ax.set_xlabel("Retention-time bin", fontsize=FS_LABEL)
+ax.set_xlabel("RT bin", fontsize=FS_LABEL)
 ax.set_yticks([])
 ax.tick_params(axis="x", labelsize=FS_TICK)
 for spine in ("top", "right", "left"):
@@ -132,7 +132,7 @@ Zs = X[::S_T, ::S_M]
 T_grid, M_grid = np.meshgrid(t_s, mz_s, indexing="ij")
 ax.plot_surface(T_grid, M_grid, Zs, cmap="Blues", linewidth=0, antialiased=True,
                  rstride=1, cstride=1)
-ax.set_xlabel("Retention-time bin", fontsize=FS_LABEL - 2, labelpad=8)
+ax.set_xlabel("RT bin", fontsize=FS_LABEL - 2, labelpad=8)
 ax.set_ylabel("$m/z$", fontsize=FS_LABEL - 2, labelpad=8)
 ax.set_zticks([])
 ax.tick_params(axis="both", labelsize=FS_TICK - 2)

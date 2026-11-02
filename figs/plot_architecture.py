@@ -74,8 +74,8 @@ arch = [
     raw(r"""
 \node[font=\normalsize\bfseries, above=3mm of gcms.north, align=center]
     {GC-MS Chromatogram};
-\node[font=\footnotesize, below=4mm of gcms.south, align=center]
-    {\shortstack{$200$ retention-time bins\\$\times\,1000\,m/z$}};
+\node[font=\footnotesize, below=4mm of gcms.south]
+    {$200\,\text{RT bins} \times 1000\,m/z$};
 """),
 
     # =========================================================================

@@ -49,7 +49,7 @@ vmax = np.percentile(nz, 90) if len(nz) else 1.0
 im = ax.imshow(chroma_2d[:, :600], aspect="auto", origin="lower", cmap="Blues",
                 vmin=0, vmax=vmax, extent=[0, 600, 0, 200])
 ax.set_xlabel("$m/z$", fontsize=FS_LABEL)
-ax.set_ylabel("Retention-time bin", fontsize=FS_LABEL)
+ax.set_ylabel("RT bin", fontsize=FS_LABEL)
 ax.set_title("(a) 2D chromatogram", fontsize=FS_TITLE, fontweight="bold")
 ax.tick_params(labelsize=FS_TICK)
 cb = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
