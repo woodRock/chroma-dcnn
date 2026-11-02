@@ -61,3 +61,59 @@ def crop_to_content(path: str | Path, pad: int = 10, threshold: int = 250) -> No
     top, bottom = max(rows.min() - pad, 0), min(rows.max() + pad, arr.shape[0])
     left, right = max(cols.min() - pad, 0), min(cols.max() + pad, arr.shape[1])
     img.crop((left, top, right, bottom)).save(path)
+
+
+def crop_pdf_to_content(path: str | Path, pad_pt: float = 8.0, threshold: int = 250,
+                        dpi: int = 200) -> None:
+    """Crop a saved vector PDF to its actual content, the PDF analogue of
+    `crop_to_content` -- `bbox_inches="tight"` is unreliable for the same
+    reason there (3D axes report an inflated bounding box), and there's no
+    alpha channel to crop a vector page by, so this renders the page to a
+    raster preview purely to measure the crop, then applies it to the PDF's
+    own MediaBox (the page itself stays vector).
+
+    Requires `pdftoppm` (poppler-utils) and the `pypdf` package.
+    """
+    import shutil
+    import subprocess
+    import tempfile
+
+    from PIL import Image
+    from pypdf import PdfReader, PdfWriter
+
+    if shutil.which("pdftoppm") is None:
+        raise RuntimeError("crop_pdf_to_content needs pdftoppm (poppler-utils) on PATH")
+
+    path = Path(path)
+    reader = PdfReader(path)
+    page = reader.pages[0]
+    box = page.mediabox
+    page_w_pt, page_h_pt = float(box.width), float(box.height)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        prefix = str(Path(tmp) / "preview")
+        subprocess.run(["pdftoppm", "-png", "-r", str(dpi), "-singlefile", str(path), prefix],
+                       check=True, capture_output=True)
+        img = Image.open(prefix + ".png").convert("RGB")
+        arr = np.array(img)
+
+    mask = (arr < threshold).any(axis=2)
+    rows, cols = np.where(mask.any(axis=1))[0], np.where(mask.any(axis=0))[0]
+    if len(rows) == 0 or len(cols) == 0:
+        return  # fully blank page: nothing sensible to crop to
+
+    px_w, px_h = arr.shape[1], arr.shape[0]
+    pt_per_px_x, pt_per_px_y = page_w_pt / px_w, page_h_pt / px_h
+    left = max(cols.min() * pt_per_px_x - pad_pt, 0)
+    right = min((cols.max() + 1) * pt_per_px_x + pad_pt, page_w_pt)
+    # Image rows run top-to-bottom; PDF y runs bottom-to-top.
+    top = max((px_h - rows.max() - 1) * pt_per_px_y - pad_pt, 0)
+    bottom = min((px_h - rows.min()) * pt_per_px_y + pad_pt, page_h_pt)
+
+    writer = PdfWriter()
+    writer.append(reader)
+    out_page = writer.pages[0]
+    out_page.mediabox.lower_left = (left, top)
+    out_page.mediabox.upper_right = (right, bottom)
+    with open(path, "wb") as f:
+        writer.write(f)

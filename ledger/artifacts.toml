@@ -36,8 +36,8 @@ decimals = 1
 # Figures, copied from figs/ (compared by content).
 [artifacts.gc_ms]
 kind = "figure"
-output = "generated/gc-ms.png"
-source = "figs/gc-ms.png"
+output = "generated/gc-ms.pdf"
+source = "figs/gc-ms.pdf"
 made_by = "figs/generate_gcms_3d.py"
 
 [artifacts.architecture]
@@ -66,14 +66,14 @@ made_by = "figs/generate_input_representations.py"
 
 [artifacts.saliency_3d]
 kind = "figure"
-output = "generated/saliency-3d.png"
-source = "figs/saliency-3d.png"
+output = "generated/saliency-3d.pdf"
+source = "figs/saliency-3d.pdf"
 made_by = "scripts/11_saliency.py"
 
 [artifacts.saliency_1d]
 kind = "figure"
-output = "generated/saliency-1d.png"
-source = "figs/saliency-1d.png"
+output = "generated/saliency-1d.pdf"
+source = "figs/saliency-1d.pdf"
 made_by = "scripts/11_saliency.py"
 # 3a9da65 changed only the 3D figure's labels and title (fig. 4); the 1D marginals are unaffected
 checked_against = "sha256:e8a9217afefc0fa112d3ec3fa31a5ce09cf0dcbc257bfeafe518db993173cd64"

@@ -10,7 +10,8 @@ individual peaks stay distinguishable at this bin resolution.
 
 Run from repo root:
   python3 figs/generate_gcms_3d.py
-Output: figs/gc-ms.png
+Output: figs/gc-ms.pdf (used in the paper) and figs/gc-ms.png (used for the
+small inset in figs/plot_architecture.py's architecture diagram)
 """
 
 import sys
@@ -22,7 +23,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from scipy.ndimage import gaussian_filter1d
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from style import FS_LABEL, FS_TICK, crop_to_content
+from style import FS_LABEL, FS_TICK, crop_pdf_to_content, crop_to_content
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_features
@@ -104,6 +105,8 @@ plt.subplots_adjust(left=0.0, right=1.0, top=1.0, bottom=0.05)
 plt.savefig("figs/gc-ms.png",
             bbox_inches="tight", pad_inches=0.15,
             dpi=300, transparent=True)
+plt.savefig("figs/gc-ms.pdf", bbox_inches="tight", pad_inches=0.15)
 plt.close(fig)
 crop_to_content("figs/gc-ms.png")
-print("Saved figs/gc-ms.png")
+crop_pdf_to_content("figs/gc-ms.pdf")
+print("Saved figs/gc-ms.png and figs/gc-ms.pdf")

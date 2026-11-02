@@ -52,7 +52,7 @@ from chroma_dcnn.training.finetune_chroma import (
     _inner_val_split,
     _train_fold,
 )
-from style import crop_to_content
+from style import crop_pdf_to_content, crop_to_content
 
 CONFIG_PATH = Path('configs/finetune.yaml')
 FIGS_DIR    = Path('figs')
@@ -156,6 +156,7 @@ def plot_marginals(sal_mean: np.ndarray, out: Path) -> None:
 
     plt.tight_layout()
     fig.savefig(out, dpi=150, bbox_inches='tight')
+    fig.savefig(out.with_suffix('.pdf'), bbox_inches='tight')
     plt.close(fig)
 
 
@@ -248,9 +249,13 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
     cbar.set_label('Normalised saliency', fontsize=13, labelpad=8)
     fig.suptitle('Gradient saliency overlaid on GC-MS chromatograms',
                  fontsize=17, y=0.985)
+    pdf_out = out.with_suffix('.pdf')
     fig.savefig(out, dpi=200, bbox_inches='tight')
+    fig.savefig(pdf_out, bbox_inches='tight')
     plt.close(fig)
-    crop_to_content(out)  # 3D axes report an inflated tight-bbox; see figs/style.py
+    # 3D axes report an inflated tight-bbox; see figs/style.py.
+    crop_to_content(out)
+    crop_pdf_to_content(pdf_out)
 
 
 RT_MIN = np.linspace(5, 45, 200)  # retention time (min) of each RT bin, as in the figures
