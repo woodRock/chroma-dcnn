@@ -168,7 +168,7 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
     # 3D axes don't fill their allotted cell (the rotated surface leaves empty
     # margin inside each cell regardless of wspace/hspace), so the columns and
     # rows are pulled closer with *negative* spacing to compensate.
-    fig.subplots_adjust(bottom=0.06, hspace=0.12, wspace=-0.22, top=0.90,
+    fig.subplots_adjust(bottom=0.10, hspace=0.12, wspace=-0.22, top=0.90,
                         left=0.02, right=0.86)
 
     for c in range(4):
@@ -221,7 +221,19 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
         ax.tick_params(labelsize=12)
         ax.set_xlabel('RT, min', fontsize=15, labelpad=2)
         ax.set_ylabel('m/z',     fontsize=15, labelpad=12)
-        ax.set_title(SPECIES_LABEL[c], fontweight='bold', color=COLOURS[c], pad=2, fontsize=16)
+
+    # Species labels go below each plot, not above: a title above a 2x2 grid
+    # of 3D axes sits ambiguously between two rows and a reader can't tell
+    # which plot it belongs to. Placed in figure-fraction coordinates rather
+    # than via ax.set_title/ax.text2D, because a 3D axes' own bounding box
+    # includes a lot of invisible margin (the same inflated-bbox quirk
+    # crop_to_content works around), so text positioned relative to it lands
+    # in an unpredictable spot.
+    col_x = [0.25, 0.63]
+    row_y = [0.40, 0.02]
+    for c in range(4):
+        fig.text(col_x[c % 2], row_y[c // 2], SPECIES_LABEL[c], ha='center',
+                 va='bottom', fontweight='bold', color=COLOURS[c], fontsize=16)
 
     # Vertical, to the right of the grid: a horizontal bar along the bottom
     # would compete with the bottom row's "RT, min" axis labels for the same
