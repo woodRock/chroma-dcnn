@@ -20,12 +20,16 @@ Run from repo root:
 Output: figs/pipeline.pdf and figs/pipeline.png
 """
 
+import sys
+from pathlib import Path
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 
-FS_BOX, FS_NOTE, FS_ROW = 13.5, 11, 15
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from style import FS_LABEL as FS_BOX, FS_NOTE, FS_TITLE as FS_ROW
 
 TOP_COLOR = "#eef3fc"
 TOP_EDGE = "#1f4e9d"

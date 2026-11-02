@@ -12,9 +12,15 @@ Run from repo root:
 Output: figs/gc-ms.png
 """
 
+import sys
+from pathlib import Path
+
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from style import FS_LABEL, FS_TICK, crop_to_content
 
 # ── Synthetic chromatogram ─────────────────────────────────────────────────────
 rng = np.random.default_rng(42)
@@ -126,9 +132,9 @@ ax.set_xlim(RT_LO, RT_HI)
 ax.set_ylim(MZ_LO, MZ_HI)
 ax.set_zlim(0, z_max * 1.08)
 
-ax.set_xlabel("RT, min",  fontsize=16, labelpad=10)
-ax.set_ylabel("m/z",      fontsize=16, labelpad=10)
-ax.tick_params(axis="both", labelsize=13)
+ax.set_xlabel("RT, min",  fontsize=FS_LABEL + 2, labelpad=10)
+ax.set_ylabel("m/z",      fontsize=FS_LABEL + 2, labelpad=10)
+ax.tick_params(axis="both", labelsize=FS_TICK + 1)
 
 ax.view_init(elev=28, azim=-52)
 
@@ -137,17 +143,5 @@ plt.savefig("figs/gc-ms.png",
             bbox_inches="tight", pad_inches=0.15,
             dpi=300, transparent=True)
 plt.close(fig)
-
-# matplotlib's tight bbox for 3D axes includes a lot of empty space around the
-# actual surface; crop any fully-transparent border rows/columns left behind.
-from PIL import Image
-
-img = Image.open("figs/gc-ms.png")
-alpha = np.array(img.split()[-1])
-rows = np.where(alpha.max(axis=1) > 0)[0]
-cols = np.where(alpha.max(axis=0) > 0)[0]
-pad = 8
-top, bottom = max(rows.min() - pad, 0), min(rows.max() + pad, alpha.shape[0])
-left, right = max(cols.min() - pad, 0), min(cols.max() + pad, alpha.shape[1])
-img.crop((left, top, right, bottom)).save("figs/gc-ms.png")
+crop_to_content("figs/gc-ms.png")
 print("Saved figs/gc-ms.png")

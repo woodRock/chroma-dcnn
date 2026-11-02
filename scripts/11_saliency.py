@@ -44,6 +44,7 @@ from scipy.ndimage import gaussian_filter
 from sklearn.model_selection import StratifiedKFold
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "figs"))
 from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_paths
 from chroma_dcnn.training.finetune_chroma import (
     ChromaFinetuner,
@@ -51,6 +52,7 @@ from chroma_dcnn.training.finetune_chroma import (
     _inner_val_split,
     _train_fold,
 )
+from style import crop_to_content
 
 CONFIG_PATH = Path('configs/finetune.yaml')
 FIGS_DIR    = Path('figs')
@@ -231,23 +233,7 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
                  fontsize=17, y=0.985)
     fig.savefig(out, dpi=200, bbox_inches='tight')
     plt.close(fig)
-    _trim_near_white_border(out)
-
-
-def _trim_near_white_border(path: Path, threshold: int = 250, pad: int = 10) -> None:
-    """3D axes report an inflated bounding box, so bbox_inches='tight' still
-    leaves a near-white margin; trim it directly on the saved raster image."""
-    from PIL import Image
-
-    img = Image.open(path).convert('RGB')
-    arr = np.array(img)
-    mask = (arr < threshold).any(axis=2)
-    rows, cols = np.where(mask.any(axis=1))[0], np.where(mask.any(axis=0))[0]
-    if len(rows) == 0 or len(cols) == 0:
-        return
-    top, bottom = max(rows.min() - pad, 0), min(rows.max() + pad, arr.shape[0])
-    left, right = max(cols.min() - pad, 0), min(cols.max() + pad, arr.shape[1])
-    img.crop((left, top, right, bottom)).save(path)
+    crop_to_content(out)  # 3D axes report an inflated tight-bbox; see figs/style.py
 
 
 RT_MIN = np.linspace(5, 45, 200)  # retention time (min) of each RT bin, as in the figures

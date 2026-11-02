@@ -15,12 +15,18 @@ Run from repo root:
 Output: figs/synthetic-dataset.png and figs/synthetic-dataset.pdf
 """
 
+import sys
+from pathlib import Path
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from style import FS_LABEL, FS_NOTE, FS_TICK, FS_TITLE
 
 rng = np.random.default_rng(7)
 
@@ -51,7 +57,6 @@ X = np.zeros((N_BINS, MZ_MAX))
 for e, s in zip(elution, spectra):
     X += np.outer(e, s)
 
-FS_LABEL, FS_TICK, FS_TITLE, FS_NOTE = 15, 12, 17, 12
 
 fig = plt.figure(figsize=(16, 5.6))
 gs = gridspec.GridSpec(2, 4, height_ratios=[1, 0.12], hspace=0.55, wspace=0.42,

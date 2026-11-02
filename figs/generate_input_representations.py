@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import matplotlib
 matplotlib.use("Agg")
@@ -23,10 +24,10 @@ import numpy as np
 from sklearn.decomposition import PCA
 
 from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_features
+from style import FS_LABEL, FS_TICK, FS_TITLE
 
 SPECIES = {0: "Snapper", 1: "Gurnard", 2: "Tarakihi", 3: "Blue Cod"}
 COLOURS = {0: "#2196f3", 1: "#ff9800", 2: "#4caf50", 3: "#e91e63"}
-FS_LABEL, FS_TICK, FS_TITLE = 14, 11, 16
 
 feats, y = load_fish_oil_chroma_features("data/fish_oil")
 chroma_flat = feats["chroma_flat"]          # [103, 200000] = 200 RT bins x 1000 m/z
