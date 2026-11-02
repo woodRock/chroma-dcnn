@@ -64,7 +64,7 @@ arch = [
     to_begin(),
 
     # =========================================================================
-    # 0.  GC-MS Input Image  [200 RT bins × 1000 m/z]
+    # 0.  GC-MS Input Image  [200 retention-time bins x 1000 m/z]
     # =========================================================================
     raw(r"""
 \node[inner sep=2pt, draw=InputEdge, very thick,
@@ -72,9 +72,9 @@ arch = [
     {\includegraphics[width=5cm,height=5cm]{""" + GCMS_IMG + r"""}};
 """),
     raw(r"""
-\node[font=\small\bfseries, above=3mm of gcms.north, align=center]
+\node[font=\normalsize\bfseries, above=3mm of gcms.north, align=center]
     {GC-MS Chromatogram};
-\node[font=\scriptsize, below=4mm of gcms.south]
+\node[font=\footnotesize, below=4mm of gcms.south]
     {$200\,\text{RT bins} \times 1000\,m/z$};
 """),
 
@@ -86,7 +86,7 @@ arch = [
             height=25, depth=10, width=2,
             caption="{Spectral Proj.}"),
     raw(r"""\draw [connection] (gcms.east) -- node {\midarrow} (proj-west);"""),
-    raw(r"""\node[font=\scriptsize, below=12pt] at (proj-south)
+    raw(r"""\node[font=\footnotesize, below=12pt] at (proj-south)
     {$200 \times 128$};"""),
 
     # =========================================================================
@@ -104,7 +104,7 @@ arch = [
                     height=25, depth=10, width=(5, 2),
                     caption="{ResBlock (dilation=1)}"),
     to_connection("proj", "res1"),
-    raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res1-south) {RF\,=\,13};"""),
+    raw(r"""\node[font=\footnotesize, below=12pt] at ([xshift=-5pt]res1-south) {RF\,=\,13};"""),
 
     # =========================================================================
     # 3.  ResBlock — dilation 2   (receptive field: 37 bins)
@@ -115,7 +115,7 @@ arch = [
                     height=25, depth=10, width=(6, 2),
                     caption="{ResBlock (dilation=2)}"),
     to_connection("res1", "res2"),
-    raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res2-south) {RF\,=\,37};"""),
+    raw(r"""\node[font=\footnotesize, below=12pt] at ([xshift=-5pt]res2-south) {RF\,=\,37};"""),
 
     # =========================================================================
     # 4.  ResBlock — dilation 4   (receptive field: 85 bins)
@@ -126,7 +126,7 @@ arch = [
                     height=25, depth=10, width=(7, 2),
                     caption="{ResBlock (dilation=4)}"),
     to_connection("res2", "res3"),
-    raw(r"""\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res3-south) {RF\,=\,85};"""),
+    raw(r"""\node[font=\footnotesize, below=12pt] at ([xshift=-5pt]res3-south) {RF\,=\,85};"""),
 
     # Restore default colors for pools / head
     raw(r"""
@@ -141,7 +141,7 @@ arch = [
             offset="(3.0, 4, 0)", to="(res3-east)",
             height=4, depth=10, width=2,
             caption="Max Pool"),
-    raw(r"""\node[font=\scriptsize, above=2pt] at (maxpool-north) {$[128]$};"""),
+    raw(r"""\node[font=\footnotesize, above=2pt] at (maxpool-north) {$[128]$};"""),
 
     # =========================================================================
     # 5b. Soft attention-pool → [128]  (lower branch)
@@ -158,7 +158,7 @@ arch = [
         width=2,
         depth=10
     }};
-\node[font=\scriptsize, below=2pt] at (attnpool-south) {$[128]$};
+\node[font=\footnotesize, below=2pt] at (attnpool-south) {$[128]$};
 """),
 
     # Fork: res3-east → maxpool-west  and  res3-east → attnpool-west
@@ -174,8 +174,8 @@ arch = [
     # =========================================================================
     to_Sum("cat", offset="(5.5,0,0)", to="(res3-east)", radius=1.8, opacity=0.85),
     raw(r"""
-\node[font=\small\bfseries, above=3mm] at (cat-north) {concat};
-\node[font=\scriptsize,     below=4mm] at (cat-south)  {\textbf{[256]}};
+\node[font=\normalsize\bfseries, above=3mm] at (cat-north) {concat};
+\node[font=\footnotesize,     below=4mm] at (cat-south)  {\textbf{[256]}};
 """),
 
     # Pool branches merge into concat
@@ -194,7 +194,7 @@ arch = [
                height=5, depth=10, width=2,
                opacity=0.9, caption="FC"),
     to_connection("cat", "fc"),
-    raw(r"""\node[font=\small\bfseries, right=4mm] at (fc-east)
+    raw(r"""\node[font=\normalsize\bfseries, right=4mm] at (fc-east)
     {\begin{tabular}{l}SNA\\GUR\\TAR\\BCO\end{tabular}};"""),
 
     to_end(),

@@ -1,12 +1,12 @@
 {
-  "wall_seconds": 470.5737856910564,
-  "wall_minutes": 7.8428964281842735,
-  "final_mse": 0.00033113060239702463,
-  "best_mse": 0.000329832690913463,
+  "wall_seconds": 953.489122507046,
+  "wall_minutes": 15.891485375117433,
+  "final_mse": 0.000333189100085292,
+  "best_mse": 0.00033038026237045416,
   "n_iterations": 20000,
-  "n_spectra": 9553,
+  "n_spectra": 9908,
   "seed": 0,
   "device": "cuda",
-  "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+  "gpu": "NVIDIA RTX A6000",
   "checkpoint": "checkpoints/chroma_pretrain/best.pt"
 }

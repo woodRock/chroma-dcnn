@@ -5,13 +5,13 @@
   "label": "Ablation: 1D-mz against 2D (from scratch)",
   "source": {
     "path": "results/fish_oil/ablation_1d_vs_2d_summary.md",
-    "hash": "sha256:8d738f19c4525f849e2e7ee0f40420bcd2f5ded9b7c52b23acf0a093acfad88f"
+    "hash": "sha256:fe9a354428a557bf4d242f4e2543de393d4dc4ba891fff6fd78d98e2075377c4"
   },
   "metrics": {
     "1d-vs-2d": {
-      "delta": -0.203,
-      "p": 1.99e-07,
-      "abs-r": 0.603
+      "delta": -0.208,
+      "p": 4.8e-08,
+      "abs-r": 0.63
     }
   }
 }

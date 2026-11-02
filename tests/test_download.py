@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 import io
 import json
 import zipfile
@@ -9,6 +10,16 @@ import zipfile
 import pytest
 
 from chroma_dcnn.data import download as dl
+
+from .conftest import REPO_ROOT
+
+
+def _load_download_script():
+    path = REPO_ROOT / "scripts" / "01_download_pretrain_data.py"
+    spec = importlib.util.spec_from_file_location("script_01_download_pretrain_data", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
 
 # ---------------------------------------------------------------------------
 # Fake network
@@ -104,11 +115,16 @@ def test_parse_mona_records_missing_raises(tmp_path):
 # MassBank parsing
 # ---------------------------------------------------------------------------
 
+#  The InChIKey lives on a "CH$LINK: INCHIKEY <value>" line, one of several
+# repeated CH$LINK lines -- not its own "CH$INCHI_KEY:" field (that field
+# doesn't exist in real MassBank records; see test_parse_massbank_real_inchikey_format).
 _MB_PARSER_FORMAT = """\
 ACCESSION: TEST0001
 CH$SMILES: CCO
-CH$INCHI_KEY: LFQSCWFLJHTTHZ-UHFFFAOYSA-N
+CH$LINK: CAS 64-17-5
+CH$LINK: INCHIKEY LFQSCWFLJHTTHZ-UHFFFAOYSA-N
 AC$INSTRUMENT: GC-EI-TOF
+AC$INSTRUMENT_TYPE: GC-EI-TOF
 AC$MASS_SPECTROMETRY: IONIZATION EI
 PK$SPLASH: splash10-y
 PK$PEAK: m/z int. rel.int.
@@ -119,22 +135,8 @@ PK$PEAK: m/z int. rel.int.
 //
 """
 
-# Real MassBank format: the InChIKey lives on a CH$LINK line.
-_MB_REAL_FORMAT = """\
-ACCESSION: MSBNK-Test-TE000001
-CH$NAME: Ethanol
-CH$SMILES: CCO
-CH$LINK: CAS 64-17-5
-CH$LINK: INCHIKEY LFQSCWFLJHTTHZ-UHFFFAOYSA-N
-AC$INSTRUMENT: GC-EI-TOF
-AC$INSTRUMENT_TYPE: GC-EI-TOF
-AC$MASS_SPECTROMETRY: MS_TYPE MS
-AC$MASS_SPECTROMETRY: ION_MODE POSITIVE
-AC$MASS_SPECTROMETRY: IONIZATION EI
-PK$PEAK: m/z int. rel.int.
-  31.0 100 999
-//
-"""
+_MB_REAL_FORMAT = _MB_PARSER_FORMAT.replace("TEST0001", "MSBNK-Test-TE000001").replace(
+    "CH$SMILES: CCO", "CH$NAME: Ethanol\nCH$SMILES: CCO")
 
 _MB_ESI = """\
 ACCESSION: MSBNK-Test-TE000002
@@ -176,17 +178,18 @@ def test_parse_massbank_txt_unreadable(tmp_path):
     assert dl._parse_massbank_txt(tmp_path / "missing.txt") is None
 
 
-@pytest.mark.xfail(strict=True, reason="Known bug: parser reads CH$INCHI_KEY, but MassBank "
-                   "stores InChIKeys as 'CH$LINK: INCHIKEY …', so real records are dropped")
 def test_parse_massbank_real_inchikey_format(tmp_path):
+    """Regression test: the parser used to read a CH$INCHI_KEY field that doesn't exist in
+    real MassBank records (the key lives in a CH$LINK line instead), so every MassBank record
+    was silently dropped -- the pretraining corpus was 100% MoNA with no error or warning."""
     p = tmp_path / "r.txt"
     p.write_text(_MB_REAL_FORMAT)
     assert dl._parse_massbank_txt(p) is not None
 
 
-@pytest.mark.xfail(strict=True, reason="Known bug: EI filter accepts any record containing "
-                   "'EI' (e.g. 'protEIn'), so LC-ESI MS/MS spectra pass")
 def test_parse_massbank_rejects_esi(tmp_path):
+    """Regression test: the EI filter used to accept any record containing the substring 'EI'
+    anywhere in the full text (e.g. inside 'protEIn'), so LC-ESI MS/MS spectra passed too."""
     p = tmp_path / "r.txt"
     p.write_text(_MB_ESI)
     assert dl._parse_massbank_txt(p) is None
@@ -330,3 +333,37 @@ def test_download_massbank_fetches_release(tmp_path, monkeypatch):
     out = dl.download_massbank_eu(tmp_path)
     assert sorted(p.name for p in out.iterdir()) == ["A.txt", "B.txt"]
     assert not (tmp_path / "massbank_2024.1.zip").exists()
+
+
+# ---------------------------------------------------------------------------
+# Regression guard: a source must not silently parse to zero records (this is
+# exactly how the MassBank InChIKey bug went unnoticed — 139k raw records in,
+# 0 kept, no error, corpus quietly became 100% MoNA).
+# ---------------------------------------------------------------------------
+
+def test_assert_nonzero_yield_raises_on_zero_from_nonzero_raw():
+    mod = _load_download_script()
+    with pytest.raises(RuntimeError, match="MassBank.*139.*0 were kept"):
+        mod._assert_nonzero_yield("MassBank", 139, 0)
+
+
+@pytest.mark.parametrize(("n_raw", "n_kept"), [(0, 0), (10, 3), (10, 10)])
+def test_assert_nonzero_yield_ok(n_raw, n_kept):
+    mod = _load_download_script()
+    mod._assert_nonzero_yield("source", n_raw, n_kept)  # does not raise
+
+
+def test_main_raises_when_massbank_parses_to_zero(tmp_path, monkeypatch):
+    """End-to-end: simulate the historical bug (raw .txt files present, parser keeps none)
+    and confirm `main()` stops with a loud error instead of writing a MoNA-only corpus."""
+    mod = _load_download_script()
+    (tmp_path / "mona_gcms.json").write_text(json.dumps([_mona_record()]))
+    monkeypatch.setattr(mod, "download_mona", lambda *a, **k: tmp_path / "mona_gcms.json")
+
+    mb_dir = tmp_path / "massbank_records"
+    mb_dir.mkdir()
+    (mb_dir / "r1.txt").write_text("not EI, not parseable")
+    monkeypatch.setattr(mod, "download_massbank_eu", lambda *a, **k: mb_dir)
+
+    with pytest.raises(RuntimeError, match="MassBank"):
+        mod.main(str(tmp_path), force=False)

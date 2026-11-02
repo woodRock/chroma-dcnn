@@ -373,6 +373,9 @@ def _parse_massbank_txt(path: Path) -> dict | None:
         return None
 
     fields: dict[str, str] = {}
+    # MassBank repeats some keys (CH$LINK, AC$MASS_SPECTROMETRY, CH$NAME) once
+    # per sub-value, so those are collected as lists rather than overwritten.
+    multi_fields: dict[str, list[str]] = {}
     peaks: list[tuple[float, float]] = []
     in_peak_block = False
 
@@ -399,16 +402,27 @@ def _parse_massbank_txt(path: Path) -> dict | None:
 
         if ":" in line:
             key, _, value = line.partition(":")
-            fields[key.strip()] = value.strip()
+            key, value = key.strip(), value.strip()
+            fields[key] = value
+            multi_fields.setdefault(key, []).append(value)
 
-    # Filter: must be EI ionisation — checks for "EI" anywhere in the record
-    full_text_upper = text.upper()
-    if "IONIZATION: EI" not in full_text_upper and "ION_MODE: POSITIVE" not in full_text_upper:
-        if "EI" not in full_text_upper:
-            return None
-
-    inchikey = fields.get("CH$INCHI_KEY", "") or fields.get("CH$INCHIKEY", "")
+    # ---- InChIKey: embedded as "CH$LINK: INCHIKEY <value>", not its own field ----
+    inchikey = ""
+    for link_value in multi_fields.get("CH$LINK", []):
+        if link_value.upper().startswith("INCHIKEY "):
+            inchikey = link_value.split(None, 1)[1].strip()
+            break
     if not inchikey or len(inchikey) < 14:
+        return None
+
+    # ---- EI ionisation mode: "AC$MASS_SPECTROMETRY: IONIZATION <value>" ----
+    ionization = ""
+    for ms_value in multi_fields.get("AC$MASS_SPECTROMETRY", []):
+        if ms_value.upper().startswith("IONIZATION "):
+            ionization = ms_value.split(None, 1)[1].strip().upper()
+            break
+    instrument_type = fields.get("AC$INSTRUMENT_TYPE", "")
+    if ionization != "EI" and not _EI_INSTRUMENT_PATTERNS.search(instrument_type):
         return None
 
     if not peaks:

@@ -1,89 +1,61 @@
 """
-Generate a 3D GC-MS chromatogram figure for the paper.
-
-Uses a synthetic chromatogram built from Gaussian peaks to reproduce the
-isolated-pyramid style of the original figure.  The synthetic data matches
-the statistical properties of the fish oil data (sparse peaks, wide dynamic
-range, m/z 50-450, typical lipid RT distribution) without requiring the
-uncommitted raw CSV scans.
+Generate the raw 2D chromatogram figure (Fig. 1) for the paper, from a real
+fish sample rather than synthetic peaks, with axis ranges that match the
+real data: retention time 5-45 min (the 200-bin grid used throughout, see
+scripts/11_saliency.py's RT_MIN) and m/z 50-543, the instrument's observed
+signal range (Section V-A). We show a real RT sub-window with visible peaks
+(the 36-45 min region, which Section VI-C's saliency analysis identifies as
+the most informative band) rather than the full 5-45 min range, so
+individual peaks stay distinguishable at this bin resolution.
 
 Run from repo root:
   python3 figs/generate_gcms_3d.py
-Output: figs/gc-ms.png
+Output: figs/gc-ms.pdf (used in the paper) and figs/gc-ms.png (used for the
+small inset in figs/plot_architecture.py's architecture diagram)
 """
+
+import sys
+from pathlib import Path
 
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from scipy.ndimage import gaussian_filter1d
 
-# ── Synthetic chromatogram ─────────────────────────────────────────────────────
-rng = np.random.default_rng(42)
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from style import FS_LABEL, FS_TICK, crop_pdf_to_content, crop_to_content
 
-N_RT  = 300     # fine RT grid for sharp peaks
-N_MZ  = 400
-RT_LO, RT_HI = 18.3, 18.8
-MZ_LO, MZ_HI = 50, 450
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_features
 
-rt_vals = np.linspace(RT_LO, RT_HI, N_RT)
-mz_vals = np.linspace(MZ_LO, MZ_HI, N_MZ)
+# ── Real data: one sample, a real RT sub-window ──────────────────────────────
+MZ_LO, MZ_HI = 50, 543          # real observed m/z range (Section V-A)
+RT_LO, RT_HI = 36.0, 45.0       # real RT sub-window with visible peaks
 
-Z = np.zeros((N_RT, N_MZ), dtype=np.float64)
+feats, y = load_fish_oil_chroma_features("data/fish_oil")
+idx = int(np.where(y == 3)[0][0])  # a Blue Cod sample (most abundant species)
+chroma = feats["chroma_flat"][idx].reshape(200, 1000)  # [RT bin, m/z bin]
 
-# Place ~45 compounds, each with a Gaussian RT profile and sparse mass spectrum
-N_COMPOUNDS = 90
-for _ in range(N_COMPOUNDS):
-    rt_c   = rng.uniform(0.04, 0.96) * N_RT          # RT centre (bins)
-    rt_sig = rng.uniform(2.5, 5.0)                    # narrow enough for isolated peaks
-    amp    = rng.exponential(0.35) + 0.05
-    amp    = min(amp, 1.0)
-
-    # 1–4 sparse fragment ions — keeps peaks narrow and isolated in m/z
-    mz_base = rng.uniform(0.05, 0.90) * N_MZ
-    n_frags  = rng.integers(1, 5)
-    frag_mz  = np.clip(
-        mz_base + rng.normal(0, 10, n_frags),
-        0, N_MZ - 1
-    ).astype(int)
-    frag_int = rng.exponential(0.5, n_frags)
-    frag_int /= frag_int.max()
-
-    # Gaussian RT envelope
-    rt_idx = np.arange(N_RT)
-    envelope = np.exp(-0.5 * ((rt_idx - rt_c) / rt_sig) ** 2)
-
-    for j, mz_i in enumerate(frag_mz):
-        Z[:, mz_i] += envelope * amp * frag_int[j]
-
-# Normalise and clip
-Z = np.clip(Z / Z.max(), 0, 1)
+rt_full = np.linspace(5.0, 45.0, 200)
+rt_mask = (rt_full >= RT_LO) & (rt_full <= RT_HI)
+rt_vals = rt_full[rt_mask]
+mz_vals = np.arange(MZ_LO, MZ_HI + 1)
+Z = chroma[rt_mask][:, MZ_LO:MZ_HI + 1]
+Z = Z / Z.max()
 
 # ── Wall projections ─────────────────────────────────────────────────────────
-from scipy.ndimage import gaussian_filter1d
-proj_rt = Z.sum(axis=1)     # TIC: sum of intensities across m/z at each RT bin
-proj_mz = Z.sum(axis=0)     # sum spectrum: sum of intensities across RT at each m/z bin
-
-# Light smoothing on RT projection so it looks like a clean chromatogram trace
-proj_rt = gaussian_filter1d(proj_rt, sigma=1.5)
-proj_mz = gaussian_filter1d(proj_mz, sigma=1.0)
-
-z_max   = Z.max()
+proj_rt = gaussian_filter1d(Z.sum(axis=1), sigma=1.0)   # TIC: sum over m/z per RT bin
+proj_mz = gaussian_filter1d(Z.sum(axis=0), sigma=1.0)   # sum spectrum: sum over RT per m/z bin
+z_max = Z.max()
 proj_rt = proj_rt / proj_rt.max() * z_max * 0.88
 proj_mz = proj_mz / proj_mz.max() * z_max * 0.88
 
-# ── Downsample ────────────────────────────────────────────────────────────────
-S_RT, S_MZ = 1, 1
-rt_s = rt_vals[::S_RT]
-mz_s = mz_vals[::S_MZ]
-Z_s  = Z[::S_RT, ::S_MZ]
-
-# X = RT (left/depth axis, like original), Y = m/z (front/bottom axis, like original)
-# meshgrid(rt_s, mz_s) → RT_grid[i,j]=rt_s[j], MZ_grid[i,j]=mz_s[i]
-# Z_s.T[i,j] = Z_s[j,i] = value at rt_s[j], mz_s[i]  ✓
-RT_grid, MZ_grid = np.meshgrid(rt_s, mz_s)
+# X = RT (left/depth axis), Y = m/z (front/bottom axis)
+RT_grid, MZ_grid = np.meshgrid(rt_vals, mz_vals)
 
 # ── Figure ────────────────────────────────────────────────────────────────────
 fig = plt.figure(figsize=(10, 8), dpi=300)
-ax  = fig.add_subplot(111, projection="3d")
+ax = fig.add_subplot(111, projection="3d")
 
 ax.xaxis.pane.fill = False
 ax.yaxis.pane.fill = False
@@ -95,29 +67,19 @@ ax.zaxis.pane.set_edgecolor("none")
 ax.zaxis.line.set_color((1, 1, 1, 0))
 ax.set_zticks([])
 
-# ── Surface ───────────────────────────────────────────────────────────────────
 FACE = "#5b9bd5"
 EDGE = "#4a8ac4"
 
 ax.plot_surface(
-    RT_grid, MZ_grid, Z_s.T,   # X=RT, Y=m/z; Z transposed to match
-    color=FACE,
-    edgecolor=EDGE,
-    linewidth=0.15,
-    alpha=0.92,
-    shade=True,
-    rstride=1,
-    cstride=1,
+    RT_grid, MZ_grid, Z.T,
+    color=FACE, edgecolor=EDGE, linewidth=0.15, alpha=0.92, shade=True,
+    rstride=1, cstride=1,
 )
 
-# ── Wall projections ─────────────────────────────────────────────────────────
-# Chromatogram (RT profile) — far m/z wall (Y=MZ_HI=450), traces in X-Z plane
-# Shown in red: represents the max-projection / TIC along the RT axis
+# Shown in red: TIC (sum over m/z), at the far m/z wall.
 ax.plot(rt_vals, proj_rt, zs=MZ_HI, zdir="y",
         color="#d62728", linewidth=1.1, alpha=0.95, zorder=10)
-
-# Mass spectrum — near RT wall (X=RT_LO=18.3), traces in Y-Z plane
-# Shown in blue-grey: represents the sum-spectrum / max-projection along RT
+# Shown in green: sum spectrum (sum over RT), at the near RT wall.
 ax.plot(mz_vals, proj_mz, zs=RT_LO, zdir="x",
         color="#2ca02c", linewidth=1.1, alpha=0.95, zorder=10)
 
@@ -126,9 +88,16 @@ ax.set_xlim(RT_LO, RT_HI)
 ax.set_ylim(MZ_LO, MZ_HI)
 ax.set_zlim(0, z_max * 1.08)
 
-ax.set_xlabel("RT, min",  fontsize=11, labelpad=10)
-ax.set_ylabel("m/z",      fontsize=11, labelpad=10)
-ax.tick_params(axis="both", labelsize=8)
+# Ticks kept strictly inside the axis limits (not at RT_LO/MZ_LO) so the two
+# axes' tick labels don't collide where they'd otherwise sit on top of each
+# other at the shared front corner of the plot.
+ax.set_xticks([37, 39, 41, 43, 45])
+ax.set_yticks([100, 200, 300, 400, 500])
+
+ax.set_xlabel("RT, min", fontsize=FS_LABEL + 2, labelpad=14)
+ax.set_ylabel("m/z", fontsize=FS_LABEL + 2, labelpad=14)
+ax.tick_params(axis="x", labelsize=FS_TICK + 1, pad=2)
+ax.tick_params(axis="y", labelsize=FS_TICK + 1, pad=6)
 
 ax.view_init(elev=28, azim=-52)
 
@@ -136,4 +105,8 @@ plt.subplots_adjust(left=0.0, right=1.0, top=1.0, bottom=0.05)
 plt.savefig("figs/gc-ms.png",
             bbox_inches="tight", pad_inches=0.15,
             dpi=300, transparent=True)
-print("Saved figs/gc-ms.png")
+plt.savefig("figs/gc-ms.pdf", bbox_inches="tight", pad_inches=0.15)
+plt.close(fig)
+crop_to_content("figs/gc-ms.png")
+crop_pdf_to_content("figs/gc-ms.pdf")
+print("Saved figs/gc-ms.png and figs/gc-ms.pdf")

@@ -83,10 +83,10 @@
       </figure>
     </div>
     <div class="stats" id="stats">
-      <div class="stat reveal"><div class="v num" data-count="0.857" data-count-key="pretrain_ba" data-dec="3">0.857</div><div class="k">balanced accuracy, pretrained ChromaDCNN (± <data data-key="pretrain_sd">0.094</data> over <data data-key="folds_n">50</data> folds)</div></div>
+      <div class="stat reveal"><div class="v num" data-count="0.857" data-count-key="pretrain_ba" data-dec="3">0.857</div><div class="k">balanced accuracy, pretrained ChromaDCNN (± <data data-key="pretrain_sd">0.117</data> over <data data-key="folds_n">50</data> folds)</div></div>
       <div class="stat reveal"><div class="v num"><span data-count="15.9" data-count-key="gain_best_pp" data-dec="1" data-prefix="+">+15.9</span><small>pp</small></div><div class="k">over the best classical baseline (SVM on chroma-PCA, <data data-key="best_baseline_ba">0.698</data>)</div></div>
-      <div class="stat reveal"><div class="v num"><span data-count="25.1" data-count-key="gain_scratch_pp" data-dec="1" data-prefix="+">+25.1</span><small>pp</small></div><div class="k">from synthetic pretraining (same network from scratch: <data data-key="scratch_ba">0.605</data>)</div></div>
-      <div class="stat reveal"><div class="v num" data-count="9553" data-count-key="spectra" data-dec="0">9,553</div><div class="k">public reference spectra behind pretraining. No fish data involved.</div></div>
+      <div class="stat reveal"><div class="v num"><span data-count="27.2" data-count-key="gain_scratch_pp" data-dec="1" data-prefix="+">+27.2</span><small>pp</small></div><div class="k">from synthetic pretraining (same network from scratch: <data data-key="scratch_ba">0.585</data>)</div></div>
+      <div class="stat reveal"><div class="v num" data-count="9908" data-count-key="spectra" data-dec="0">9,908</div><div class="k">public reference spectra behind pretraining. No fish data involved.</div></div>
     </div>
   </div>
 </header>
@@ -140,7 +140,7 @@
     <div class="step">
       <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M4 36c6 0 7-18 10-18s4 18 7 18 4-26 6-26 4 26 7 26 3-8 6-8" fill="none" stroke="var(--GUR)" stroke-width="2.5" stroke-linecap="round"/></svg>
       <h4>Synthesise</h4>
-      <p><data data-key="spectra_text">9,553</data> electron-ionisation spectra from MoNA and MassBank are mixed into synthetic chromatograms: 5–30 compounds per run,
+      <p><data data-key="spectra_text">9,908</data> electron-ionisation spectra from MoNA and MassBank are mixed into synthetic chromatograms: 5–30 compounds per run,
         each eluting as a Gaussian peak of random position and width.</p>
     </div>
     <div class="step">
@@ -235,8 +235,8 @@
 <section class="chapter" id="pretraining">
   <div class="chapter-head reveal">
     <div class="kicker">04 — PRETRAINING</div>
-    <h2>Synthetic pretraining adds <data data-key="gain_scratch_points">25</data> points</h2>
-    <p class="intro">The same network trained from random initialisation reaches only <data data-key="scratch_ba">0.605</data>. Both conditions use identical
+    <h2>Synthetic pretraining adds <data data-key="gain_scratch_points">27</data> points</h2>
+    <p class="intro">The same network trained from random initialisation reaches only <data data-key="scratch_ba">0.585</data>. Both conditions use identical
       seeds and folds, so every fold can be compared directly.</p>
   </div>
   <div class="grid-2">
@@ -253,7 +253,7 @@
       <div class="card-head"><h3>Distribution over 50 folds</h3></div>
       <div class="chart" id="pretrain-dist"></div>
       <div class="kpis" id="pretrain-kpis"></div>
-      <p class="caption">From scratch is also far less stable: SD <data data-key="scratch_sd">0.146</data> against <data data-key="pretrain_sd">0.094</data> pretrained.</p>
+      <p class="caption">From scratch is also far less stable: SD <data data-key="scratch_sd">0.165</data> against <data data-key="pretrain_sd">0.117</data> pretrained.</p>
     </div>
   </div>
 </section>
@@ -279,7 +279,7 @@
         <div class="xlab"><span><i>m/z</i> 50</span><span>450</span></div>
       </div>
       <div class="kpis" style="grid-template-columns:1fr 1fr">
-        <div class="kpi"><div class="v num" id="abl-acc"><data data-key="ablation_2d_ba">0.594</data></div><div class="k" id="abl-acc-k">balanced accuracy, 2D input (from scratch)</div></div>
+        <div class="kpi"><div class="v num" id="abl-acc"><data data-key="ablation_2d_ba">0.593</data></div><div class="k" id="abl-acc-k">balanced accuracy, 2D input (from scratch)</div></div>
         <div class="kpi"><div class="v num" id="abl-delta">—</div><div class="k">change when RT is removed</div></div>
       </div>
     </div>
@@ -289,7 +289,7 @@
       <div class="legend" id="ablation-legend"></div>
       <div class="callout"><p>Without RT, ChromaDCNN falls to the level of classical models on the summed spectrum
         (PLS-DA: <data data-key="plsda_sum_ba">0.429</data>, dashed). Its advantage comes from <strong>when</strong> compounds elute, not just <strong>which</strong> ions appear.
-        Mann–Whitney p = <data data-key="ablation_p_mantissa">2.0</data> × 10<sup><data data-key="ablation_p_exponent">−7</data></sup>, |r| = <data data-key="ablation_abs_r">0.60</data>.</p></div>
+        Mann–Whitney p = <data data-key="ablation_p_mantissa">4.8</data> × 10<sup><data data-key="ablation_p_exponent">−8</data></sup>, |r| = <data data-key="ablation_abs_r">0.63</data>.</p></div>
     </div>
   </div>
 </section>

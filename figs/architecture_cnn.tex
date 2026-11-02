@@ -38,9 +38,9 @@
       fill=white, rounded corners=3pt] (gcms) at (-7.0,0,0)
     {\includegraphics[width=5cm,height=5cm]{/Users/woodj/Desktop/chroma-dcnn/figs/gc-ms.png}};
 
-\node[font=\small\bfseries, above=3mm of gcms.north, align=center]
+\node[font=\normalsize\bfseries, above=3mm of gcms.north, align=center]
     {GC-MS Chromatogram};
-\node[font=\scriptsize, below=4mm of gcms.south]
+\node[font=\footnotesize, below=4mm of gcms.south]
     {$200\,\text{RT bins} \times 1000\,m/z$};
 
 \pic[shift={(2,0,0)}] at (0,0,0) 
@@ -55,7 +55,7 @@
         depth=10
         }
     };
-\draw [connection] (gcms.east) -- node {\midarrow} (proj-west);\node[font=\scriptsize, below=12pt] at (proj-south)
+\draw [connection] (gcms.east) -- node {\midarrow} (proj-west);\node[font=\footnotesize, below=12pt] at (proj-south)
     {$200 \times 128$};
 \def\ConvColor{\ResColor}
 \def\ConvReluColor{\ResColorBand}
@@ -75,7 +75,7 @@
     };
 
 \draw [connection]  (proj-east)    -- node {\midarrow} (res1-west);
-\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res1-south) {RF\,=\,13};
+\node[font=\footnotesize, below=12pt] at ([xshift=-5pt]res1-south) {RF\,=\,13};
 \pic[shift={ (2.5,0,0) }] at (res1-east) 
     {RightBandedBox={
         name=res2,
@@ -91,7 +91,7 @@
     };
 
 \draw [connection]  (res1-east)    -- node {\midarrow} (res2-west);
-\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res2-south) {RF\,=\,37};
+\node[font=\footnotesize, below=12pt] at ([xshift=-5pt]res2-south) {RF\,=\,37};
 \pic[shift={ (2.5,0,0) }] at (res2-east) 
     {RightBandedBox={
         name=res3,
@@ -107,7 +107,7 @@
     };
 
 \draw [connection]  (res2-east)    -- node {\midarrow} (res3-west);
-\node[font=\scriptsize, below=12pt] at ([xshift=-5pt]res3-south) {RF\,=\,85};
+\node[font=\footnotesize, below=12pt] at ([xshift=-5pt]res3-south) {RF\,=\,85};
 \def\ConvColor{rgb:yellow,5;red,2.5;white,5}
 \def\ConvReluColor{rgb:yellow,5;red,5;white,5}
 
@@ -122,7 +122,7 @@
         depth=10
         }
     };
-\node[font=\scriptsize, above=2pt] at (maxpool-north) {$[128]$};
+\node[font=\footnotesize, above=2pt] at (maxpool-north) {$[128]$};
 \pic[shift={(3.0,-4,0)}] at (res3-east)
     {Box={
         name=attnpool,
@@ -133,7 +133,7 @@
         width=2,
         depth=10
     }};
-\node[font=\scriptsize, below=2pt] at (attnpool-south) {$[128]$};
+\node[font=\footnotesize, below=2pt] at (attnpool-south) {$[128]$};
 
 \draw [connection]
     (res3-east) -- ++(1.5,0,0) |- node[above,sloped,pos=0.75]{\midarrow} (maxpool-west);
@@ -150,8 +150,8 @@
         }
     };
 
-\node[font=\small\bfseries, above=3mm] at (cat-north) {concat};
-\node[font=\scriptsize,     below=4mm] at (cat-south)  {\textbf{[256]}};
+\node[font=\normalsize\bfseries, above=3mm] at (cat-north) {concat};
+\node[font=\footnotesize,     below=4mm] at (cat-south)  {\textbf{[256]}};
 
 \draw [connection]
     (maxpool-east) -| node[above,sloped,pos=0.3]{\midarrow} (cat-north);
@@ -173,7 +173,7 @@
     };
 
 \draw [connection]  (cat-east)    -- node {\midarrow} (fc-west);
-\node[font=\small\bfseries, right=4mm] at (fc-east)
+\node[font=\normalsize\bfseries, right=4mm] at (fc-east)
     {\begin{tabular}{l}SNA\\GUR\\TAR\\BCO\end{tabular}};
 \end{tikzpicture}
 \end{document}

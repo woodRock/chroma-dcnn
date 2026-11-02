@@ -5,20 +5,20 @@
   "label": "Gains in balanced accuracy (percentage points)",
   "source": {
     "path": "results/fish_oil/main_table.csv",
-    "hash": "sha256:d00dd0845abf73c5945a3b411956d278847346e54c13a7ceecb4eaffa5271cf1"
+    "hash": "sha256:842613b56cc91375b99344d9e2f72e61e968a35f8fb4c88298baa42fddd3afad"
   },
   "metrics": {
     "pretrain-vs-scratch": {
-      "points": 25.147727272727273
+      "points": 27.19318181818182
     },
     "pretrain-vs-best-baseline": {
-      "points": 15.867424242424244
+      "points": 15.852272727272732
     },
     "ablation-rt-drop": {
-      "points": 20.287878787878793
+      "points": 20.82954545454546
     },
     "ablation-1d-vs-2d": {
-      "points": -20.287878787878793
+      "points": -20.82954545454546
     },
     "plsda-chromapca-vs-sum": {
       "points": 26.24242424242426

@@ -36,8 +36,8 @@ decimals = 1
 # Figures, copied from figs/ (compared by content).
 [artifacts.gc_ms]
 kind = "figure"
-output = "generated/gc-ms.png"
-source = "figs/gc-ms.png"
+output = "generated/gc-ms.pdf"
+source = "figs/gc-ms.pdf"
 made_by = "figs/generate_gcms_3d.py"
 
 [artifacts.architecture]
@@ -48,23 +48,48 @@ made_by = "figs/plot_architecture.py"
 
 [artifacts.synthetic_dataset]
 kind = "figure"
-output = "generated/synthetic-dataset.png"
-source = "figs/synthetic-dataset.png"
-# no script in the repo makes it
+output = "generated/synthetic-dataset.pdf"
+source = "figs/synthetic-dataset.pdf"
+made_by = "figs/generate_synthetic_dataset.py"
+
+[artifacts.pipeline]
+kind = "figure"
+output = "generated/pipeline.pdf"
+source = "figs/pipeline.pdf"
+made_by = "figs/generate_pipeline.py"
+
+[artifacts.input_representations]
+kind = "figure"
+output = "generated/input-representations.pdf"
+source = "figs/input-representations.pdf"
+made_by = "figs/generate_input_representations.py"
 
 [artifacts.saliency_3d]
+kind = "figure"
+output = "generated/saliency-3d.pdf"
+source = "figs/saliency-3d.pdf"
+made_by = "scripts/11_saliency.py"
+# a82b7a6 only reordered an import (ruff lint fix); `taura diff` confirmed identical output
+checked_against = "sha256:962f38d45217a5fb17e677f0657c44bf9cfa952e5137f120394e32cbe282d766"
+
+[artifacts.saliency_1d]
+kind = "figure"
+output = "generated/saliency-1d.pdf"
+source = "figs/saliency-1d.pdf"
+made_by = "scripts/11_saliency.py"
+# a82b7a6 only reordered an import (ruff lint fix); `taura diff` confirmed identical output
+checked_against = "sha256:962f38d45217a5fb17e677f0657c44bf9cfa952e5137f120394e32cbe282d766"
+
+# Raster fallback for make_word_copy.sh (figs/saliency-3d.pdf is ~470k vector
+# path segments, which crashes Word's PDF importer -- see paper repo
+# make_word_copy.sh).
+[artifacts.saliency_3d_png]
 kind = "figure"
 output = "generated/saliency-3d.png"
 source = "figs/saliency-3d.png"
 made_by = "scripts/11_saliency.py"
-
-[artifacts.saliency_1d]
-kind = "figure"
-output = "generated/saliency-1d.png"
-source = "figs/saliency-1d.png"
-made_by = "scripts/11_saliency.py"
-# 3a9da65 changed only the 3D figure's labels and title (fig. 4); the 1D marginals are unaffected
-checked_against = "sha256:e8a9217afefc0fa112d3ec3fa31a5ce09cf0dcbc257bfeafe518db993173cd64"
+# a82b7a6 only reordered an import (ruff lint fix); `taura diff` confirmed identical output
+checked_against = "sha256:962f38d45217a5fb17e677f0657c44bf9cfa952e5137f120394e32cbe282d766"
 
 [format."saliency/mz-profile-corr/min"]   # "r >= 0.99": a lower bound, rounded down
 decimals = 2
@@ -80,12 +105,16 @@ decimals = 0
 [format."pretraining/wall-minutes"]   # "about 13 minutes"
 decimals = 0
 
+[format."pretraining/spectra"]        # "about 9,908 reference mass spectra"
+thousands = true
+
 [format."pretraining/final-mse"]      # 3.37 \times 10^{-4}
 sci = true
 decimals = 2
 
 [format."scratch-comparisons/*/p-bonf"]
-decimals = 2
+sci = true
+decimals = 1
 
 # How the paper prints each number (checked by `taura check`: adopt-mismatch).
 [format."gains/*/points"]          # percentage points: +25.1
