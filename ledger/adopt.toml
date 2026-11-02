@@ -100,6 +100,17 @@ by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
+[decisions.0abe202707]
+file = "response/revision-1.tex"
+literal = "55\\%"
+context = "valuated on six fish from four species, 55\\% of samples are Blue Cod, and it uses ab"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:31+13:00"
+result_hash = ""
+
 [decisions.0ae5208fb4]
 file = "TAI_template.tex"
 literal = "70"
@@ -109,6 +120,17 @@ key = ""
 reason = "70 eV is the standard EI ionisation energy used to filter the spectra."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
+
+[decisions.0b9fc4282e]
+file = "response/revision-1.tex"
+literal = "999"
+context = "he same 1000-bin integer $m/z$ grid (0--999) used for the fish data, whose observed"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:24+13:00"
 result_hash = ""
 
 [decisions.0d748d6a51]
@@ -131,6 +153,17 @@ key = ""
 reason = "Lower bound of K ~ Uniform{5,...,30}. A generator hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
+
+[decisions.0ea785bdcc]
+file = "response/revision-1.tex"
+literal = "2026"
+context = "older that reads \"Vol.~00, No.~0, Month 2026\" until the journal fills in the actual"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:33+13:00"
 result_hash = ""
 
 [decisions.0fce0b6092]
@@ -166,6 +199,17 @@ by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
+[decisions.143c66eb80]
+file = "response/revision-1.tex"
+literal = "200"
+context = "is then L2-normalised, giving a matrix. 200 \\ensuremath{\\times} 1000 Sum spectrum."
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:26+13:00"
+result_hash = ""
+
 [decisions.150e7a6dda]
 file = "TAI_template.tex"
 literal = "-3"
@@ -188,6 +232,28 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
+[decisions.17bb5a3e09]
+file = "response/revision-1.tex"
+literal = "0.603"
+context = "etraining raises balanced accuracy from 0.603 to 0.854 (Section VI-A). ChromaDCNN, a"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:58+13:00"
+result_hash = ""
+
+[decisions.1aefcfd289]
+file = "response/revision-1.tex"
+literal = "200"
+context = "0◦C at 10◦C min\\ensuremath{-}1, then to 200◦C at 0.5◦C min\\ensuremath{-}1, then to"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:28+13:00"
+result_hash = ""
+
 [decisions.1c118b0628]
 file = "TAI_template.tex"
 literal = "200"
@@ -208,6 +274,28 @@ key = ""
 reason = "'below 0.40 on every representation' is a rounded upper bound across all representations, not the max-projection mean alone."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
+
+[decisions.1c51a4e700]
+file = "response/revision-1.tex"
+literal = "190"
+context = "oven temperature was ramped from 90 to 190◦C at 10◦C min\\ensuremath{-}1, then to 2"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:28+13:00"
+result_hash = ""
+
+[decisions.1cd9732c67]
+file = "response/revision-1.tex"
+literal = "139{,}240"
+context = "{,}136 raw MoNA records and 12{,}708 of 139{,}240 raw MassBank records. Second, we remove"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:24+13:00"
 result_hash = ""
 
 [decisions.1ce4eec30a]
@@ -263,6 +351,17 @@ key = ""
 reason = "Day of the submission date 'May 28, 2026'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
+
+[decisions.204a186f44]
+file = "response/revision-1.tex"
+literal = "543"
+context = "h data, whose observed signal spans 50--543: each peak's $m/z$ value is rounded to"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:24+13:00"
 result_hash = ""
 
 [decisions.2128974915]
@@ -408,6 +507,28 @@ by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
+[decisions.2cb14a56cf]
+file = "response/revision-1.tex"
+literal = "103"
+context = "no fish data; the bottom row covers the 103 fish samples, the 10-seed $\\times$ 5-fo"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:25+13:00"
+result_hash = ""
+
+[decisions.2d56abe46f]
+file = "response/revision-1.tex"
+literal = "30\\%"
+context = "n average misdescription rate of around 30\\%, with high-value species replaced by ch"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:13+13:00"
+result_hash = ""
+
 [decisions.2db31fadcb]
 file = "TAI_template.tex"
 literal = "200"
@@ -439,6 +560,17 @@ key = ""
 reason = "25,600 is the projected size (200 × 128) worked out from settings, not an experimental result."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
+
+[decisions.2f576056ec]
+file = "response/revision-1.tex"
+literal = "17{,}380"
+context = "}240 raw MassBank records, kept down to 17{,}380 and 12{,}708 respectively after the EI"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:22+13:00"
 result_hash = ""
 
 [decisions.2f7f7d07dc]
@@ -484,6 +616,17 @@ reason = "The 200 equal RT windows are the model's n_bins setting."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
+
+[decisions.3195539291]
+file = "response/revision-1.tex"
+literal = "200"
+context = "Replace with \"e.g.  200\\ensuremath{^\\circ}ø1000 after preproces"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:15+13:00"
+result_hash = ""
 
 [decisions.319fcaccae]
 file = "TAI_template.tex"
@@ -562,6 +705,17 @@ by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
 result_hash = ""
 
+[decisions.37c69c76ed]
+file = "response/revision-1.tex"
+literal = "2026"
+context = "Regarding ``2026'':\\\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:33+13:00"
+result_hash = ""
+
 [decisions.380fbe88a9]
 file = "TAI_template.tex"
 literal = "-4"
@@ -594,6 +748,17 @@ reason = "Spread across folds and seeds after pretraining: the pretrained Chroma
 by = "claude"
 decided = "2026-10-19T23:17:41+13:00"
 result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
+
+[decisions.3903d2862e]
+file = "response/revision-1.tex"
+literal = "200"
+context = "assume the same 1000-bin $m/z$ grid and 200 retention-time bins as our preprocessin"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:32+13:00"
+result_hash = ""
 
 [decisions.399cd3bcf1]
 file = "TAI_template.tex"
@@ -683,6 +848,17 @@ by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
+[decisions.3f9e7a53e0]
+file = "response/revision-1.tex"
+literal = "12{,}708"
+context = "{,}380 of 19{,}136 raw MoNA records and 12{,}708 of 139{,}240 raw MassBank records. Seco"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:23+13:00"
+result_hash = ""
+
 [decisions.41416973c8]
 file = "TAI_template.tex"
 literal = "100{,}000"
@@ -716,6 +892,17 @@ by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
+[decisions.42ab5d5cd8]
+file = "response/revision-1.tex"
+literal = "2026"
+context = "e and will read \"Vol 01, No. 1 November 2026\" if we submitted now."
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:33+13:00"
+result_hash = ""
+
 [decisions.435c8f9949]
 file = "TAI_template.tex"
 literal = "1.0 \\times 10^{-7}"
@@ -737,6 +924,17 @@ reason = "'exceeds all twelve classical baselines by at least 15.6 percentage po
 by = "claude"
 decided = "2026-10-19T23:15:45+13:00"
 result_hash = "sha256:ebf0c8ad216db9eaacd8d9d4f43087f09759e80894eeec4871bf41f6b40749f6"
+
+[decisions.43b785782e]
+file = "response/revision-1.tex"
+literal = "200"
+context = "Regarding ``after our preprocessing) 200 \\ensuremath{\\times} 1000'':\\\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:15+13:00"
+result_hash = ""
 
 [decisions.4419a71358]
 file = "TAI_template.tex"
@@ -815,6 +1013,28 @@ by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
+[decisions.48ae445345]
+file = "response/revision-1.tex"
+literal = "200"
+context = "The maximum of each bin over m/z • the 200 RT bins. Chroma-PCA. The 2D chromatogra"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:26+13:00"
+result_hash = ""
+
+[decisions.49035a752d]
+file = "response/revision-1.tex"
+literal = "200"
+context = "ap this high-dimensional matrix (e.g., $200 \\times 1000$ after preprocessing in our"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:17+13:00"
+result_hash = ""
+
 [decisions.4a2a57ba1e]
 file = "TAI_template.tex"
 literal = "256"
@@ -837,6 +1057,17 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
+[decisions.4b5fbc15e4]
+file = "response/revision-1.tex"
+literal = "200"
+context = "ction (second paragraph) to read \"e.g., 200 \\ensuremath{\\times} 1000 after preproce"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:16+13:00"
+result_hash = ""
+
 [decisions.4b9ae02326]
 file = "TAI_template.tex"
 literal = "24"
@@ -846,6 +1077,28 @@ key = ""
 reason = "'M'24' is the year of an IEEE membership grade in the author biography."
 by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
+result_hash = ""
+
+[decisions.4c9b9b0bc2]
+file = "TAI_template.tex"
+literal = "40\\%"
+context = "ion}_i = 85$ retention-time bins, about 40\\% of the retention-time axis. Section~\\re"
+verdict = "not-a-result"
+key = ""
+reason = "derived arithmetic (85/200 retention-time bins ~= 40%), not a tracked result; coincidentally matches several unrelated accuracy metrics"
+by = "claude"
+decided = "2026-11-02T21:12:33+13:00"
+result_hash = ""
+
+[decisions.4db773a403]
+file = "response/revision-1.tex"
+literal = "230"
+context = "to-detector interface were both held at 230◦C. Individual FAME peaks were assigned"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:29+13:00"
 result_hash = ""
 
 [decisions.4e0c3076bb]
@@ -925,6 +1178,17 @@ by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
 result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
 
+[decisions.528956c048]
+file = "response/revision-1.tex"
+literal = "200"
+context = "liency results, both are on the coarser 200-bin retention-time grid the rest of the"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:32+13:00"
+result_hash = ""
+
 [decisions.52e11f5fae]
 file = "TAI_template.tex"
 literal = "40\\%"
@@ -945,6 +1209,17 @@ key = ""
 reason = "The 1 is the lower bound of the PLS-DA latent-variable search range."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
+
+[decisions.5504a6efa8]
+file = "response/revision-1.tex"
+literal = "200"
+context = "hromaDCNN). The RT axis is divided into 200 equal windows of about 24 scans, and th"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:25+13:00"
 result_hash = ""
 
 [decisions.55c8e4e227]
@@ -979,6 +1254,17 @@ reason = "0.854 is the balanced accuracy after pretraining on synthetic chromato
 by = "claude"
 decided = "2026-10-19T23:18:08+13:00"
 result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
+
+[decisions.57ca2e85bb]
+file = "response/revision-1.tex"
+literal = "12{,}708"
+context = "Bank records, kept down to 17{,}380 and 12{,}708 respectively after the EI filter) and t"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:22+13:00"
+result_hash = ""
 
 [decisions.57db4f5a83]
 file = "TAI_template.tex"
@@ -1024,6 +1310,17 @@ by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
 result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
+[decisions.5cc54b3df3]
+file = "response/revision-1.tex"
+literal = "100"
+context = "ensuremath{-}1, and finally to 320◦C at 100◦C min\\ensuremath{-}1, held for 4 min to"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:29+13:00"
+result_hash = ""
+
 [decisions.5ce1879baa]
 file = "TAI_template.tex"
 literal = "0.429"
@@ -1067,6 +1364,17 @@ reason = "12 is the low end of the 18--22-minute band range (12--14%) across spe
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
 result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
+
+[decisions.5eb2e4fca9]
+file = "response/revision-1.tex"
+literal = "543"
+context = "4 noncontiguous channels between 50 and 543. m/z'':\\\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:30+13:00"
+result_hash = ""
 
 [decisions.5ed6ffe131]
 file = "TAI_template.tex"
@@ -1167,6 +1475,17 @@ by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
+[decisions.645a957672]
+file = "response/revision-1.tex"
+literal = "256"
+context = "max- and attention-pooled vector ($2d = 256$) to $C$ logits, and a softmax over the"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:20+13:00"
+result_hash = ""
+
 [decisions.680b4f6ca3]
 file = "TAI_template.tex"
 literal = "20.5"
@@ -1200,6 +1519,17 @@ by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
 result_hash = ""
 
+[decisions.6cc66ab8af]
+file = "response/revision-1.tex"
+literal = "30\\%"
+context = "nes, so the citation now backs only the 30\\% figure."
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:15+13:00"
+result_hash = ""
+
 [decisions.6dd9f10058]
 file = "TAI_template.tex"
 literal = "30\\%"
@@ -1220,6 +1550,28 @@ key = ""
 reason = "The 1 is a constant in the rank-biserial formula |1 - 2U/(n1 n2)|."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
+
+[decisions.6f3e77ba80]
+file = "response/revision-1.tex"
+literal = "1000"
+context = "ment; it does, however, assume the same 1000-bin $m/z$ grid and 200 retention-time b"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:32+13:00"
+result_hash = ""
+
+[decisions.70ab4b1202]
+file = "response/revision-1.tex"
+literal = "100\\%"
+context = "the submitted manuscript was, in fact, 100\\% MoNA with no MassBank contribution, des"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:22+13:00"
 result_hash = ""
 
 [decisions.737d9deb33]
@@ -1431,6 +1783,17 @@ by = "claude"
 decided = "2026-10-19T23:17:02+13:00"
 result_hash = ""
 
+[decisions.7d7680f44f]
+file = "response/revision-1.tex"
+literal = "30\\%"
+context = "Does reference 1 show the number of 30\\%? We need to make sure that the number h"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:14+13:00"
+result_hash = ""
+
 [decisions.7ddf699b15]
 file = "TAI_template.tex"
 literal = "1000"
@@ -1462,6 +1825,17 @@ key = ""
 reason = "'2.5 mL of 10:1 methanol:HCl' is a lab reagent volume."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
+
+[decisions.80ab69761d]
+file = "response/revision-1.tex"
+literal = "1.000"
+context = "m spectrum 0.369 \\ensuremath{\\pm} 0.125 1.000 < 0.001'':\\\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:31+13:00"
 result_hash = ""
 
 [decisions.81cc17eebf]
@@ -1517,6 +1891,28 @@ key = ""
 reason = "Pretraining batch size ('batch of 16'), a hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
+
+[decisions.86a3055085]
+file = "response/revision-1.tex"
+literal = "0.159"
+context = "3 MLP chroma-PCA 0.377 \\ensuremath{\\pm} 0.159 1.000 < 0.001 14 MLP sum spectrum 0.369"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:59+13:00"
+result_hash = ""
+
+[decisions.887581eafe]
+file = "response/revision-1.tex"
+literal = "2016"
+context = "tbf{Response.} We checked Pardo et al. (2016), the source cited for this claim: it r"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:14+13:00"
 result_hash = ""
 
 [decisions.88cce33c8a]
@@ -1585,6 +1981,17 @@ by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
 result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
+[decisions.8b2424433e]
+file = "response/revision-1.tex"
+literal = "1000"
+context = "ll RT scans, L2- • normalised, giving a 1000-dimensional vector. Max-projection. The"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:26+13:00"
+result_hash = ""
+
 [decisions.8b4d55e642]
 file = "TAI_template.tex"
 literal = "-1"
@@ -1607,6 +2014,17 @@ by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
 result_hash = ""
 
+[decisions.8c5c790eb8]
+file = "response/revision-1.tex"
+literal = "139{,}240"
+context = "nts at each step (19{,}136 raw MoNA and 139{,}240 raw MassBank records, kept down to 17{,"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:21+13:00"
+result_hash = ""
+
 [decisions.8e83facee5]
 file = "TAI_template.tex"
 literal = "1"
@@ -1616,6 +2034,17 @@ key = ""
 reason = "Dilation 1 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
+
+[decisions.8f35de8503]
+file = "response/revision-1.tex"
+literal = "9,500"
+context = "etic chro- • matograms built from about 9,500 public reference spectra and no fish da"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:18+13:00"
 result_hash = ""
 
 [decisions.8f43747555]
@@ -1684,6 +2113,17 @@ by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
+[decisions.92e3470290]
+file = "response/revision-1.tex"
+literal = "103"
+context = "r count stays small, which matters with 103 labelled samples. Finally, causal dilat"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:19+13:00"
+result_hash = ""
+
 [decisions.937db742d0]
 file = "TAI_template.tex"
 literal = "66"
@@ -1693,6 +2133,28 @@ key = ""
 reason = "'about 66 samples' is an approximate training-set size describing the data split, not a computed result."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
+
+[decisions.93e685eb5f]
+file = "response/revision-1.tex"
+literal = "1000"
+context = "h-dimensional matrix (e.g., $200 \\times 1000$ after preprocessing in our experiments"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:17+13:00"
+result_hash = ""
+
+[decisions.9448cd8e99]
+file = "response/revision-1.tex"
+literal = "250"
+context = "Splitless injections were performed at 250◦C. The carrier gas was helium (total fl"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:27+13:00"
 result_hash = ""
 
 [decisions.95ef9d9dcf]
@@ -1717,6 +2179,28 @@ by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
 result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
 
+[decisions.97d1cd62da]
+file = "response/revision-1.tex"
+literal = "1000"
+context = "preprocessing) 200 \\ensuremath{\\times} 1000'':\\\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:15+13:00"
+result_hash = ""
+
+[decisions.9991ae50af]
+file = "response/revision-1.tex"
+literal = "40\\%"
+context = "ion}_i = 85$ retention-time bins, about 40\\% of the retention-time axis. Section~III"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:20+13:00"
+result_hash = ""
+
 [decisions.99e6e74210]
 file = "TAI_template.tex"
 literal = "200"
@@ -1727,6 +2211,17 @@ reason = "The 200 in the 200 x 1000 matrix is the number of RT bins (n_bins)."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
+
+[decisions.9a179594ab]
+file = "response/revision-1.tex"
+literal = "0.001"
+context = "CA 0.377 \\ensuremath{\\pm} 0.159 1.000 < 0.001 14 MLP sum spectrum 0.369 \\ensuremath{\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:30+13:00"
+result_hash = ""
 
 [decisions.9a34d3cb1f]
 file = "TAI_template.tex"
@@ -1772,6 +2267,17 @@ by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
+[decisions.9e991d79ad]
+file = "response/revision-1.tex"
+literal = "2023"
+context = "was elected an IEEE Fellow in December 2023). We also updated the dormant biography"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:13+13:00"
+result_hash = ""
+
 [decisions.a0477bf326]
 file = "TAI_template.tex"
 literal = "-1"
@@ -1803,6 +2309,17 @@ key = ""
 reason = "'4.5 mL of hexane' is a lab extraction volume."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
+
+[decisions.a14649491a]
+file = "response/revision-1.tex"
+literal = "999"
+context = "rest integer bin, with peaks outside 0--999 dropped and peaks that collide in the s"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:21+13:00"
 result_hash = ""
 
 [decisions.a1b52f150d]
@@ -1838,6 +2355,17 @@ by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
 result_hash = "sha256:b3ca72f8f9cbb557ead8d456141d233e0bd6b849bd0e9e610794c996bf3800cd"
 
+[decisions.a3422fc06a]
+file = "response/revision-1.tex"
+literal = "19{,}136"
+context = "so give the record counts at each step (19{,}136 raw MoNA and 139{,}240 raw MassBank rec"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:21+13:00"
+result_hash = ""
+
 [decisions.a4b58d9753]
 file = "TAI_template.tex"
 literal = "1365"
@@ -1847,6 +2375,17 @@ key = ""
 reason = "Street number in '1365 Springs Road'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
+
+[decisions.a4ee47e248]
+file = "response/revision-1.tex"
+literal = "200,000"
+context = "PCA. The 2D chromatogram flattened to • 200,000 values, standardised'':\\\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:27+13:00"
 result_hash = ""
 
 [decisions.a550ff394c]
@@ -1871,6 +2410,39 @@ by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
 result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
 
+[decisions.a6514573ea]
+file = "response/revision-1.tex"
+literal = "17{,}380"
+context = "eparate filter on that value. This kept 17{,}380 of 19{,}136 raw MoNA records and 12{,}7"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:23+13:00"
+result_hash = ""
+
+[decisions.a70cb2d7a8]
+file = "response/revision-1.tex"
+literal = "500"
+context = "Regarding ``,500 public reference mass spectra'':\\\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:58+13:00"
+result_hash = ""
+
+[decisions.a7c27ef047]
+file = "response/revision-1.tex"
+literal = "320"
+context = "2◦C min\\ensuremath{-}1, and finally to 320◦C at 100◦C min\\ensuremath{-}1, held for"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:28+13:00"
+result_hash = ""
+
 [decisions.a86e67cbb7]
 file = "TAI_template.tex"
 literal = "28"
@@ -1880,6 +2452,17 @@ key = ""
 reason = "28 is the upper bound of 'the 24--28-minute region', a retention-time range."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
+
+[decisions.aa4eed4c4e]
+file = "response/revision-1.tex"
+literal = "1000"
+context = "d each remaining spectrum onto the same 1000-bin integer $m/z$ grid (0--999) used fo"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:24+13:00"
 result_hash = ""
 
 [decisions.aa8b00e8e0]
@@ -1937,6 +2520,17 @@ by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
 result_hash = ""
 
+[decisions.ad15106640]
+file = "response/revision-1.tex"
+literal = "2026"
+context = "ial Intelligence, Vol. 00, No. 0, Month 2026} {Wood {\\textit{et al.}}: ChromaDCNN fo"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:33+13:00"
+result_hash = ""
+
 [decisions.ad27e76e49]
 file = "TAI_template.tex"
 literal = "0.1"
@@ -1959,6 +2553,28 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
+[decisions.adc50debaa]
+file = "response/revision-1.tex"
+literal = "344"
+context = "easurement has about 4,802 RT scans and 344 noncontiguous channels between 50 and 5"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:29+13:00"
+result_hash = ""
+
+[decisions.ade93251ef]
+file = "response/revision-1.tex"
+literal = "1000"
+context = "iving a matrix. 200 \\ensuremath{\\times} 1000 Sum spectrum. The sum over all RT scans"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:26+13:00"
+result_hash = ""
+
 [decisions.ae0dea4a16]
 file = "TAI_template.tex"
 literal = "4"
@@ -1979,6 +2595,17 @@ key = ""
 reason = "The receptive field of 85 bins is worked out by hand from the architecture, not from an experiment."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
+
+[decisions.aeb9845b71]
+file = "response/revision-1.tex"
+literal = "0.125"
+context = "MLP sum spectrum 0.369 \\ensuremath{\\pm} 0.125 1.000 < 0.001'':\\\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:11:00+13:00"
 result_hash = ""
 
 [decisions.af9654b13e]
@@ -2014,6 +2641,17 @@ by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
 result_hash = ""
 
+[decisions.b1e45bd395]
+file = "response/revision-1.tex"
+literal = "0.585"
+context = "etraining raises balanced accuracy from 0.585 to 0.857 (Section~VI-A).\\end{quote}"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:19+13:00"
+result_hash = ""
+
 [decisions.b250d142c1]
 file = "TAI_template.tex"
 literal = "2"
@@ -2047,6 +2685,17 @@ by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
 result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
+[decisions.b7239fd9b4]
+file = "response/revision-1.tex"
+literal = "543"
+context = "a (retention time 36--45~min, $m/z$ 50--543, the instrument's observed range) rathe"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:19+13:00"
+result_hash = ""
+
 [decisions.b72983594e]
 file = "TAI_template.tex"
 literal = "6\\%"
@@ -2067,6 +2716,17 @@ key = ""
 reason = "'10 seeds' in the caption is a protocol setting, and there is no settings- candidate for it."
 by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
+result_hash = ""
+
+[decisions.b991e6264a]
+file = "response/revision-1.tex"
+literal = "19{,}136"
+context = "er on that value. This kept 17{,}380 of 19{,}136 raw MoNA records and 12{,}708 of 139{,}"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:23+13:00"
 result_hash = ""
 
 [decisions.b9d6dd6c4a]
@@ -2100,6 +2760,17 @@ key = ""
 reason = "Blue Cod n=57 is a class sample count that describes the data."
 by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
+result_hash = ""
+
+[decisions.bf98d41eaf]
+file = "response/revision-1.tex"
+literal = "40\\%"
+context = "ote}\\small $ retention-time bins, about 40\\% of the retention-time axis.$\\end{quote}"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:17+13:00"
 result_hash = ""
 
 [decisions.c16d1c29ca]
@@ -2144,6 +2815,17 @@ key = ""
 reason = "The constant in 1/(T-1), part of the loss formula."
 by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
+result_hash = ""
+
+[decisions.c31e5c551f]
+file = "response/revision-1.tex"
+literal = "0.377"
+context = "Regarding ``13 MLP chroma-PCA 0.377 \\ensuremath{\\pm} 0.159 1.000 < 0.001 14"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:59+13:00"
 result_hash = ""
 
 [decisions.c35b962f84]
@@ -2201,6 +2883,28 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
+[decisions.c8c555c3bf]
+file = "response/revision-1.tex"
+literal = "2026"
+context = "he public records of MoNA~[6] (accessed 2026-05-28) and MassBank Europe~[7, 18], cho"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:23+13:00"
+result_hash = ""
+
+[decisions.c8c555c3bf-2]
+file = "response/revision-1.tex"
+literal = "2026"
+context = "he public records of MoNA~[6] (accessed 2026-05-28) and MassBank Europe~[7, 18], cho"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:25+13:00"
+result_hash = ""
+
 [decisions.c8f86e484d]
 file = "TAI_template.tex"
 literal = "45"
@@ -2232,6 +2936,17 @@ key = ""
 reason = "50 is the lower bound of the m/z range in a description of the data."
 by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
+result_hash = ""
+
+[decisions.ca27036d6f]
+file = "response/revision-1.tex"
+literal = "0.001"
+context = "um 0.369 \\ensuremath{\\pm} 0.125 1.000 < 0.001'':\\\\"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:31+13:00"
 result_hash = ""
 
 [decisions.caaddf9742]
@@ -2322,6 +3037,17 @@ by = "claude"
 decided = "2026-10-19T23:29:59+13:00"
 result_hash = ""
 
+[decisions.cea9c2ff40]
+file = "response/revision-1.tex"
+literal = "256"
+context = "algorithm: an MLP with hidden layers of 256 and 64 units (Section III-C). Its input"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:31+13:00"
+result_hash = ""
+
 [decisions.ceb543cbf2]
 file = "TAI_template.tex"
 literal = "10"
@@ -2354,6 +3080,17 @@ reason = "'r >= 0.99' is the lower bound of the pairwise m/z saliency profile co
 by = "claude"
 decided = "2026-10-19T23:42:41+13:00"
 result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
+
+[decisions.d1a62c30f8]
+file = "response/revision-1.tex"
+literal = "200"
+context = "\\begin{quote}\\small (e.g., $200 \\times 1000$ after preprocessing in our"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:16+13:00"
+result_hash = ""
 
 [decisions.d25a46805d]
 file = "TAI_template.tex"
@@ -2388,6 +3125,17 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
+[decisions.d590da90ba]
+file = "response/revision-1.tex"
+literal = "0.854"
+context = "raises balanced accuracy from 0.603 to 0.854 (Section VI-A). ChromaDCNN, a dilated c"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:18+13:00"
+result_hash = ""
+
 [decisions.d60936ea60]
 file = "TAI_template.tex"
 literal = "0.88"
@@ -2420,6 +3168,17 @@ reason = "Pretrained ChromaDCNN 'reaches 0.854' balanced accuracy."
 by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
 result_hash = "sha256:0272422fe8d51b10263ea1fdeaa36e691a844a140541085679095cd2aed9e205"
+
+[decisions.d6aaa5a0ac]
+file = "TAI_template.tex"
+literal = "96\\%"
+context = "on, raised classification accuracy from 96\\% to 98\\%; the full 2D chromatogram keeps"
+verdict = "not-a-result"
+key = ""
+reason = "quotes Adutwum2018tis's own reported accuracy (96%->98%), not one of our results; coincidentally matches main-table/mlp-chromapca/abs-r (~0.96)"
+by = "claude"
+decided = "2026-11-02T21:12:32+13:00"
+result_hash = ""
 
 [decisions.d731fa71ec]
 file = "TAI_template.tex"
@@ -2476,6 +3235,39 @@ by = "claude"
 decided = "2026-10-19T23:29:43+13:00"
 result_hash = "sha256:e180aa090ae77d9c97c3235da1f2ffab6b78efe3cb868849fa9e6005a0f13c18"
 
+[decisions.db5e8b0206]
+file = "response/revision-1.tex"
+literal = "9{,}908"
+context = "etic chromatograms assembled from about 9{,}908 reference mass spectra of pure compound"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:57+13:00"
+result_hash = ""
+
+[decisions.db5e8b0206-2]
+file = "response/revision-1.tex"
+literal = "9{,}908"
+context = "etic chromatograms assembled from about 9{,}908 reference mass spectra of pure compound"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:58+13:00"
+result_hash = ""
+
+[decisions.db7f1d36ec]
+file = "response/revision-1.tex"
+literal = "0.369"
+context = "0.159 1.000 < 0.001 14 MLP sum spectrum 0.369 \\ensuremath{\\pm} 0.125 1.000 < 0.001'':"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:59+13:00"
+result_hash = ""
+
 [decisions.db92bd7ad2]
 file = "TAI_template.tex"
 literal = "14\\%"
@@ -2486,6 +3278,17 @@ reason = "14 is the high end of the 18--22-minute band range (12--14%) across sp
 by = "claude"
 decided = "2026-10-19T23:56:02+13:00"
 result_hash = "sha256:185a1206a4ea81216c4161e23aadb9010464a2ecfaa6bfb6d04f2e391c504189"
+
+[decisions.dbf2b609dd]
+file = "response/revision-1.tex"
+literal = "9{,}908"
+context = "ynthetic chromatograms built from about 9{,}908 public reference spectra and no fish da"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:58+13:00"
+result_hash = ""
 
 [decisions.dc11a03e72]
 file = "TAI_template.tex"
@@ -2509,6 +3312,17 @@ by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
 result_hash = "sha256:2b1d35afddf9ec391e6775b7d9bd2c0bd83e23705a6e9c787f89f953ac01dda3"
 
+[decisions.dc8ee39297]
+file = "response/revision-1.tex"
+literal = "103"
+context = "eight sharing keeps the model small for 103 labelled samples, and the same kernels"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:19+13:00"
+result_hash = ""
+
 [decisions.dc94f99d5e]
 file = "TAI_template.tex"
 literal = "0.603"
@@ -2529,6 +3343,28 @@ key = ""
 reason = "200,000 is the flattened size (200 x 1000), a value derived from the settings, not a recorded result."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
+
+[decisions.df7db47668]
+file = "response/revision-1.tex"
+literal = "220"
+context = "◦C at 0.5◦C min\\ensuremath{-}1, then to 220◦C at 2◦C min\\ensuremath{-}1, and finall"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:28+13:00"
+result_hash = ""
+
+[decisions.e02602d7ed]
+file = "response/revision-1.tex"
+literal = "1000"
+context = "\\begin{quote}\\small (e.g., $200 \\times 1000$ after preprocessing in our experiments"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:16+13:00"
 result_hash = ""
 
 [decisions.e165e1159d]
@@ -2552,6 +3388,17 @@ reason = "Lower end of the effect-size range against every baseline, which is th
 by = "claude"
 decided = "2026-10-19T23:15:29+13:00"
 result_hash = "sha256:478ec33712ad52608eb8204b12b225d00d464b28469c3588d34b6fef5d0ca4c7"
+
+[decisions.e3b471ce23]
+file = "response/revision-1.tex"
+literal = "103"
+context = "oma-PCA's first two components over all 103 samples, coloured by species. The PCA p"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:27+13:00"
+result_hash = ""
 
 [decisions.e4d1c7ec14]
 file = "TAI_template.tex"
@@ -2608,6 +3455,17 @@ by = "claude"
 decided = "2026-10-19T23:30:39+13:00"
 result_hash = ""
 
+[decisions.e8201ecaa7]
+file = "response/revision-1.tex"
+literal = "30\\%"
+context = "rts a mean misdescription rate of about 30\\%, which supports the statement in Sectio"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:14+13:00"
+result_hash = ""
+
 [decisions.e95e99c0a7]
 file = "TAI_template.tex"
 literal = "55\\%"
@@ -2641,6 +3499,17 @@ by = "claude"
 decided = "2026-10-19T23:17:22+13:00"
 result_hash = "sha256:62d39f799002ff144cbc367faa2466c23b4fc38512dabf8937e58a35b509710b"
 
+[decisions.ebb4e652ae]
+file = "response/revision-1.tex"
+literal = "4,802"
+context = "atterns. Each raw measurement has about 4,802 RT scans and 344 noncontiguous channels"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:29+13:00"
+result_hash = ""
+
 [decisions.ec95608ab7]
 file = "TAI_template.tex"
 literal = "2"
@@ -2652,6 +3521,17 @@ by = "claude"
 decided = "2026-10-19T23:29:27+13:00"
 result_hash = ""
 
+[decisions.ecdef00b67]
+file = "response/revision-1.tex"
+literal = "1.000"
+context = "chroma-PCA 0.377 \\ensuremath{\\pm} 0.159 1.000 < 0.001 14 MLP sum spectrum 0.369 \\ensu"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:30+13:00"
+result_hash = ""
+
 [decisions.ed22d514ae]
 file = "TAI_template.tex"
 literal = "7"
@@ -2661,6 +3541,17 @@ key = ""
 reason = "Kernel size 7 is an architecture hyperparameter with no settings- candidate."
 by = "claude"
 decided = "2026-10-19T23:29:07+13:00"
+result_hash = ""
+
+[decisions.eda33b26cf]
+file = "response/revision-1.tex"
+literal = "103"
+context = "s not grow with $T$, which matters with 103 labelled samples.\\end{quote}"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:20+13:00"
 result_hash = ""
 
 [decisions.ee3f254a60]
@@ -2707,6 +3598,17 @@ by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
 result_hash = ""
 
+[decisions.f0b884a1c9]
+file = "response/revision-1.tex"
+literal = "0.857"
+context = "raises balanced accuracy from 0.585 to 0.857 (Section~VI-A).\\end{quote}"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:59+13:00"
+result_hash = ""
+
 [decisions.f10f1f0432]
 file = "TAI_template.tex"
 literal = "0.617"
@@ -2751,6 +3653,28 @@ by = "claude"
 decided = "2026-10-19T23:30:50+13:00"
 result_hash = ""
 
+[decisions.f756e41a7f]
+file = "response/revision-1.tex"
+literal = "1000"
+context = "to read \"e.g., 200 \\ensuremath{\\times} 1000 after preprocessing in our experiments\""
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:16+13:00"
+result_hash = ""
+
+[decisions.f7bc521e88]
+file = "response/revision-1.tex"
+literal = "256"
+context = "text{attn}] \\in \\mathbb{R}^{2d}$ ($2d = 256$) to $C$ logits, $z W_\\text{cls} + b$,"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:21+13:00"
+result_hash = ""
+
 [decisions.f89c6fc44e]
 file = "TAI_template.tex"
 literal = "6012"
@@ -2760,6 +3684,17 @@ key = ""
 reason = "Postcode in 'Wellington 6012'."
 by = "claude"
 decided = "2026-10-19T23:28:50+13:00"
+result_hash = ""
+
+[decisions.f94fe34063]
+file = "response/revision-1.tex"
+literal = "1000"
+context = "$T = 200$ retention-time bins and $M = 1000$ $m/z$ bins, and a species label $y \\in"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:18+13:00"
 result_hash = ""
 
 [decisions.fa36a09645]
@@ -2848,6 +3783,17 @@ key = ""
 reason = "'50 test-fold scores' is 10 seeds x 5 folds, a count that describes the protocol."
 by = "claude"
 decided = "2026-10-19T23:30:19+13:00"
+result_hash = ""
+
+[decisions.fe1468f23d]
+file = "response/revision-1.tex"
+literal = "200"
+context = "\\in \\mathbb{R}^{T \\times M}$ with $T = 200$ retention-time bins and $M = 1000$ $m/"
+verdict = "not-a-result"
+key = ""
+reason = "static response letter: quotes a fixed snapshot of the paper's numbers, not meant to track live results"
+by = "claude"
+decided = "2026-11-02T21:10:18+13:00"
 result_hash = ""
 
 [decisions.ff1d6db83a]
