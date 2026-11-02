@@ -64,19 +64,19 @@ ax.text(1, 15.5, "Fine-tuning & evaluation (103 fish samples)", fontsize=FS_ROW,
         fontweight="bold", color=BOTTOM_EDGE, va="center", ha="left")
 
 # ── Top row: synthetic-pretraining pipeline ──────────────────────────────────
-b1 = box(ax, (13, 20), 15, 9,
+b1 = box(ax, (13, 18), 15, 9,
          "MoNA +\nMassBank EI-MS\nlibraries\n(raw records)",
          TOP_COLOR, TOP_EDGE)
-b2 = box(ax, (32, 20), 15, 9,
+b2 = box(ax, (32, 18), 15, 9,
          "Filter to EI,\nde-duplicate by\nInChIKey, bin to\nshared $m/z$ grid\n(Sec.~IV-C)",
          TOP_COLOR, TOP_EDGE)
-b3 = box(ax, (51, 20), 15, 9,
+b3 = box(ax, (51, 18), 15, 9,
          "Synthetic chromato-\ngram corpus\n($\\sim$9,9xx spectra,\nFig.~3)",
          TOP_COLOR, TOP_EDGE)
-b4 = box(ax, (70, 20), 15, 9,
+b4 = box(ax, (70, 18), 15, 9,
          "Self-supervised\nnext-frame\nprediction\n(Sec.~IV-D)",
          TOP_COLOR, TOP_EDGE)
-b5 = box(ax, (89, 20.5), 10, 8,
+b5 = box(ax, (89, 18.5), 10, 8,
          "Pretrained\ncheck-\npoint", CKPT_COLOR, CKPT_EDGE)
 
 for (bx, by, bw, bh), (cx, cy, cw, ch) in zip(

@@ -1,0 +1,26 @@
+id = "2026-11-02-spooler-122"
+status = "running"
+started = "2026-11-02T17:25:26+13:00"
+commit = "246a059db6325fa99bc8a1f1abe60ee16ede3e50"
+base_commit = "a7a81fb5a43085cb428a84c9a52debaf2aec9260"
+dirty = true
+changed_outputs = ["data/pretraining/raw/combined_ei_spectra.json"]
+command = "bash -lc 'cd /vol/ecrg-solar/woodj4/chroma-dcnn && set -e && python3 scripts/02_preprocess_pretrain_data.py && python3 scripts/03_pretrain_chroma.py && python3 scripts/04_finetune_evaluate.py && python3 scripts/11_saliency.py'"
+host = "gryphon"
+gpus = "0"
+spooler_job = 122
+runner = "gpu-spooler"
+
+[data.fish-oil]
+path = "data/fish_oil"
+label = "fish-oil-90"
+hash = "sha256:c2b0a2e74f7b65a5d54384a2b35719c6086a752d64a0ae8f87583e3e20c723c7"
+files = 107
+hashed_on = "Jesses-MacBook-Air-2.local"
+
+[data.pretraining]
+path = "data/pretraining/spectra.h5"
+label = "mona-massbank-ei"
+hash = "sha256:399f9ac4fa57071bf9af7e3afb986dd71f02ff0383f43a0ff1e7df3508d267c2"
+files = 1
+hashed_on = "Jesses-MacBook-Air-2.local"
