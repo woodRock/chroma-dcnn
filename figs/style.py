@@ -16,7 +16,18 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import matplotlib
 import numpy as np
+
+# Matplotlib's default PDF font embedding (Type 3 / "pdf.fonttype" 3) draws
+# each glyph as a tiny vector program rather than embedding real font
+# outlines. Many PDF consumers -- Word's PDF-to-DOCX import among them --
+# can't parse Type 3 fonts and fail outright on a page that uses one. Type 42
+# (TrueType) embeds real outlines and is readable everywhere a Type 1 font
+# is. Set this before any figure is created so it applies to every
+# generate_*.py and the saliency script that import this module.
+matplotlib.rcParams["pdf.fonttype"] = 42
+matplotlib.rcParams["ps.fonttype"] = 42
 
 # Chosen so text reads clearly at the figure's final printed size (a
 # \linewidth or \textwidth figure in a two-column IEEE paper, i.e. roughly
