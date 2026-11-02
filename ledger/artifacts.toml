@@ -69,14 +69,16 @@ kind = "figure"
 output = "generated/saliency-3d.pdf"
 source = "figs/saliency-3d.pdf"
 made_by = "scripts/11_saliency.py"
+# a82b7a6 only reordered an import (ruff lint fix); `taura diff` confirmed identical output
+checked_against = "sha256:962f38d45217a5fb17e677f0657c44bf9cfa952e5137f120394e32cbe282d766"
 
 [artifacts.saliency_1d]
 kind = "figure"
 output = "generated/saliency-1d.pdf"
 source = "figs/saliency-1d.pdf"
 made_by = "scripts/11_saliency.py"
-# 3a9da65 changed only the 3D figure's labels and title (fig. 4); the 1D marginals are unaffected
-checked_against = "sha256:e8a9217afefc0fa112d3ec3fa31a5ce09cf0dcbc257bfeafe518db993173cd64"
+# a82b7a6 only reordered an import (ruff lint fix); `taura diff` confirmed identical output
+checked_against = "sha256:962f38d45217a5fb17e677f0657c44bf9cfa952e5137f120394e32cbe282d766"
 
 # Raster fallback for make_word_copy.sh (figs/saliency-3d.pdf is ~470k vector
 # path segments, which crashes Word's PDF importer -- see paper repo
@@ -86,6 +88,8 @@ kind = "figure"
 output = "generated/saliency-3d.png"
 source = "figs/saliency-3d.png"
 made_by = "scripts/11_saliency.py"
+# a82b7a6 only reordered an import (ruff lint fix); `taura diff` confirmed identical output
+checked_against = "sha256:962f38d45217a5fb17e677f0657c44bf9cfa952e5137f120394e32cbe282d766"
 
 [format."saliency/mz-profile-corr/min"]   # "r >= 0.99": a lower bound, rounded down
 decimals = 2
