@@ -164,9 +164,12 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
     RT_LO, RT_HI = 5.0, 45.0
     S_RT, S_MZ   = 2, 2
 
-    fig, axes_grid = plt.subplots(2, 2, figsize=(11, 8.6), subplot_kw={'projection': '3d'})
-    fig.subplots_adjust(bottom=0.12, hspace=0.3, wspace=0.0, top=0.90,
-                        left=0.02, right=0.98)
+    fig, axes_grid = plt.subplots(2, 2, figsize=(10, 8.0), subplot_kw={'projection': '3d'})
+    # 3D axes don't fill their allotted cell (the rotated surface leaves empty
+    # margin inside each cell regardless of wspace/hspace), so the columns and
+    # rows are pulled closer with *negative* spacing to compensate.
+    fig.subplots_adjust(bottom=0.06, hspace=0.12, wspace=-0.22, top=0.90,
+                        left=0.02, right=0.86)
 
     for c in range(4):
         ax = axes_grid[c // 2, c % 2]
@@ -216,19 +219,21 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
         ax.set_xticks([10, 20, 30, 40])
         ax.set_yticks([100, 200, 300, 400])
         ax.tick_params(labelsize=12)
-        ax.set_xlabel('RT, min', fontsize=15, labelpad=12)
+        ax.set_xlabel('RT, min', fontsize=15, labelpad=2)
         ax.set_ylabel('m/z',     fontsize=15, labelpad=12)
         ax.set_title(SPECIES_LABEL[c], fontweight='bold', color=COLOURS[c], pad=2, fontsize=16)
 
-    cbar_ax = fig.add_axes([0.18, 0.055, 0.64, 0.028])
+    # Vertical, to the right of the grid: a horizontal bar along the bottom
+    # would compete with the bottom row's "RT, min" axis labels for the same
+    # space and overlap them.
+    cbar_ax = fig.add_axes([0.89, 0.12, 0.025, 0.68])
     sm = cm.ScalarMappable(cmap='viridis', norm=Normalize(0, 1))
     sm.set_array([])
-    cbar = fig.colorbar(sm, cax=cbar_ax, orientation='horizontal')
+    cbar = fig.colorbar(sm, cax=cbar_ax, orientation='vertical')
     cbar.set_ticks([0, 0.25, 0.5, 0.75, 1.0])
-    cbar.set_ticklabels(['0\n(low)', '0.25', '0.5', '0.75',
-                         '1.0\n(high)'])
-    cbar.ax.tick_params(labelsize=13)
-    cbar.set_label('Normalised saliency', fontsize=14, labelpad=4)
+    cbar.set_ticklabels(['0 (low)', '0.25', '0.5', '0.75', '1.0 (high)'])
+    cbar.ax.tick_params(labelsize=12)
+    cbar.set_label('Normalised saliency', fontsize=13, labelpad=8)
     fig.suptitle('Gradient saliency overlaid on GC-MS chromatograms',
                  fontsize=17, y=0.985)
     fig.savefig(out, dpi=200, bbox_inches='tight')
