@@ -39,7 +39,10 @@ CKPT_COLOR = "#e9f7ec"
 CKPT_EDGE = "#2e7d32"
 
 
-def box(ax, xy, w, h, text, fc, ec, fontsize=FS_BOX, lw=1.6):
+BOX_FS = FS_BOX - 2  # smaller than the row-label font: five-line boxes need the room
+
+
+def box(ax, xy, w, h, text, fc, ec, fontsize=BOX_FS, lw=1.6):
     x, y = xy
     patch = FancyBboxPatch((x, y), w, h,
                             boxstyle="round,pad=0.02,rounding_size=0.06",
@@ -75,7 +78,7 @@ b2 = box(ax, (32, 18), 15, 9,
          "Filter to EI,\nde-duplicate by\nInChIKey, bin to\nshared $m/z$ grid\n(Sec.~IV-C)",
          TOP_COLOR, TOP_EDGE)
 b3 = box(ax, (51, 18), 15, 9,
-         "Synthetic chromato-\ngram corpus\n($\\sim$9,9xx spectra,\nFig.~3)",
+         "Synthetic\nchromatogram\ncorpus ($\\sim$9,9xx\nspectra, Fig.~3)",
          TOP_COLOR, TOP_EDGE)
 b4 = box(ax, (70, 18), 15, 9,
          "Self-supervised\nnext-frame\nprediction\n(Sec.~IV-D)",
