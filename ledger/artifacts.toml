@@ -48,9 +48,21 @@ made_by = "figs/plot_architecture.py"
 
 [artifacts.synthetic_dataset]
 kind = "figure"
-output = "generated/synthetic-dataset.png"
-source = "figs/synthetic-dataset.png"
-# no script in the repo makes it
+output = "generated/synthetic-dataset.pdf"
+source = "figs/synthetic-dataset.pdf"
+made_by = "figs/generate_synthetic_dataset.py"
+
+[artifacts.pipeline]
+kind = "figure"
+output = "generated/pipeline.pdf"
+source = "figs/pipeline.pdf"
+made_by = "figs/generate_pipeline.py"
+
+[artifacts.input_representations]
+kind = "figure"
+output = "generated/input-representations.pdf"
+source = "figs/input-representations.pdf"
+made_by = "figs/generate_input_representations.py"
 
 [artifacts.saliency_3d]
 kind = "figure"

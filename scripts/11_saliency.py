@@ -162,8 +162,9 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
     RT_LO, RT_HI = 5.0, 45.0
     S_RT, S_MZ   = 2, 2
 
-    fig, axes_grid = plt.subplots(2, 2, figsize=(11, 10), subplot_kw={'projection': '3d'})
-    fig.subplots_adjust(bottom=0.11, hspace=0.25, wspace=0.05, top=0.93)
+    fig, axes_grid = plt.subplots(2, 2, figsize=(11, 8.6), subplot_kw={'projection': '3d'})
+    fig.subplots_adjust(bottom=0.12, hspace=0.3, wspace=0.0, top=0.90,
+                        left=0.02, right=0.98)
 
     for c in range(4):
         ax = axes_grid[c // 2, c % 2]
@@ -187,10 +188,12 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
         sal_s = sal[::S_RT, ::S_MZ]
         RT_grid, MZ_grid = np.meshgrid(rt_s, mz_s)
 
-        # Blues: transparent where saliency is low, deep blue where high
+        # viridis: dark purple (low) to yellow (high) stays visible at the low
+        # end, unlike Blues, whose near-white low values disappear on white.
+        # A minimum alpha floor keeps even near-zero saliency faintly visible.
         sal_norm             = (sal_s - sal_s.min()) / (sal_s.max() - sal_s.min() + 1e-8)
-        face_colours         = cm.Blues(sal_norm.T)
-        face_colours[..., 3] = sal_norm.T ** 0.6
+        face_colours         = cm.viridis(sal_norm.T)
+        face_colours[..., 3] = 0.35 + 0.65 * sal_norm.T ** 0.6
 
         ax.plot_surface(RT_grid, MZ_grid, Z_s.T, color='#d0d8e8', alpha=0.25,
                         rstride=1, cstride=1, shade=False, linewidth=0)
@@ -210,24 +213,41 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
         ax.view_init(elev=42, azim=-60)
         ax.set_xticks([10, 20, 30, 40])
         ax.set_yticks([100, 200, 300, 400])
-        ax.tick_params(labelsize=7)
-        ax.set_xlabel('RT, min', fontsize=9, labelpad=10)
-        ax.set_ylabel('m/z',     fontsize=9, labelpad=10)
-        ax.set_title(SPECIES_LABEL[c], fontweight='bold', color=COLOURS[c], pad=4, fontsize=10)
+        ax.tick_params(labelsize=12)
+        ax.set_xlabel('RT, min', fontsize=15, labelpad=12)
+        ax.set_ylabel('m/z',     fontsize=15, labelpad=12)
+        ax.set_title(SPECIES_LABEL[c], fontweight='bold', color=COLOURS[c], pad=2, fontsize=16)
 
-    cbar_ax = fig.add_axes([0.18, 0.045, 0.64, 0.020])
-    sm = cm.ScalarMappable(cmap='Blues', norm=Normalize(0, 1))
+    cbar_ax = fig.add_axes([0.18, 0.055, 0.64, 0.028])
+    sm = cm.ScalarMappable(cmap='viridis', norm=Normalize(0, 1))
     sm.set_array([])
     cbar = fig.colorbar(sm, cax=cbar_ax, orientation='horizontal')
     cbar.set_ticks([0, 0.25, 0.5, 0.75, 1.0])
     cbar.set_ticklabels(['0\n(low)', '0.25', '0.5', '0.75',
                          '1.0\n(high)'])
-    cbar.ax.tick_params(labelsize=8)
-    cbar.set_label('Normalised saliency', fontsize=9, labelpad=4)
+    cbar.ax.tick_params(labelsize=13)
+    cbar.set_label('Normalised saliency', fontsize=14, labelpad=4)
     fig.suptitle('Gradient saliency overlaid on GC-MS chromatograms',
-                 fontsize=12, y=0.97)
-    fig.savefig(out, dpi=150, bbox_inches='tight')
+                 fontsize=17, y=0.985)
+    fig.savefig(out, dpi=200, bbox_inches='tight')
     plt.close(fig)
+    _trim_near_white_border(out)
+
+
+def _trim_near_white_border(path: Path, threshold: int = 250, pad: int = 10) -> None:
+    """3D axes report an inflated bounding box, so bbox_inches='tight' still
+    leaves a near-white margin; trim it directly on the saved raster image."""
+    from PIL import Image
+
+    img = Image.open(path).convert('RGB')
+    arr = np.array(img)
+    mask = (arr < threshold).any(axis=2)
+    rows, cols = np.where(mask.any(axis=1))[0], np.where(mask.any(axis=0))[0]
+    if len(rows) == 0 or len(cols) == 0:
+        return
+    top, bottom = max(rows.min() - pad, 0), min(rows.max() + pad, arr.shape[0])
+    left, right = max(cols.min() - pad, 0), min(cols.max() + pad, arr.shape[1])
+    img.crop((left, top, right, bottom)).save(path)
 
 
 RT_MIN = np.linspace(5, 45, 200)  # retention time (min) of each RT bin, as in the figures
