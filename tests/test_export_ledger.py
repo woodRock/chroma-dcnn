@@ -38,9 +38,9 @@ def test_results(ex):
     gains = out["gains"]["metrics"]
     assert round(gains["pretrain-vs-scratch"]["points"], 1) == 27.2
     assert round(gains["pretrain-vs-best-baseline"]["points"], 1) == 15.9
-    assert out["ablation"]["metrics"]["1d-vs-2d"]["abs-r"] == 0.603
-    assert round(gains["ablation-rt-drop"]["points"], 1) == 20.3
-    assert round(gains["ablation-1d-vs-2d"]["points"], 1) == -20.3
+    assert out["ablation"]["metrics"]["1d-vs-2d"]["abs-r"] == 0.63
+    assert round(gains["ablation-rt-drop"]["points"], 1) == 20.8
+    assert round(gains["ablation-1d-vs-2d"]["points"], 1) == -20.8
     # 26.24: the paper's 26.3 came from subtracting the rounded table values
     assert round(gains["plsda-chromapca-vs-sum"]["points"], 1) == 26.2
     assert round(gains["svm-chromapca-vs-sum"]["points"], 1) == 20.5

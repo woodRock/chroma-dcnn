@@ -45,6 +45,8 @@ from sklearn.model_selection import StratifiedKFold
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "figs"))
+from style import crop_pdf_to_content, crop_to_content
+
 from chroma_dcnn.downstream.fish_oil import load_fish_oil_chroma_paths
 from chroma_dcnn.training.finetune_chroma import (
     ChromaFinetuner,
@@ -52,7 +54,6 @@ from chroma_dcnn.training.finetune_chroma import (
     _inner_val_split,
     _train_fold,
 )
-from style import crop_pdf_to_content, crop_to_content
 
 CONFIG_PATH = Path('configs/finetune.yaml')
 FIGS_DIR    = Path('figs')
