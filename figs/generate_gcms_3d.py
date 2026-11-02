@@ -132,7 +132,7 @@ ax.set_xlim(RT_LO, RT_HI)
 ax.set_ylim(MZ_LO, MZ_HI)
 ax.set_zlim(0, z_max * 1.08)
 
-ax.set_xlabel("RT, min",  fontsize=FS_LABEL + 2, labelpad=10)
+ax.set_xlabel("Retention time, min",  fontsize=FS_LABEL + 2, labelpad=10)
 ax.set_ylabel("m/z",      fontsize=FS_LABEL + 2, labelpad=10)
 ax.tick_params(axis="both", labelsize=FS_TICK + 1)
 

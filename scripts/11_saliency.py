@@ -122,10 +122,10 @@ def plot_heatmaps(sal_mean: np.ndarray, out: Path) -> None:
                        vmin=0, vmax=vmax, extent=[0, 600, 5, 45])
         ax.set_title(SPECIES[c], color=COLOURS[c], fontweight='bold')
         ax.set_xlabel('m/z bin (0–600)')
-        ax.set_ylabel('RT (min)')
+        ax.set_ylabel('Retention time (min)')
         plt.colorbar(im, ax=ax, fraction=0.03, pad=0.02, label='|∂score/∂input|')
-    plt.suptitle('Saliency maps: which RT windows and m/z channels drive each species prediction?',
-                 fontsize=12)
+    plt.suptitle('Saliency maps: which retention-time windows and m/z channels drive each '
+                 'species prediction?', fontsize=12)
     plt.tight_layout()
     fig.savefig(out, dpi=150, bbox_inches='tight')
     plt.close(fig)
@@ -140,7 +140,7 @@ def plot_marginals(sal_mean: np.ndarray, out: Path) -> None:
                      color=COLOURS[c], label=SPECIES[c], linewidth=1.2)
     axes[0].set_xlabel('Retention time (min)')
     axes[0].set_ylabel('Normalised saliency')
-    axes[0].set_title('RT saliency profile')
+    axes[0].set_title('Retention-time saliency profile')
     axes[0].legend(frameon=False, ncol=2)
     sns.despine(ax=axes[0])
 
@@ -216,7 +216,7 @@ def plot_3d(sal_mean: np.ndarray, chromas: np.ndarray, y: np.ndarray, out: Path)
         ax.set_xticks([10, 20, 30, 40])
         ax.set_yticks([100, 200, 300, 400])
         ax.tick_params(labelsize=12)
-        ax.set_xlabel('RT, min', fontsize=15, labelpad=12)
+        ax.set_xlabel('Retention time, min', fontsize=15, labelpad=12)
         ax.set_ylabel('m/z',     fontsize=15, labelpad=12)
         ax.set_title(SPECIES_LABEL[c], fontweight='bold', color=COLOURS[c], pad=2, fontsize=16)
 

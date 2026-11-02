@@ -64,7 +64,7 @@ arch = [
     to_begin(),
 
     # =========================================================================
-    # 0.  GC-MS Input Image  [200 RT bins × 1000 m/z]
+    # 0.  GC-MS Input Image  [200 retention-time bins x 1000 m/z]
     # =========================================================================
     raw(r"""
 \node[inner sep=2pt, draw=InputEdge, very thick,
@@ -74,8 +74,8 @@ arch = [
     raw(r"""
 \node[font=\normalsize\bfseries, above=3mm of gcms.north, align=center]
     {GC-MS Chromatogram};
-\node[font=\footnotesize, below=4mm of gcms.south]
-    {$200\,\text{RT bins} \times 1000\,m/z$};
+\node[font=\footnotesize, below=4mm of gcms.south, align=center]
+    {\shortstack{$200$ retention-time bins\\$\times\,1000\,m/z$}};
 """),
 
     # =========================================================================
