@@ -1,5 +1,6 @@
 id = "2026-11-02-spooler-124"
 status = "done"
+note = "backfilled outputs: gpu-spooler recorded the run but not its output hashes"
 started = "2026-11-02T21:38:43+13:00"
 finished = "2026-11-02T21:42:19+13:00"
 exit_code = 0
@@ -25,6 +26,11 @@ label = "mona-massbank-ei"
 hash = "sha256:399f9ac4fa57071bf9af7e3afb986dd71f02ff0383f43a0ff1e7df3508d267c2"
 files = 1
 hashed_on = "Jesses-MacBook-Air-2.local"
+
+[outputs]
+"results/fish_oil/ablation_1d_vs_2d_results.json" = "sha256:e77583ca96b56ec33edddcbc71b8e86485defdcbccaeb710637b8131226b40c1"
+"results/fish_oil/ablation_1d_vs_2d_scores.csv" = "sha256:51c2b62deeef673be4666158896f1dcb86964eaf9dd7f77a0e34cb063f961d15"
+"results/fish_oil/ablation_1d_vs_2d_summary.md" = "sha256:fe9a354428a557bf4d242f4e2543de393d4dc4ba891fff6fd78d98e2075377c4"
 
 [env]
 python = "3.12.15"
