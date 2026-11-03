@@ -6,7 +6,7 @@
 <title>ChromaDCNN</title>
 <meta name="description" content="Identifying New Zealand fish species from GC-MS lipid profiles with a self-supervised dilated CNN. Interactive results, architecture, ablation and saliency.">
 <meta property="og:title" content="ChromaDCNN — telling fish apart by the shape of their lipids">
-<meta property="og:description" content="A 1D dilated CNN pretrained on synthetic GC-MS chromatograms identifies four NZ fish species with 0.857 balanced accuracy, +15.9 pp over the best classical baseline.">
+<meta property="og:description" content="A 1D dilated CNN pretrained on synthetic GC-MS chromatograms identifies four NZ fish species with 0.867 balanced accuracy, +16.9 pp over the best classical baseline.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M2 26 C7 26 8 10 11 10 S14 26 17 26 20 4 22 4 25 26 30 26' fill='none' stroke='%232a78d6' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -83,9 +83,9 @@
       </figure>
     </div>
     <div class="stats" id="stats">
-      <div class="stat reveal"><div class="v num" data-count="0.857" data-count-key="pretrain_ba" data-dec="3">0.857</div><div class="k">balanced accuracy, pretrained ChromaDCNN (± <data data-key="pretrain_sd">0.117</data> over <data data-key="folds_n">50</data> folds)</div></div>
-      <div class="stat reveal"><div class="v num"><span data-count="15.9" data-count-key="gain_best_pp" data-dec="1" data-prefix="+">+15.9</span><small>pp</small></div><div class="k">over the best classical baseline (SVM on chroma-PCA, <data data-key="best_baseline_ba">0.698</data>)</div></div>
-      <div class="stat reveal"><div class="v num"><span data-count="27.2" data-count-key="gain_scratch_pp" data-dec="1" data-prefix="+">+27.2</span><small>pp</small></div><div class="k">from synthetic pretraining (same network from scratch: <data data-key="scratch_ba">0.585</data>)</div></div>
+      <div class="stat reveal"><div class="v num" data-count="0.867" data-count-key="pretrain_ba" data-dec="3">0.867</div><div class="k">balanced accuracy, pretrained ChromaDCNN (± <data data-key="pretrain_sd">0.104</data> over <data data-key="folds_n">50</data> folds)</div></div>
+      <div class="stat reveal"><div class="v num"><span data-count="16.9" data-count-key="gain_best_pp" data-dec="1" data-prefix="+">+16.9</span><small>pp</small></div><div class="k">over the best classical baseline (SVM on chroma-PCA, <data data-key="best_baseline_ba">0.698</data>)</div></div>
+      <div class="stat reveal"><div class="v num"><span data-count="24.5" data-count-key="gain_scratch_pp" data-dec="1" data-prefix="+">+24.5</span><small>pp</small></div><div class="k">from synthetic pretraining (same network from scratch: <data data-key="scratch_ba">0.622</data>)</div></div>
       <div class="stat reveal"><div class="v num" data-count="9908" data-count-key="spectra" data-dec="0">9,908</div><div class="k">public reference spectra behind pretraining. No fish data involved.</div></div>
     </div>
   </div>
@@ -235,8 +235,8 @@
 <section class="chapter" id="pretraining">
   <div class="chapter-head reveal">
     <div class="kicker">04 — PRETRAINING</div>
-    <h2>Synthetic pretraining adds <data data-key="gain_scratch_points">27</data> points</h2>
-    <p class="intro">The same network trained from random initialisation reaches only <data data-key="scratch_ba">0.585</data>. Both conditions use identical
+    <h2>Synthetic pretraining adds <data data-key="gain_scratch_points">24</data> points</h2>
+    <p class="intro">The same network trained from random initialisation reaches only <data data-key="scratch_ba">0.622</data>. Both conditions use identical
       seeds and folds, so every fold can be compared directly.</p>
   </div>
   <div class="grid-2">
@@ -253,7 +253,7 @@
       <div class="card-head"><h3>Distribution over 50 folds</h3></div>
       <div class="chart" id="pretrain-dist"></div>
       <div class="kpis" id="pretrain-kpis"></div>
-      <p class="caption">From scratch is also far less stable: SD <data data-key="scratch_sd">0.165</data> against <data data-key="pretrain_sd">0.117</data> pretrained.</p>
+      <p class="caption">From scratch is also far less stable: SD <data data-key="scratch_sd">0.162</data> against <data data-key="pretrain_sd">0.104</data> pretrained.</p>
     </div>
   </div>
 </section>
