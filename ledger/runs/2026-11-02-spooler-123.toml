@@ -1,5 +1,6 @@
 id = "2026-11-02-spooler-123"
 status = "done"
+note = "backfilled outputs: gpu-spooler recorded the run but not its output hashes"
 started = "2026-11-02T17:59:04+13:00"
 finished = "2026-11-02T17:59:54+13:00"
 exit_code = 0
@@ -25,6 +26,13 @@ label = "mona-massbank-ei"
 hash = "sha256:399f9ac4fa57071bf9af7e3afb986dd71f02ff0383f43a0ff1e7df3508d267c2"
 files = 1
 hashed_on = "Jesses-MacBook-Air-2.local"
+
+[outputs]
+"results/fish_oil/saliency_mean.npz" = "npz-sha256:0829657884fd0622ecc2768ef48f8f8622ac999d3eb03c7728aa0bb7442311e3"
+"results/fish_oil/saliency_summary.json" = "sha256:2f4b036bb9e72129fe7377edea50863e6e63b4848062ebe376e3fcf15758647a"
+"figs/saliency-1d.png" = "sha256:0b3cc79b10c797173cfaeafc5eea9c8d655274393fb2ad3237838a8706e42a3f"
+"figs/saliency-3d.png" = "sha256:2567cdc742926bc4dc992d3824004a9f20ed5dbd8a1bef06e75078097e959210"
+"figs/saliency-heatmaps.png" = "sha256:b416693b82989b5f4ae035c974e1218578d0974c6b5dc25f512402000fb57d64"
 
 [env]
 python = "3.12.15"

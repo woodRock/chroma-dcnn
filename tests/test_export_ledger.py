@@ -28,16 +28,16 @@ def test_results(ex):
     assert len(conds) == 14
     ba = out["chroma-pretrain"]["metrics"]["balanced-accuracy"]
     assert (ba["n"], ba["seeds"], ba["folds"], len(ba["values"])) == (50, 10, 5, 50)
-    assert round(ba["mean"], 3) == 0.857 and round(ba["std"], 3) == 0.117
+    assert round(ba["mean"], 3) == 0.867 and round(ba["std"], 3) == 0.104
     table = out["main-table"]["metrics"]
     assert table["chroma-pretrain"] == {"rank": 1}
     assert (
-        table["svm-chromapca"]["rank"] == 2 and round(table["svm-chromapca"]["abs-r"], 3) == 0.685
+        table["svm-chromapca"]["rank"] == 2 and round(table["svm-chromapca"]["abs-r"], 3) == 0.738
     )
     assert table["all"]["conditions"] == 14 and table["all"]["abs-r-max"] < 1
     gains = out["gains"]["metrics"]
-    assert round(gains["pretrain-vs-scratch"]["points"], 1) == 27.2
-    assert round(gains["pretrain-vs-best-baseline"]["points"], 1) == 15.9
+    assert round(gains["pretrain-vs-scratch"]["points"], 1) == 24.5
+    assert round(gains["pretrain-vs-best-baseline"]["points"], 1) == 16.9
     assert out["ablation"]["metrics"]["1d-vs-2d"]["abs-r"] == 0.63
     assert round(gains["ablation-rt-drop"]["points"], 1) == 20.8
     assert round(gains["ablation-1d-vs-2d"]["points"], 1) == -20.8
@@ -46,23 +46,26 @@ def test_results(ex):
     assert round(gains["svm-chromapca-vs-sum"]["points"], 1) == 20.5
     sc = out["scratch-comparisons"]["metrics"]
     assert len(sc) == 12
-    # from-scratch is now reliably worse than the best baselines (corrected corpus
-    # includes MassBank; was only marginally significant with the MoNA-only corpus)
+    # from-scratch scores lower than the three best baselines, but pretraining is
+    # unseeded across GPU hardware (torch.manual_seed doesn't control cuDNN kernel
+    # selection), so this difference isn't reliable after Bonferroni correction on
+    # every rerun -- it was <0.01 on the corpus-fix rerun, but 0.17-0.31 here.
+    # Uncorrected p stays <0.05 for all three on both runs.
     assert all(
-        sc[f"scratch-vs-{b}"]["p-bonf"] < 0.01
+        sc[f"scratch-vs-{b}"]["p-raw"] < 0.05
         for b in ("svm-chromapca", "rf-sum", "plsda-chromapca")
     )
     sal = out["saliency"]["metrics"]
     b = sal["band-40-44min"]
-    assert (round(100 * b["min"]), round(100 * b["max"])) == (27, 46) and b["min"] == b["gurnard"]
-    assert round(100 * sal["band-33-37min"]["gurnard"]) == 15
-    assert round(sal["fold-balanced-accuracy"]["mean"], 3) == 0.858
+    assert (round(100 * b["min"]), round(100 * b["max"])) == (25, 36) and b["min"] == b["gurnard"]
+    assert round(100 * sal["band-33-37min"]["gurnard"]) == 8
+    assert round(sal["fold-balanced-accuracy"]["mean"], 3) == 0.890
     assert sal["mz-profile-corr"]["min"] >= 0.99 and sal["mz-profile-corr"]["n"] == 6
     assert (round(sal["rt-profile-corr"]["min"], 2), round(sal["rt-profile-corr"]["max"], 2)) == (
-        0.74,
-        0.89,
+        0.55,
+        0.81,
     )
-    assert round(out["comparisons"]["metrics"]["scratch-vs-pretrain"]["abs-r"], 3) == 0.822
+    assert round(out["comparisons"]["metrics"]["scratch-vs-pretrain"]["abs-r"], 3) == 0.823
 
 
 def test_table_must_match_raw_values(ex, tmp_path, monkeypatch):

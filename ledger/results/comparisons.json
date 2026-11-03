@@ -5,11 +5,11 @@
   "label": "Mann-Whitney U comparisons",
   "metrics": {
     "scratch-vs-pretrain": {
-      "u": 222.0,
-      "p-raw": 1.3743578573082306e-12,
-      "p-corrected": 1.3743578573082306e-12,
-      "effect-r": 0.8224,
-      "abs-r": 0.8224
+      "u": 221.5,
+      "p-raw": 1.3436387794028972e-12,
+      "p-corrected": 1.3436387794028972e-12,
+      "effect-r": 0.8228,
+      "abs-r": 0.8228
     },
     "rf-vs-mlp-sum": {
       "u": 2414.5,
@@ -140,6 +140,6 @@
   },
   "source": {
     "path": "results/fish_oil/comparisons_chroma.csv, results/fish_oil/baseline_gcms_sum_comparisons.csv, results/fish_oil/baseline_gcms_max_proj_comparisons.csv, results/fish_oil/baseline_gcms_chroma_pca_comparisons.csv",
-    "hash": "sha256:7197d7ab25e466e8e32b229e638c5c5f5b6f2372bc63205b66eed9a82af758fa"
+    "hash": "sha256:3ad382884658973b9c2de2218538ee0d0f02d16859a0f2db41030c386ac75cc1"
   }
 }
